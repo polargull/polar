@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<project name="polarbear" default="war" xmlns:ivy="antlib:fr.jayasoft.ivy.ant">
+	<property file="${basedir}/build.properties" />
+	<property name="project.dir" value="${basedir}" />
+	<property name="ivy.lib.dir" value="${basedir}/${ivy.lib.dir}" />
+	<property name="WebRoot.dir" value="${project.dir}/WebRoot" />
+	<property name="WEBINFO.dir" value="${WebRoot.dir}/WEB-INF" />
+	<property name="project.name" value="ROOT" />
+	<property name="build.classes.dir" location="build/classes" />
+	<property name="lib.dir" location="lib" />
+	<property name="source.files.tocopy" value="*.properties,**/*.xml" />
+	<property name="${project.name}.war" value="polarbear.war" />
+	<property name="project.version" value="0.1alpha" />
+	<property name="target.jar.name" value="${project.name}-${project.version}.jar" />
+	<property name="target.war.name" value="${project.name}.war" />
+	<property name="target.jar" location="dist/${target.jar.name}" />
+	<property name="target.war" location="dist/${target.war.name}" />
+
+	<target name="echo">
+		<echo message="ant.file = ${ant.file}" />
+		<echo message="ant.home = ${ant.home}" />
+		<echo message="ant.java.version = ${ant.java.version}" />
+		<echo message="${ivy.lib.dir}" />
+	</target>
+	<target name="init" depends="clean,echo">
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="dist" />
+	</target>
+	<target name="ivy-resolve">
+		<ivy:resolve />
+	</target>
+	<target name="ivy-report" depends="ivy-resolve">
+		<ivy:report todir="ivy/report" />
+	</target>
+	<target name="ivy-retrieve" depends="ivy-report">
+		<ivy:retrieve pattern="${ivy.lib.dir}/[conf]/[artifact]-[revision].[ext]" sync="true" />
+	</target>
+	<target name="classpaths" depends="ivy-retrieve">
+		<path id="compile.classpath">
+			<fileset dir="${ivy.lib.dir}/default" includes="*.jar" />
+			<fileset dir="${ivy.lib.dir}/provided" includes="*.jar" />
+		</path>
+		<path id="test.compile.classpath">
+			<fileset dir="${ivy.lib.dir}/test" includes="*.jar" />
+			<pathelement location="${build.classes.dir}" />
+		</path>
+		<path id="test.classpath">
+			<path refid="test.compile.classpath" />
+			<pathelement location="${test.classes.dir}" />
+		</path>
+	</target>
+	<target name="compile" depends="init,classpaths">
+		<javac srcdir="src/main/java" destdir="${build.classes.dir}" includeantruntime="false" source="1.6" encoding="utf-8" classpathref="compile.classpath" />
+		<copy todir="${build.classes.dir}">
+			<fileset dir="src/main/resources" includes="${source.files.tocopy}" />
+		</copy>
+	</target>
+	<target name="archive" depends="compile">
+		<jar destfile="${target.jar}" basedir="build/classes" />
+	</target>
+	<target name="war" depends="compile,cleanWebRootClasses,test-basic" description="create a WAR file">
+		<war destfile="${target.war}" duplicate="fail" webxml="WebRoot/WEB-INF/web.xml">
+			<fileset dir="WebRoot" />
+			<classes dir="${build.classes.dir}" />
+			<lib dir="${ivy.lib.dir}/default">
+				<include name="*.jar" />
+			</lib>
+		</war>
+	</target>
+	<!--测试相关 -->
+	<property name="test.suite" value="polarbear.AppTestSuit" />
+	<property name="test.dir" location="build/test" />
+	<property name="test.classes.dir" location="${test.dir}/classes" />
+	<property name="test.data.dir" location="${test.dir}/data" />
+	<property name="test.reports.dir" location="${test.dir}/reports" />
+	<target name="test-init">
+		<mkdir dir="${test.classes.dir}" />
+		<delete dir="${test.data.dir}" />
+		<delete dir="${test.reports.dir}" />
+		<mkdir dir="${test.data.dir}" />
+		<mkdir dir="${test.reports.dir}" />
+	</target>
+	<target name="test-compile" depends="compile,test-init">
+		<javac destdir="${test.classes.dir}" debug="true" encoding="utf-8" srcdir="src/test/java" classpathref="test.compile.classpath" />
+		<copy todir="${test.classes.dir}">
+			<fileset dir="src/test/resources" includes="${source.files.tocopy}" />
+		</copy>
+	</target>
+	<target name="test-basic" depends="test-compile">
+		<junit printsummary="false" haltonfailure="test.failed" errorproperty="test.failed">
+			<classpath refid="test.classpath" />
+			<formatter type="brief" usefile="false" />
+			<formatter type="xml" />
+			<batchtest todir="${test.data.dir}">
+				<fileset dir="${test.classes.dir}" includes="**/unit/**/*Suite.class" />
+			</batchtest>
+		</junit>
+		<junitreport todir="${test.data.dir}">
+			<fileset dir="${test.data.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${test.reports.dir}" />
+		</junitreport>
+		<fail if="test.failed">
+		Tests failed. Check ${test.reports.dir}
+		</fail>
+	</target>
+	<!--测试相关 -->
+	<target name="cleanWebRootClasses">
+		<delete dir="${WEBINFO.dir}/classes" />
+	</target>
+	<target name="clean">
+		<delete dir="build" />
+		<delete dir="dist" />
+	</target>
+</project>

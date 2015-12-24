@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one
+   or more contributor license agreements.  See the NOTICE file
+   distributed with this work for additional information
+   regarding copyright ownership.  The ASF licenses this file
+   to you under the Apache License, Version 2.0 (the
+   "License"); you may not use this file except in compliance
+   with the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing,
+   software distributed under the License is distributed on an
+   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+   KIND, either express or implied.  See the License for the
+   specific language governing permissions and limitations
+   under the License.    
+-->
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+    <info
+        organisation="polar"
+        module="polarbear"
+        status="integration">
+	</info>
+	<configurations>
+		<conf name="default" visibility="public" extends="runtime,master" />
+		<conf name="master" visibility="public" />
+		<conf name="compile" visibility="public" />
+		<conf name="test" extends="compile" visibility="public" />
+		<conf name="provided" visibility="public" />
+		<conf name="runtime" visibility="public" extends="compile" />
+		<conf name="sql" description="SQL drivers" />
+  	</configurations>
+	<dependencies>
+        <dependency org="junit" name="junit" rev="4.11" conf="test->default" />
+        <dependency org="org.jmock" name="jmock" rev="2.8.0" conf="test->default" />
+		<dependency org="org.jmock" name="jmock-legacy" rev="2.8.0" conf="test->default" />
+		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="test->default;default"/>		
+  		<dependency org="httpunit" name="httpunit" rev="1.7" conf="test->default">
+  			<exclude org="javax.servlet"/>
+  		</dependency>
+  		<dependency org="rhino" name="js" rev="1.6R5" conf="test->default" />
+  		<dependency org="org.springframework" name="spring-test" rev="3.2.4.RELEASE" conf="test->default" />
+  		<dependency org="javax.servlet" name="javax.servlet-api" rev="3.1.0" conf="test->default;provided->default" />
+  		<dependency org="org.springframework" name="spring-orm" rev="3.2.4.RELEASE" conf="test->default;default" />
+  		<dependency org="com.alibaba" name="fastjson" rev="1.2.7" conf="test->default;default" />
+  		<dependency org="org.springframework" name="spring-context" rev="3.2.4.RELEASE" conf="test->default;default" />
+  		<dependency org="org.springframework" name="spring-webmvc" rev="3.2.4.RELEASE" conf="test->default;default" />
+        <dependency org="mysql" name="mysql-connector-java" rev="5.1.37" conf="sql->default;test->default;default" />
+		<dependency org="org.hibernate" name="hibernate-core" rev="3.6.10.Final" conf="test->default;default" />
+		<dependency org="javassist" name="javassist" rev="3.12.1.GA" conf="test->default;default"/> 
+        <dependency org="org.springframework" name="spring-core" rev="3.2.4.RELEASE" conf="default" />
+  		<dependency org="com.jayway.jsonpath" name="json-path" rev="2.1.0" conf="default"/>
+    </dependencies>
+</ivy-module>
+

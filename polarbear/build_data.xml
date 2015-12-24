@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project name="build-data" basedir="." default="mysql-create-data" xmlns:ext="http://www.polarbear.com/d1/ext">
+	<target name="displayInfo" description="显示一些提示信息">
+		<echo message="根目录:${basedir}" />
+		<echo message="开始在DB中构建数据" />
+	</target>
+	<import file="build.xml" />
+	<property name="sqlfile" value="deploy/user_data.sql" /> 
+	<target name="mysql-init" depends="ivy-resolve,displayInfo" xmlns:ivy="antlib:fr.jayasoft.ivy.ant">
+		<ivy:cachepath pathid="sql.classpath" conf="sql" /> 
+		<property name="mysql.root.pass" value="123" />
+		<property name="mysql.diary.pass" value="secret" />
+		<presetdef name="mysql-admin" uri="http://www.polarbear.com/d1/ext">
+			<sql driver="com.mysql.jdbc.Driver" classpathref="sql.classpath" userid="root" password="${mysql.root.pass}" print="true" url="jdbc:mysql://localhost:3306/polarbear?useUnicode\=true&amp;characterEncoding\=utf-8" expandProperties="true" />
+		</presetdef>
+	</target>
+	<target name="mysql-drop-table" depends="mysql-init" description="create the database and account">
+		<ext:mysql-admin>
+			DROP TABLE IF EXISTS `user`;
+		</ext:mysql-admin>
+	</target>
+	<target name="mysql-create-data" depends="mysql-init" description="create the database and account">
+		<ext:mysql-admin>
+			insert into `user`(`cellphone`,`name`,`pwd`) values('13717686218','极地鸥','e10adc3949ba59abbe56e057f20f883e');
+		</ext:mysql-admin>
+	</target>
+</project>

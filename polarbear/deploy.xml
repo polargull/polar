@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<project name="deploy-by-copy" default="acceptanceTest">
+	<import file="build.xml" />
+	<import file="build_data.xml" />
+	<target name="deploy" depends="deploy-by-copy" />  
+	<target name="deploy-properties" depends="war">
+		<property name="deploy.files.dir" location="deploy" />
+		<property name="appserver" value="tomcat" />
+		<property file="${deploy.files.dir}/${appserver}.properties" />
+		<property name="deploy.name" value="${project.name}" />
+		<property name="deploy.destfile" location="dist/${deploy.name}.war" />
+		<property name="url.server" value="localhost" />
+		<property name="application.url" value="http://${url.server}:${deploy.port}/index.html" />
+	</target>
+	<target name="undeploy" depends="deploy-properties" description="undeploy">
+		<delete dir="${deploy.dir}/${project.name}/" />
+	</target>
+	<target name="deploy-by-copy" depends="deploy-properties,tomcat.stop,undeploy">
+		<echo>
+			Deploying ${target.war} to ${deploy.dir}
+			URL:
+			${application.url}
+		</echo>
+		<copy file="${deploy.destfile}" todir="${deploy.dir}" overwrite="true" />
+	</target>
+	<target name="wait" depends="deploy,mysql-drop-table,tomcat.start">
+		<property name="deploy.waittime" value="10" />
+		<sleep seconds="5" />
+		<waitfor maxwait="${deploy.waittime}" maxwaitunit="second" timeoutproperty="server.missing">
+			<http url="${application.url}" />
+		</waitfor>
+		<fail if="server.missing">Not found: ${application.url}</fail>
+	</target>
+	<!-- 启动和关闭tomcat -->
+	<target name="tomcat.stop">
+		<echo>停止tomcat</echo>
+		<exec executable="cmd" dir="${tomcat.home}/bin" failonerror="false" output="${log.file}" append="true">
+			<!-- <arg value="/c" /> -->
+			<env key="CATALINA_HOME" path="${tomcat.home}" />
+			<arg value="/c shutdown.bat" />
+		</exec>
+		<sleep seconds="2" />
+	</target>
+
+	<target name="tomcat.start">
+		<echo>启动tomcat</echo>
+		<exec executable="cmd" dir="${tomcat.home}/bin" failonerror="false" output="${log.file}" append="true">
+			<!-- <arg value="/c" /> -->
+			<env key="CATALINA_HOME" path="${tomcat.home}" />
+			<arg value="/c startup.bat" />
+		</exec>
+	</target>
+	<!-- 启动和关闭tomcat -->
+	<target name="acceptanceTest" depends="wait,mysql-create-data">
+		<junit printsummary="false" errorProperty="test.failed" failureProperty="test.failed" fork="true">
+			<classpath refid="test.classpath" />
+			<sysproperty key="server.url" value="${server.url}" />
+			<formatter type="brief" usefile="false" />
+			<formatter type="xml" />
+			<batchtest todir="${test.data.dir}">
+				<fileset dir="${test.classes.dir}" includes="**/acceptance/AcceptanceTestSuite.class" />
+			</batchtest>
+		</junit>
+		<junitreport todir="${test.data.dir}">
+			<fileset dir="${test.data.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${test.reports.dir}" />
+		</junitreport>
+		<fail if="test.failed">
+			Tests failed. Check ${test.reports.dir}
+		</fail>
+	</target>
+</project>
