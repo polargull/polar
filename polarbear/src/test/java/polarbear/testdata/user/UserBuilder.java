@@ -7,6 +7,8 @@ import com.polarbear.domain.User;
 public class UserBuilder {
     private String uname;
     private String pwd;
+    private long cellphone;
+    
     private long id;
     public static UserBuilder anUser() {
         return new UserBuilder();
@@ -22,6 +24,11 @@ public class UserBuilder {
         return this;
     }
     
+    public UserBuilder withCellphone(long cellphone) {
+        this.cellphone = cellphone;
+        return this;
+    }
+    
     public UserBuilder withPassword(String pwd) {
         this.pwd = pwd;
         return this;
@@ -29,9 +36,12 @@ public class UserBuilder {
 
     public User build() {
         User user = new User();
-        user.setId(id);
+        if (id != 0 ) {
+            user.setId(id);
+        }
         user.setName(uname);
         user.setPwd(pwd);
+        user.setCellphone(cellphone);
         return user;
     }
 }

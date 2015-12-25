@@ -39,7 +39,7 @@
 			<env key="CATALINA_HOME" path="${tomcat.home}" />
 			<arg value="/c shutdown.bat" />
 		</exec>
-		<sleep seconds="2" />
+		<sleep seconds="5" />
 	</target>
 
 	<target name="tomcat.start">

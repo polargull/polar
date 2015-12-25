@@ -1,6 +1,6 @@
 package com.polarbear.service.register;
 
-import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
+import static com.polarbear.util.Constants.ResultState.*;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +19,19 @@ public class AppRegisterStep2Service {
     private BaseDao<User> userDao;
 
     public LoginData completeStep2(int verifyCode, String encodeVerifyCode, String pwd) throws ValidateException {
-        validateVerifyCode(verifyCode, decodeVerifyCode(encodeVerifyCode));
+        validateVerifyCode(verifyCode, decodeVerifyCode(encodeVerifyCode), decodeVerifyCodeCreateTime(encodeVerifyCode));
         validateCellphone(decodeCellphone(encodeVerifyCode));
         User user = storeUser(Long.valueOf(decodeCellphone(encodeVerifyCode)), pwd);
         return new LoginData(user);
     }
 
-    private void validateVerifyCode(int verifyCode, String encodeVerifyCode) throws ValidateException {
-        throw new ValidateException(PARAM_ERR);
+    private void validateVerifyCode(int verifyCode, String encodeVerifyCode, long decodeVerifyCodeCreateTime) throws ValidateException {
+        if (verifyCode != Integer.parseInt(encodeVerifyCode)) {
+            throw new ValidateException(PARAM_ERR);
+        }
+        if (System.currentTimeMillis() - decodeVerifyCodeCreateTime > 1000 * 60) {
+            throw new ValidateException(VERIFY_CODE_INVIDIT);
+        }
     }
 
     private void validateCellphone(String cellphone) throws ValidateException {
@@ -46,6 +51,10 @@ public class AppRegisterStep2Service {
         return verifyDecode(encodeVerifyCode)[0];
     }
 
+    private long decodeVerifyCodeCreateTime(String encodeVerifyCode) {
+        return Long.parseLong(verifyDecode(encodeVerifyCode)[2]);
+    }
+    
     private String decodeCellphone(String encodeVerifyCode) {
         return verifyDecode(encodeVerifyCode)[1];
     }

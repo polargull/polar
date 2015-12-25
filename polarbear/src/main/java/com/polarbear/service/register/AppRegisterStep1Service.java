@@ -26,8 +26,8 @@ public class AppRegisterStep1Service {
     }
 
     public static String encodeNeedCompareVerifyCode(int verifyCode, long cellphone) {
-        StringBuilder needCompareVerifyCode = new StringBuilder(verifyCode);
-        needCompareVerifyCode.append(":").append(cellphone).append(":").append(Constants.WEB_KEY);
+        StringBuilder needCompareVerifyCode = new StringBuilder();
+        needCompareVerifyCode.append(verifyCode).append(":").append(cellphone).append(":").append(System.currentTimeMillis()).append(":").append(Constants.WEB_KEY);
         return Base64.encode(needCompareVerifyCode.toString().getBytes());
     }
     

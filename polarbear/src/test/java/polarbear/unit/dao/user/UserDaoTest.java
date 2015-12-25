@@ -1,24 +1,26 @@
 package polarbear.unit.dao.user;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-
+import static polarbear.testdata.user.UserBuilder.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.polarbear.dao.BaseDao;
+import com.polarbear.domain.ProductStyle;
 import com.polarbear.domain.User;
 import com.polarbear.util.MD5Util;
 
@@ -29,7 +31,10 @@ public class UserDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
     private final String UNAME = "极地鸥";
     private final String PWD = "123456";
     final String MD5_PWD = MD5Util.encode2hex(PWD);
-
+    final long CELLPHONE = 13717686218l;
+    
+    private final String NEW_REGISTER = "极地鸥1";
+    
     @Autowired
     private BaseDao<User> userDao;
 
@@ -42,6 +47,16 @@ public class UserDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
         User u = userDao.findByNamedQueryObject("queryUnameAndPwd", UNAME, MD5_PWD);
         assertThat("用户名：" + UNAME + ", 密码：" + PWD + "应该不为空", u, is(notNullValue()));
         assertThat(u.getName(), is(UNAME));
+    }
+    
+    @Test
+    public void shouldRegisterSuccessWhenInputCorrectUnameAndPwdAndCellphone() {
+        userDao.store(anUser().withUname(NEW_REGISTER).withPassword(MD5_PWD).withCellphone(CELLPHONE).build());
+        User user = jdbcTemplate.queryForObject(
+                "select * from user where name = ? and pwd = ?",
+                new Object[] { NEW_REGISTER, MD5_PWD }, BeanPropertyRowMapper
+                        .newInstance(User.class));
+        assertThat("用户名：" + UNAME + ", 密码：" + PWD + "应该注册成功", user, notNullValue());        
     }
 
     // @Test
