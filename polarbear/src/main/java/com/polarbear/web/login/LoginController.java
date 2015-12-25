@@ -31,7 +31,6 @@ public class LoginController {
         try {
             validate(uname, password);
             LoginData loginData = loginService.login(uname, password);
-            // TODO 登录token写入cookie in facade
             UserCookieUtil.saveUserCookie(loginData.getUser(), request, response, 0);
             return new JsonResult(SUCCESS).put(LoginData.class.getSimpleName(), loginData);
         } catch (LoginException e) {
