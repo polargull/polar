@@ -2,9 +2,8 @@ package polarbear.unit.controller.register;
 
 import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.CoreMatchers.*;
+import static polarbear.test.util.Constants.*;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -36,11 +35,8 @@ import com.polarbear.web.regist.AppRegisterController;
 public class AppRegisterControllerStep2Test extends AbstractContextControllerTest {
     AppRegisterController appRegisterController = new AppRegisterController();
     public AppRegisterStep2Service appRegisterStep2Service;
-    final long CELLPHONE = 13717686218l;
-    final int VERIFYCODE = 666888;
-    final String PWD = "123456";
-    final String UNAME = "极地鸥";
-
+    final String NEED_COMPARE_VERIFY_CODE_ENCODE = AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
+    
     @Before
     public void setup() {
         setServiceAndDependentComponent(appRegisterController, "appRegisterStep2Service");
@@ -49,16 +45,17 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
 
     @Test
     public void shouldValidateWhenInputCorrectVerifyCodeAndPwdOnRegisterStep2() throws Exception {
+        
         context.checking(new Expectations() {
             {
-                oneOf(appRegisterStep2Service).completeStep2(VERIFYCODE, AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFYCODE, CELLPHONE), PWD);
+                oneOf(appRegisterStep2Service).completeStep2(VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE, PWD);
                 will(returnValue(new LoginData(anUser().withUname(UNAME).build())));
             }
         });
-        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFYCODE, CELLPHONE)); 
+        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE); 
         MvcResult result = mockMvc
             .perform(post(REGIST_STEP2_URL).cookie(cookie)
-                    .param("verifycode", String.valueOf(VERIFYCODE))
+                    .param("verifycode", String.valueOf(VERIFY_CODE))
                     .param("pwd", PWD))
             .andExpect(status().isOk())
             .andDo(print())
@@ -72,16 +69,16 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
     public void shouldInValidateWhenInputErrVerifyCodeOrPwdOrOnRegisterStep2() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(appRegisterStep2Service).completeStep2(VERIFYCODE, AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFYCODE, CELLPHONE), PWD);
+                allowing(appRegisterStep2Service).completeStep2(VERIFY_CODE, AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE), PWD);
                 will(returnValue(new LoginData(anUser().withUname(UNAME).build())));
             }
         });
-        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFYCODE, CELLPHONE));
+        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE));
         testInputErrVerifyCodeOrPwdPost(null, null, null);
         testInputErrVerifyCodeOrPwdPost(cookie, null, null);
         testInputErrVerifyCodeOrPwdPost(cookie, "123", PWD);
         testInputErrVerifyCodeOrPwdPost(cookie, "666688", "1");
-        testInputErrVerifyCodeOrPwdPost(null, String.valueOf(VERIFYCODE), PWD);
+        testInputErrVerifyCodeOrPwdPost(null, String.valueOf(VERIFY_CODE), PWD);
     }    
 
     private void testInputErrVerifyCodeOrPwdPost(Cookie cookie, String verifycode, String pwd) throws Exception, UnsupportedEncodingException {
@@ -105,14 +102,14 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
     public void shouldInValidateWhenEncodeVerifyCodeErrOnRegisterStep2() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(appRegisterStep2Service).completeStep2(VERIFYCODE, AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFYCODE, CELLPHONE), PWD);
+                allowing(appRegisterStep2Service).completeStep2(VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE, PWD);
                 will(throwException(new ValidateException(PARAM_ERR)));
             }
         });
-        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFYCODE, CELLPHONE)); 
+        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE); 
         MvcResult result = mockMvc
             .perform(post(REGIST_STEP2_URL).cookie(cookie)
-                    .param("verifycode", String.valueOf(VERIFYCODE))
+                    .param("verifycode", String.valueOf(VERIFY_CODE))
                     .param("pwd", PWD))
             .andExpect(status().isOk())
             .andDo(print())

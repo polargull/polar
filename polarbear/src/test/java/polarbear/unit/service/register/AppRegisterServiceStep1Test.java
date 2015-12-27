@@ -6,7 +6,7 @@ import static com.polarbear.util.Constants.ResultState.*;
 import org.jmock.Expectations;
 import org.junit.Before;
 import org.junit.Test;
-
+import static polarbear.test.util.Constants.*;
 import polarbear.unit.service.AbstractMock;
 
 import com.polarbear.service.RemoteInvokeServiceException;
@@ -21,7 +21,6 @@ public class AppRegisterServiceStep1Test extends AbstractMock {
     public SmsService smsService;
     AppRegisterStep1Service appRegisterService = new AppRegisterStep1Service();
     int randomNum = RandomUtil.getRegisterVerificationCode();
-    final long CELLPHONE = 13717686218l;
 
     @Before
     public void setUp() {

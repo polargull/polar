@@ -1,12 +1,9 @@
 package polarbear.unit.controller.register;
 
 import static com.polarbear.util.Constants.ResultState.*;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThan;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
+import static polarbear.test.util.Constants.*;
+
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,8 +27,7 @@ import com.polarbear.web.regist.bean.ReturnVerifyCode;
 public class AppRegisterControllerStep1Test extends AbstractContextControllerTest {
     AppRegisterController appRegisterController = new AppRegisterController();
     public AppRegisterStep1Service appRegisterStep1Service;
-    final long CELLPHONE = 13717686218l;
-    final long ERR_CELLPHONE = 1717686218l;
+    
     
     @Before
     public void setup() {

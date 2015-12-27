@@ -15,10 +15,10 @@ import polarbear.unit.service.AbstractMock;
 import com.polarbear.ValidateException;
 import com.polarbear.domain.User;
 import com.polarbear.service.user.validate.UnameUniqueValidator;
+import static polarbear.test.util.Constants.*;
 
 public class UnameUniqueValidatorTest extends AbstractMock {
     private UnameUniqueValidator validator  = new UnameUniqueValidator();
-    final String                 UNAME      = "极地鸥";
 
     @Before
     public void setUp() {

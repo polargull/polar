@@ -1,7 +1,7 @@
 package polarbear.unit.service.register;
 
 import static org.hamcrest.Matchers.*;
-import static polarbear.testdata.user.UserBuilder.*;
+import static polarbear.test.util.Constants.*;
 
 import org.jmock.Expectations;
 import org.junit.Before;
@@ -18,10 +18,6 @@ import com.polarbear.service.register.AppRegisterStep2Service;
 
 public class AppRegisterServiceStep2Test extends AbstractMock {
     AppRegisterStep2Service appRegisterStep2Service = new AppRegisterStep2Service();
-    final int VERIFY_CODE = 666888;
-    final long CELLPHONE = 13717686218l;
-    final String PWD = "123456";
-    final String UNAME = "极地鸥";
     
     @Before
     public void setUp() {

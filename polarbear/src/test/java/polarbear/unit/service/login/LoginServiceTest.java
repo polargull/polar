@@ -16,12 +16,9 @@ import polarbear.unit.service.AbstractMock;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.login.LoginService;
 import com.polarbear.util.MD5Util;
-
+import static polarbear.test.util.Constants.*;
 public class LoginServiceTest extends AbstractMock {
-    private LoginService loginService = new LoginService();
-    final String UNAME = "极地鸥";
-    final String PWD = "123456";
-    final String MD5_PWD = MD5Util.encode2hex(PWD);
+    private LoginService loginService = new LoginService();   
 
     @Before
     public void setUp() {

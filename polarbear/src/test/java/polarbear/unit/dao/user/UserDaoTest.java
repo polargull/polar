@@ -23,17 +23,12 @@ import com.polarbear.dao.BaseDao;
 import com.polarbear.domain.ProductStyle;
 import com.polarbear.domain.User;
 import com.polarbear.util.MD5Util;
+import static polarbear.test.util.Constants.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/test-beans.xml", "/spring/spring-dao.xml" })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class UserDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
-    private final String UNAME = "极地鸥";
-    private final String PWD = "123456";
-    final String MD5_PWD = MD5Util.encode2hex(PWD);
-    final long CELLPHONE = 13717686218l;
-    
-    private final String NEW_REGISTER = "极地鸥1";
     
     @Autowired
     private BaseDao<User> userDao;

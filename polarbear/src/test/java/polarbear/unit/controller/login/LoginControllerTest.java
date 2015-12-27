@@ -25,8 +25,7 @@ import com.polarbear.util.cookie.UserCookieUtil;
 import com.polarbear.web.login.LoginController;
 
 public class LoginControllerTest extends AbstractContextControllerTest {
-    final String UNAME = "极地鸥";
-    final String PWD = "123456";
+    
     LoginController loginController = new LoginController();
     public LoginService loginService;
 
