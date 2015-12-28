@@ -11,6 +11,7 @@ public class Constants {
     public static final long CELLPHONE = 13717686218l;
     public static final long ERR_CELLPHONE = 1717686218l;
     public static final int VERIFY_CODE = 666888;
+    public static final int ERR_VERIFY_CODE = 666999;
     public static final String MD5_PWD = MD5Util.encode2hex(PWD);
     public static final String NEW_REGISTER = "极地鸥1";
     

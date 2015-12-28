@@ -2,13 +2,18 @@ package polarbear.unit.controller.register;
 
 import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
-import static org.hamcrest.CoreMatchers.*;
-import static polarbear.test.util.Constants.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static polarbear.test.util.Constants.CELLPHONE;
+import static polarbear.test.util.Constants.PWD;
 import static polarbear.test.util.Constants.REGIST_STEP2_URL;
+import static polarbear.test.util.Constants.UNAME;
+import static polarbear.test.util.Constants.VERIFY_CODE;
 import static polarbear.test.util.JsonResultConvertUtil.resultBody;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
 import static polarbear.testdata.user.UserBuilder.anUser;
@@ -27,16 +32,17 @@ import polarbear.unit.controller.AbstractContextControllerTest;
 
 import com.polarbear.ValidateException;
 import com.polarbear.service.login.LoginData;
-import com.polarbear.service.register.AppRegisterStep1Service;
 import com.polarbear.service.register.AppRegisterStep2Service;
+import com.polarbear.service.register.util.VerifyCodeEncoder;
 import com.polarbear.util.cookie.UserCookieUtil;
 import com.polarbear.web.regist.AppRegisterController;
 
 public class AppRegisterControllerStep2Test extends AbstractContextControllerTest {
     AppRegisterController appRegisterController = new AppRegisterController();
     public AppRegisterStep2Service appRegisterStep2Service;
-    final String NEED_COMPARE_VERIFY_CODE_ENCODE = AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
-    
+
+    String NEED_COMPARE_VERIFY_CODE_ENCODE = new VerifyCodeEncoder().encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
+
     @Before
     public void setup() {
         setServiceAndDependentComponent(appRegisterController, "appRegisterStep2Service");
@@ -45,7 +51,6 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
 
     @Test
     public void shouldValidateWhenInputCorrectVerifyCodeAndPwdOnRegisterStep2() throws Exception {
-        
         context.checking(new Expectations() {
             {
                 oneOf(appRegisterStep2Service).completeStep2(VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE, PWD);
@@ -69,11 +74,11 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
     public void shouldInValidateWhenInputErrVerifyCodeOrPwdOrOnRegisterStep2() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(appRegisterStep2Service).completeStep2(VERIFY_CODE, AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE), PWD);
+                allowing(appRegisterStep2Service).completeStep2(VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE, PWD);
                 will(returnValue(new LoginData(anUser().withUname(UNAME).build())));
             }
         });
-        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, AppRegisterStep1Service.encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE));
+        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE);
         testInputErrVerifyCodeOrPwdPost(null, null, null);
         testInputErrVerifyCodeOrPwdPost(cookie, null, null);
         testInputErrVerifyCodeOrPwdPost(cookie, "123", PWD);

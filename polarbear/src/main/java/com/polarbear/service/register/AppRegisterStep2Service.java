@@ -1,8 +1,10 @@
 package com.polarbear.service.register;
 
-import static com.polarbear.util.Constants.ResultState.*;
+import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
+import static com.polarbear.util.Constants.ResultState.VERIFY_CODE_INVIDIT;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +13,16 @@ import com.polarbear.dao.BaseDao;
 import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.util.MD5Util;
+import com.polarbear.util.date.IClock;
+import com.polarbear.util.date.SystemClock;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 @Service
 public class AppRegisterStep2Service {
     @Autowired
     private BaseDao<User> userDao;
-
+    IClock systemClock = new SystemClock();
+    
     public LoginData completeStep2(int verifyCode, String encodeVerifyCode, String pwd) throws ValidateException {
         validateVerifyCode(verifyCode, decodeVerifyCode(encodeVerifyCode), decodeVerifyCodeCreateTime(encodeVerifyCode));
         validateCellphone(decodeCellphone(encodeVerifyCode));
@@ -29,7 +34,7 @@ public class AppRegisterStep2Service {
         if (verifyCode != Integer.parseInt(encodeVerifyCode)) {
             throw new ValidateException(PARAM_ERR);
         }
-        if (System.currentTimeMillis() - decodeVerifyCodeCreateTime > 1000 * 60) {
+        if (systemClock.now().getMillis() - decodeVerifyCodeCreateTime > 1000 * 60) {
             throw new ValidateException(VERIFY_CODE_INVIDIT);
         }
     }
