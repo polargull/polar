@@ -49,7 +49,7 @@ public class AppRegisterControllerStep1Test extends AbstractContextControllerTes
             .andExpect(status().isOk())
             .andDo(print())
             .andReturn();
-        assertThat(result.getResponse().getCookie(AppRegisterController.ENCODE_VERIFY_CODE).getValue(),not(nullValue()));
+        assertThat(result.getResponse().getCookie(AppRegisterController.ENCODE_VERIFY_CODE).getValue(),not(equalTo("")));
         assertThat(resultState(result), is(SUCCESS));
         assertThat(Integer.valueOf(resultBody(result, AppRegisterController.VERIFY_CODE)), allOf(greaterThan(666666),lessThan(888888)));
     }
