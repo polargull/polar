@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 import polarbear.unit.service.AbstractMock;
 
 import com.polarbear.ValidateException;
+import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.register.AppRegisterStep2Service;
@@ -31,7 +32,7 @@ public class AppRegisterServiceStep2Test extends AbstractMock {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void shouldRegisterSuccessWhenInputVerificationCodeAndPasswordOnRegisterStep2() throws ValidateException {
+    public void shouldRegisterSuccessWhenInputVerificationCodeAndPasswordOnRegisterStep2() throws ValidateException, DaoException {
         context.checking(new Expectations() {
             {
                 allowing(userDao).store(with(any(User.class)));
@@ -42,14 +43,14 @@ public class AppRegisterServiceStep2Test extends AbstractMock {
     }
     
     @Test
-    public void shouldThrowExceptionWhenInputVerificationCodeTimeoutOnRegisterStep2() throws ValidateException {
+    public void shouldThrowExceptionWhenInputVerificationCodeTimeoutOnRegisterStep2() throws ValidateException, NumberFormatException, DaoException {
         expectedEx.expect(ValidateException.class);
         expectedEx.expectMessage(VERIFY_CODE_INVIDIT.emsg());
         appRegisterStep2Service.completeStep2(VERIFY_CODE, EXPIRY_VERIFY_CODE_ENCODE, PWD);
     }
 
     @Test
-    public void shouldThrowExceptionWhenInputVerificationCodeErrOnRegisterStep2() throws ValidateException {
+    public void shouldThrowExceptionWhenInputVerificationCodeErrOnRegisterStep2() throws ValidateException, NumberFormatException, DaoException {
         expectedEx.expect(ValidateException.class);
         expectedEx.expectMessage(PARAM_ERR.emsg());
         appRegisterStep2Service.completeStep2(ERR_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE, PWD);

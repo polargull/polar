@@ -14,10 +14,10 @@ public class FastJsonTest {
     @Test
     public void testJsonStrToJsonObject() {
         // // ProductStyleProperty
-        String text = "{\"name\":\"颜色\", \"value\":\"黄色\"}";
+        String text = "{\"msg_id\": 3303310512, \"error\": {\"message\": \"cannot find user by this audience\", \"code\": 1011}}";
         /** 将JSON字符串转换为JSON对象 **/
         JSONObject json = JSON.parseObject(text);
-        System.out.println(json);
+        System.out.println();
     }
 
     @Test

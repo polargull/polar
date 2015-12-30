@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.polarbear.dao.BaseDao;
+import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Product;
 import com.polarbear.domain.ProductStyle;
 
@@ -28,7 +29,7 @@ public class HaveStyleProductTest extends
 	private BaseDao<ProductStyle> productStyleDao;
 
 	@Before
-	public void init() {
+	public void init() throws DaoException {
 		testStyle = new ProductStyle();
 		testStyle
 				.setStyleProperties("{color:[\"红色\",\"黄色\"],size:[\"M\",\"L\"]}");

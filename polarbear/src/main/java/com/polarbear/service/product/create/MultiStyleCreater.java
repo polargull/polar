@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.polarbear.dao.BaseDao;
+import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Product;
 import com.polarbear.domain.ProductStyle;
 
@@ -14,7 +15,7 @@ public class MultiStyleCreater implements IProductCreater {
 	@Autowired
 	private BaseDao<Product> productDao;
 
-	public Product create(Product product, Object... param) {
+	public Product create(Product product, Object... param) throws DaoException {
 		ProductStyle style = (ProductStyle) param[0];
 		styleDao.store(style);
 		product.setProductStyle(style);

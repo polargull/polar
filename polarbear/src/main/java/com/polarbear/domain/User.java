@@ -5,26 +5,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+
 
 @NamedQueries( { @NamedQuery(name = "queryUnameAndPwd", query = "from User u where u.name = ? and u.pwd = ?"),
         @NamedQuery(name = "findUserByGenderAndNameAndPage", query = "from User u where u.name = ? and u.gender = ?"),
         @NamedQuery(name = "updateUserNameByGender", query = "update User u set u.name = ? where u.gender = ?") })
 @Entity
-@Table(name = "user")
+@Table(name = "user",uniqueConstraints = {@UniqueConstraint(columnNames="name"),@UniqueConstraint(columnNames="cellphone")})
 public class User {
     @Id
     @GeneratedValue
     Long id;
-    @Column
+    @Column(nullable=false)
     String name;
-    @Column
+    @Column(nullable=false)
     String pwd;
     @Column
     String email;
-    @Column
+    @Column(nullable=false)
     Long cellphone;
     @Column
     Short gender;

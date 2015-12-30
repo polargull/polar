@@ -5,7 +5,7 @@
 		<echo message="开始在DB中构建数据" />
 	</target>
 	<import file="build.xml" />
-	<property name="sqlfile" value="deploy/user_data.sql" /> 
+	<property name="sqlfile" value="deploy/user_data.sql" />
 	<target name="mysql-init" depends="ivy-resolve,displayInfo" xmlns:ivy="antlib:fr.jayasoft.ivy.ant">
 		<ivy:cachepath pathid="sql.classpath" conf="sql" /> 
 		<property name="mysql.root.pass" value="123" />

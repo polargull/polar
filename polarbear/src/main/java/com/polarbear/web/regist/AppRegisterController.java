@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polarbear.ValidateException;
+import com.polarbear.dao.DaoException;
 import com.polarbear.service.RemoteInvokeServiceException;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.register.AppRegisterStep1Service;
@@ -60,6 +61,8 @@ public class AppRegisterController {
             UserCookieUtil.saveUserCookie(loginData.getUser(), request, response, 0);
             return new JsonResult(SUCCESS).put(LoginData.class.getSimpleName(), loginData);
         } catch (ValidateException e) {
+            return new JsonResult(e.state);
+        } catch (DaoException e) {
             return new JsonResult(e.state);
         }
     }

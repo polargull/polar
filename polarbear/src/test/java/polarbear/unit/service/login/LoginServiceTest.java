@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import polarbear.unit.service.AbstractMock;
 
+import com.polarbear.dao.DaoException;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.login.LoginService;
 import com.polarbear.util.MD5Util;
@@ -26,7 +27,7 @@ public class LoginServiceTest extends AbstractMock {
     }
 
     @Test
-    public void shouldRetureLoginedDataWhenLoginSuccess() {
+    public void shouldRetureLoginedDataWhenLoginSuccess() throws DaoException {
         context.checking(new Expectations() {
             {
                 allowing(userDao).findByNamedQueryObject("queryUnameAndPwd", UNAME, MD5_PWD);
@@ -43,7 +44,7 @@ public class LoginServiceTest extends AbstractMock {
     }
 
     @Test
-    public void shouldThrowLoginExceptionWhenLoginFail() throws LoginException {
+    public void shouldThrowLoginExceptionWhenLoginFail() throws LoginException, DaoException {
         context.checking(new Expectations() {
             {
                 allowing(userDao).findByNamedQueryObject("queryUnameAndPwd", UNAME, MD5Util.encode2hex(PWD));

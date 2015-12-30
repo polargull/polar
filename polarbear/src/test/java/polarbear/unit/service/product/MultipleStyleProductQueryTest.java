@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import polarbear.unit.service.AbstractMock;
 
+import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Product;
 import com.polarbear.service.product.query.MultipleStyleProductQuery;
 
@@ -28,7 +29,7 @@ public class MultipleStyleProductQueryTest extends AbstractMock {
     }
 
     @Test
-    public void shouldReturnSameStyleProductByProperty() {
+    public void shouldReturnSameStyleProductByProperty() throws DaoException {
         context.checking(new Expectations() {
             {
                 allowing(productDao).findByNamedQuery("querySameStyleProductByStyleId", anNeedStyle().STYLE_ID);

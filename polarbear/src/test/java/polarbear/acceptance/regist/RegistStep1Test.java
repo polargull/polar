@@ -25,7 +25,7 @@ public class RegistStep1Test {
     @Test
     public void shouldReturnVerifyCodeWhenInputCorrectCellphoneOnRegistStep1() throws UnsupportedEncodingException {
         anRequest(REGIST_STEP1_URL)
-        .addParams("cellphone", String.valueOf(CELLPHONE))
+        .addParams("cellphone", String.valueOf(NEW_CELLPHONE))
         .post(new ResultCallback() {
             public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                 assertThat("结果状态:", resultState(jsonResult), is(SUCCESS));

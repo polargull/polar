@@ -1,7 +1,6 @@
 package com.polarbear.web.login;
 
-import static com.polarbear.util.Constants.ResultState.LOGIN_NAME_PWD_ERR;
-import static com.polarbear.util.Constants.ResultState.SUCCESS;
+import static com.polarbear.util.Constants.ResultState.*;
 
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mysql.jdbc.StringUtils;
+import com.polarbear.dao.DaoException;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.login.LoginService;
 import com.polarbear.util.JsonResult;
@@ -35,6 +35,8 @@ public class LoginController {
             return new JsonResult(SUCCESS).put(LoginData.class.getSimpleName(), loginData);
         } catch (LoginException e) {
             return new JsonResult(LOGIN_NAME_PWD_ERR);
+        } catch (DaoException e) {
+            return new JsonResult(e.state);
         }
     }
 

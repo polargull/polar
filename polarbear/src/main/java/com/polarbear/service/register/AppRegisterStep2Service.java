@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.polarbear.ValidateException;
 import com.polarbear.dao.BaseDao;
+import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.util.MD5Util;
@@ -23,7 +24,7 @@ public class AppRegisterStep2Service {
     private BaseDao<User> userDao;
     IClock systemClock = new SystemClock();
     
-    public LoginData completeStep2(int verifyCode, String encodeVerifyCode, String pwd) throws ValidateException {
+    public LoginData completeStep2(int verifyCode, String encodeVerifyCode, String pwd) throws ValidateException, NumberFormatException, DaoException {
         validateVerifyCode(verifyCode, decodeVerifyCode(encodeVerifyCode), decodeVerifyCodeCreateTime(encodeVerifyCode));
         validateCellphone(decodeCellphone(encodeVerifyCode));
         User user = storeUser(Long.valueOf(decodeCellphone(encodeVerifyCode)), pwd);
@@ -45,7 +46,7 @@ public class AppRegisterStep2Service {
         }
     }
 
-    private User storeUser(long cellPhone, String pwd) {
+    private User storeUser(long cellPhone, String pwd) throws DaoException {
         String md5_pwd = MD5Util.encode2hex(pwd);
         User user = new User(String.valueOf(cellPhone), md5_pwd, cellPhone);
         userDao.store(user);

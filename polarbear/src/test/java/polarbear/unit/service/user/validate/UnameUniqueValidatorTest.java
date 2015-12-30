@@ -13,6 +13,7 @@ import org.junit.Test;
 import polarbear.unit.service.AbstractMock;
 
 import com.polarbear.ValidateException;
+import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
 import com.polarbear.service.user.validate.UnameUniqueValidator;
 import static polarbear.test.util.Constants.*;
@@ -26,7 +27,7 @@ public class UnameUniqueValidatorTest extends AbstractMock {
     }
 
     @Test
-    public void shouldNotReturnWhenValidatePass() {
+    public void shouldNotReturnWhenValidatePass() throws DaoException {
         context.checking(new Expectations() {
             {
                 allowing(userDao).findByNamedQuery("queryUname", UNAME);
@@ -43,7 +44,7 @@ public class UnameUniqueValidatorTest extends AbstractMock {
     }
 
     @Test
-    public void shouldThrowValidateExceptionWhenValidateNotPass() throws ValidateException {
+    public void shouldThrowValidateExceptionWhenValidateNotPass() throws ValidateException, DaoException {
         context.checking(new Expectations() {
             {
                 allowing(userDao).findByNamedQuery("queryUname", UNAME);
