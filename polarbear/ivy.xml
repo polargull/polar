@@ -39,7 +39,7 @@
 		<dependency org="org.jmock" name="jmock-legacy" rev="2.8.0" conf="test->default" />
 		<dependency org="commons-lang" name="commons-lang" rev="2.6" conf="test->default;default"/>		
   		<dependency org="httpunit" name="httpunit" rev="1.7" conf="test->default">
-  			<exclude org="javax.servlet"/>
+  			<exclude org="javax.servlet"/> 
   		</dependency>
   		<dependency org="rhino" name="js" rev="1.6R5" conf="test->default" />
   		<dependency org="org.springframework" name="spring-test" rev="3.2.4.RELEASE" conf="test->default" />

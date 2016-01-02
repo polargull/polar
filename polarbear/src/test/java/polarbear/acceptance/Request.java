@@ -25,7 +25,7 @@ public class Request {
     String url;
     WebRequest req;
     Map<String, String> reqParam = new HashMap<String, String>();
-    WebConversation session = new WebConversation();
+    WebConversation mockExplore = new WebConversation();
 
     private Request(String url) {
         this.url = url;
@@ -42,7 +42,7 @@ public class Request {
     }
 
     public Request withCookie(String name, String value) {
-        session.putCookie(name, value);
+        mockExplore.putCookie(name, value);
         return this;
     }
 
@@ -64,8 +64,9 @@ public class Request {
     }
 
     private void handleReq(ResultCallback callback) throws IOException, SAXException, UnsupportedEncodingException {
-        WebResponse response = session.getResponse(req);
+        WebResponse response = mockExplore.getResponse(req);
         JsonResult jsonResult = JsonResultConvertUtil.convertJsonObj(response.getText());
+        callback.getMockExplore(mockExplore);
         callback.onSuccess(jsonResult);
         callback.onResponse(response);
     }
@@ -109,6 +110,9 @@ public class Request {
 
         }
 
+        public void getMockExplore(WebConversation mockExplore) {
+            
+        }
         /**
          * 成功回调入口
          * 

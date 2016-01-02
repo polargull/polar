@@ -3,6 +3,9 @@ package com.polarbear.service.register;
 import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
 import static com.polarbear.util.Constants.ResultState.VERIFY_CODE_INVIDIT;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import org.apache.commons.lang.math.NumberUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +25,9 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 public class AppRegisterStep2Service {
     @Autowired
     private BaseDao<User> userDao;
-    IClock systemClock = new SystemClock();
-    
-    public LoginData completeStep2(int verifyCode, String encodeVerifyCode, String pwd) throws ValidateException, NumberFormatException, DaoException {
+    IClock                systemClock = new SystemClock();
+
+    public LoginData completeStep2(int verifyCode, String encodeVerifyCode, String pwd) throws ValidateException, NumberFormatException, DaoException, UnsupportedEncodingException {
         validateVerifyCode(verifyCode, decodeVerifyCode(encodeVerifyCode), decodeVerifyCodeCreateTime(encodeVerifyCode));
         validateCellphone(decodeCellphone(encodeVerifyCode));
         User user = storeUser(Long.valueOf(decodeCellphone(encodeVerifyCode)), pwd);
@@ -35,7 +38,7 @@ public class AppRegisterStep2Service {
         if (verifyCode != Integer.parseInt(encodeVerifyCode)) {
             throw new ValidateException(PARAM_ERR);
         }
-        if (systemClock.now().getMillis() - decodeVerifyCodeCreateTime > 1000 * 60) {
+        if (systemClock.now().getMillis() - decodeVerifyCodeCreateTime >= 1000 * 60) {
             throw new ValidateException(VERIFY_CODE_INVIDIT);
         }
     }
@@ -53,20 +56,21 @@ public class AppRegisterStep2Service {
         return user;
     }
 
-    private String decodeVerifyCode(String encodeVerifyCode) {
+    private String decodeVerifyCode(String encodeVerifyCode) throws UnsupportedEncodingException {
         return verifyDecode(encodeVerifyCode)[0];
     }
 
-    private long decodeVerifyCodeCreateTime(String encodeVerifyCode) {
+    private long decodeVerifyCodeCreateTime(String encodeVerifyCode) throws NumberFormatException, UnsupportedEncodingException {
         return Long.parseLong(verifyDecode(encodeVerifyCode)[2]);
     }
-    
-    private String decodeCellphone(String encodeVerifyCode) {
+
+    private String decodeCellphone(String encodeVerifyCode) throws UnsupportedEncodingException {
         return verifyDecode(encodeVerifyCode)[1];
     }
 
-    private String[] verifyDecode(String encodeVerifyCode) {
-        String verifyDecodeCode = new String(Base64.decode(encodeVerifyCode));
+    private String[] verifyDecode(String encodeVerifyCode) throws UnsupportedEncodingException {
+        String urlDecode = URLDecoder.decode(encodeVerifyCode, "utf-8");
+        String verifyDecodeCode = new String(Base64.decode(urlDecode));
         return verifyDecodeCode.split(":");
     }
 }

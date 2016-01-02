@@ -4,6 +4,8 @@ import static com.polarbear.util.Constants.ResultState.*;
 import static org.hamcrest.Matchers.*;
 import static polarbear.test.util.Constants.*;
 
+import java.io.UnsupportedEncodingException;
+
 import org.jmock.Expectations;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,18 +23,23 @@ import com.polarbear.util.date.ExpiryClock;
 
 public class AppRegisterServiceStep2Test extends AbstractMock {
     AppRegisterStep2Service appRegisterStep2Service = new AppRegisterStep2Service();
-    String NEED_COMPARE_VERIFY_CODE_ENCODE = new VerifyCodeEncoder().encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
+    String NEED_COMPARE_VERIFY_CODE_ENCODE;
     String EXPIRY_VERIFY_CODE_ENCODE; 
         
     @Before
     public void setUp() {
         setServiceAndDependentComponent(appRegisterStep2Service, "userDao");
-        EXPIRY_VERIFY_CODE_ENCODE = new VerifyCodeEncoder().setClock(new ExpiryClock().plusMinutes(-1)).encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
+        try {
+            EXPIRY_VERIFY_CODE_ENCODE = new VerifyCodeEncoder().setClock(new ExpiryClock().plusMinutes(-1)).encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
+            NEED_COMPARE_VERIFY_CODE_ENCODE = new VerifyCodeEncoder().encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("unchecked")
     @Test
-    public void shouldRegisterSuccessWhenInputVerificationCodeAndPasswordOnRegisterStep2() throws ValidateException, DaoException {
+    public void shouldRegisterSuccessWhenInputVerificationCodeAndPasswordOnRegisterStep2() throws ValidateException, DaoException, NumberFormatException, UnsupportedEncodingException {
         context.checking(new Expectations() {
             {
                 allowing(userDao).store(with(any(User.class)));
@@ -43,14 +50,14 @@ public class AppRegisterServiceStep2Test extends AbstractMock {
     }
     
     @Test
-    public void shouldThrowExceptionWhenInputVerificationCodeTimeoutOnRegisterStep2() throws ValidateException, NumberFormatException, DaoException {
+    public void shouldThrowExceptionWhenInputVerificationCodeTimeoutOnRegisterStep2() throws ValidateException, NumberFormatException, DaoException, UnsupportedEncodingException {
         expectedEx.expect(ValidateException.class);
         expectedEx.expectMessage(VERIFY_CODE_INVIDIT.emsg());
         appRegisterStep2Service.completeStep2(VERIFY_CODE, EXPIRY_VERIFY_CODE_ENCODE, PWD);
     }
 
     @Test
-    public void shouldThrowExceptionWhenInputVerificationCodeErrOnRegisterStep2() throws ValidateException, NumberFormatException, DaoException {
+    public void shouldThrowExceptionWhenInputVerificationCodeErrOnRegisterStep2() throws ValidateException, NumberFormatException, DaoException, UnsupportedEncodingException {
         expectedEx.expect(ValidateException.class);
         expectedEx.expectMessage(PARAM_ERR.emsg());
         appRegisterStep2Service.completeStep2(ERR_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE, PWD);

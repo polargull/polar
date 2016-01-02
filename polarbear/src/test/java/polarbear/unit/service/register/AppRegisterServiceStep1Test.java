@@ -3,6 +3,9 @@ package polarbear.unit.service.register;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static com.polarbear.util.Constants.ResultState.*;
+
+import java.io.UnsupportedEncodingException;
+
 import org.jmock.Expectations;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +31,7 @@ public class AppRegisterServiceStep1Test extends AbstractMock {
     }
 
     @Test
-    public void shouldReturn6BitRandomVerificationCodeWhenInputCellphoneOnRegisterStep1() throws RemoteInvokeServiceException {
+    public void shouldReturn6BitRandomVerificationCodeWhenInputCellphoneOnRegisterStep1() throws RemoteInvokeServiceException, UnsupportedEncodingException {
         context.checking(new Expectations() {
             {
                 oneOf(smsService).send(with(any(String[].class)), with(any(SmsMessage.class)));
@@ -39,7 +42,7 @@ public class AppRegisterServiceStep1Test extends AbstractMock {
     }
 
     @Test
-    public void shouldThrowExceptionWhenSmsServiceFailOnRegisterStep1() throws RemoteInvokeServiceException {
+    public void shouldThrowExceptionWhenSmsServiceFailOnRegisterStep1() throws RemoteInvokeServiceException, UnsupportedEncodingException {
         context.checking(new Expectations() {
             {
                 oneOf(smsService).send(with(any(String[].class)), with(any(SmsMessage.class)));

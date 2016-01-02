@@ -38,15 +38,20 @@ import com.polarbear.util.cookie.UserCookieUtil;
 import com.polarbear.web.regist.AppRegisterController;
 
 public class AppRegisterControllerStep2Test extends AbstractContextControllerTest {
-    AppRegisterController appRegisterController = new AppRegisterController();
+    AppRegisterController          appRegisterController = new AppRegisterController();
     public AppRegisterStep2Service appRegisterStep2Service;
-
-    String NEED_COMPARE_VERIFY_CODE_ENCODE = new VerifyCodeEncoder().encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
+    String                         NEED_COMPARE_VERIFY_CODE_ENCODE;
+    
 
     @Before
     public void setup() {
         setServiceAndDependentComponent(appRegisterController, "appRegisterStep2Service");
         super.setUp(appRegisterController);
+        try {
+            NEED_COMPARE_VERIFY_CODE_ENCODE = new VerifyCodeEncoder().encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -57,19 +62,14 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
                 will(returnValue(new LoginData(anUser().withUname(UNAME).build())));
             }
         });
-        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE); 
-        MvcResult result = mockMvc
-            .perform(post(REGIST_STEP2_URL).cookie(cookie)
-                    .param("verifycode", String.valueOf(VERIFY_CODE))
-                    .param("pwd", PWD))
-            .andExpect(status().isOk())
-            .andDo(print())
-            .andReturn();
+        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE);
+        MvcResult result = mockMvc.perform(post(REGIST_STEP2_URL).cookie(cookie).param("verifycode", String.valueOf(VERIFY_CODE)).param("pwd", PWD)).andExpect(status().isOk())
+                .andDo(print()).andReturn();
         assertThat(resultState(result), is(SUCCESS));
-        assertThat(result.getResponse().getCookie(UserCookieUtil.COOKIE_NAME).getValue(),not(nullValue()));
+        assertThat(result.getResponse().getCookie(UserCookieUtil.COOKIE_NAME).getValue(), not(nullValue()));
         assertThat(resultBody(result, LoginData.class).getUser().getName(), is(UNAME));
     }
-    
+
     @Test
     public void shouldInValidateWhenInputErrVerifyCodeOrPwdOrOnRegisterStep2() throws Exception {
         context.checking(new Expectations() {
@@ -84,25 +84,19 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
         testInputErrVerifyCodeOrPwdPost(cookie, "123", PWD);
         testInputErrVerifyCodeOrPwdPost(cookie, "666688", "1");
         testInputErrVerifyCodeOrPwdPost(null, String.valueOf(VERIFY_CODE), PWD);
-    }    
+    }
 
     private void testInputErrVerifyCodeOrPwdPost(Cookie cookie, String verifycode, String pwd) throws Exception, UnsupportedEncodingException {
-        MockHttpServletRequestBuilder mockRequest = post(REGIST_STEP2_URL)        
-        .param("verifycode", verifycode)
-        .param("pwd", pwd);
+        MockHttpServletRequestBuilder mockRequest = post(REGIST_STEP2_URL).param("verifycode", verifycode).param("pwd", pwd);
         if (cookie != null)
             mockRequest.cookie(cookie);
-        MvcResult result = mockMvc
-            .perform(mockRequest)
-            .andExpect((verifycode == null || pwd == null) ? status().isBadRequest() : status().isOk())
-            .andDo(print())
-            .andReturn();
+        MvcResult result = mockMvc.perform(mockRequest).andExpect((verifycode == null || pwd == null) ? status().isBadRequest() : status().isOk()).andDo(print()).andReturn();
         if (verifycode == null || pwd == null) {
             return;
         }
         assertThat(resultState(result), is(PARAM_ERR));
     }
-    
+
     @Test
     public void shouldInValidateWhenEncodeVerifyCodeErrOnRegisterStep2() throws Exception {
         context.checking(new Expectations() {
@@ -111,14 +105,9 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
                 will(throwException(new ValidateException(PARAM_ERR)));
             }
         });
-        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE); 
-        MvcResult result = mockMvc
-            .perform(post(REGIST_STEP2_URL).cookie(cookie)
-                    .param("verifycode", String.valueOf(VERIFY_CODE))
-                    .param("pwd", PWD))
-            .andExpect(status().isOk())
-            .andDo(print())
-            .andReturn();
+        Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE);
+        MvcResult result = mockMvc.perform(post(REGIST_STEP2_URL).cookie(cookie).param("verifycode", String.valueOf(VERIFY_CODE)).param("pwd", PWD)).andExpect(status().isOk())
+                .andDo(print()).andReturn();
         assertThat(resultState(result), is(PARAM_ERR));
     }
 

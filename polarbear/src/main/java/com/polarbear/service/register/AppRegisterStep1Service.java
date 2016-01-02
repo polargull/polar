@@ -2,6 +2,8 @@ package com.polarbear.service.register;
 
 import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
 
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ public class AppRegisterStep1Service {
     SmsService smsService;
     VerifyCodeEncoder verifyCodeEncoder = new VerifyCodeEncoder();
     
-    public ReturnVerifyCode completeStep1(long cellphone) throws RemoteInvokeServiceException {
+    public ReturnVerifyCode completeStep1(long cellphone) throws RemoteInvokeServiceException, UnsupportedEncodingException {
         SmsMessage smsMessage = SmsMessageCreater.createMsg(SmsMessageCreater.REGISTER_VERIFICATION_CODE);
         smsService.send(new String[] { String.valueOf(cellphone) }, smsMessage);
         int verifyCode = smsMessage.getVerificationCode();

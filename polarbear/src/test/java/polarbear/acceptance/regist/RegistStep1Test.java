@@ -1,20 +1,26 @@
 package polarbear.acceptance.regist;
 
-import static com.polarbear.util.Constants.ResultState.*;
+import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
+import static com.polarbear.util.Constants.ResultState.SUCCESS;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
-import static polarbear.test.util.Constants.*;
+import static polarbear.test.util.Constants.ERR_CELLPHONE;
+import static polarbear.test.util.Constants.NEW_CELLPHONE;
+import static polarbear.test.util.Constants.REGIST_STEP1_URL;
 import static polarbear.test.util.JsonResultConvertUtil.resultBody;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
 
 import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
+import org.springframework.web.util.CookieGenerator;
 
 import polarbear.acceptance.Request.ResultCallback;
 
+import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebResponse;
+import com.meterware.httpunit.cookies.Cookie;
 import com.polarbear.util.JsonResult;
 import com.polarbear.web.regist.AppRegisterController;
 
@@ -34,7 +40,6 @@ public class RegistStep1Test {
                 RETURN_VERIFY_CODE = Integer.valueOf(resultBody(jsonResult, AppRegisterController.VERIFY_CODE));
             }
             public void onResponse(WebResponse response) {
-                assertThat("加密校验码:", response.getNewCookieValue(AppRegisterController.ENCODE_VERIFY_CODE),not(equalTo("")));
                 RETURN_ENCODE_VERIFY_CODE = response.getNewCookieValue(AppRegisterController.ENCODE_VERIFY_CODE);
             }
         });

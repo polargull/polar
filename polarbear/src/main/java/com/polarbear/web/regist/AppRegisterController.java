@@ -1,7 +1,8 @@
 package com.polarbear.web.regist;
 
-import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
-import static com.polarbear.util.Constants.ResultState.SUCCESS;
+import static com.polarbear.util.Constants.ResultState.*;
+
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +49,8 @@ public class AppRegisterController {
             return new JsonResult(e.state);
         } catch (RemoteInvokeServiceException e) {
             return new JsonResult(e.state);
+        } catch (UnsupportedEncodingException e) {
+            return new JsonResult(SYSTEM_ERR);
         }
     }
 
@@ -64,6 +67,8 @@ public class AppRegisterController {
             return new JsonResult(e.state);
         } catch (DaoException e) {
             return new JsonResult(e.state);
+        } catch (UnsupportedEncodingException e) {
+            return new JsonResult(SYSTEM_ERR);
         }
     }
 
