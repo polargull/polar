@@ -14,6 +14,7 @@
 	</target>
 	<target name="undeploy" depends="deploy-properties" description="undeploy">
 		<delete dir="${deploy.dir}/${project.name}/" />
+		<delete file="${deploy.dir}/${target.war.name}"/>
 	</target>
 	<target name="deploy-by-copy" depends="deploy-properties,tomcat.stop,undeploy">
 		<echo>
@@ -21,6 +22,7 @@
 			URL:
 			${application.url}
 		</echo>
+		<!--<unwar src="${deploy.destfile}" dest="${deploy.dir}/${project.name}" overwrite="true"/>-->
 		<copy file="${deploy.destfile}" todir="${deploy.dir}" overwrite="true" />
 	</target>
 	<target name="wait" depends="deploy,mysql-drop-table,tomcat.start">
@@ -47,7 +49,7 @@
 		<exec executable="cmd" dir="${tomcat.home}/bin" failonerror="false" output="${log.file}" append="true">
 			<!-- <arg value="/c" /> -->
 			<env key="CATALINA_HOME" path="${tomcat.home}" />
-			<arg value="/c startup.bat" />
+			<arg value="/c jpda.bat" />
 		</exec>
 	</target>
 	<!-- 启动和关闭tomcat -->

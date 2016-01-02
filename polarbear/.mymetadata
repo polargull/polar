@@ -3,11 +3,11 @@
   type="WEB"
   name="polarbear"
   id="myeclipse.1449043507906"
-  context-root="/polarbear"
+  context-root="/"
   j2ee-spec="5.0"
   archive="polarbear.war">
   <attributes>
-    <attribute name="webrootdir" value="WebRoot" />
+    <attribute name="webrootdir" value="/WebRoot" />
   </attributes>
 </project-module>
 
