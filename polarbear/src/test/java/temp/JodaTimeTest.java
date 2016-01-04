@@ -12,6 +12,7 @@ public class JodaTimeTest {
         DateTime now = new DateTime();
         DateTime then = now.plusDays(-1);
         System.out.println(now.toString("yyyy-MM-dd HH:mm"));
+        System.out.println(then.toString("yyyy-MM-dd HH:mm"));
     }
     
     @Test

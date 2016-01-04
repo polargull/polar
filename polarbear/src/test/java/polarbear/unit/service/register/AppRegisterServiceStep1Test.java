@@ -23,7 +23,6 @@ public class AppRegisterServiceStep1Test extends AbstractMock {
 
     public SmsService smsService;
     AppRegisterStep1Service appRegisterService = new AppRegisterStep1Service();
-    int randomNum = RandomUtil.getRegisterVerificationCode();
 
     @Before
     public void setUp() {

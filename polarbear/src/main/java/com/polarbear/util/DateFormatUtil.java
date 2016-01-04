@@ -258,7 +258,7 @@ public class DateFormatUtil {
 	 * @return
 	 */
 	@SuppressWarnings("deprecation")
-	public static Integer TodayTimeToSecond(int n) {
+	public static Integer todayTimeToSecond(int n) {
 		Calendar c = Calendar.getInstance();
 		Integer seconds = null;
 		String date = (c.getTime().getYear()+1900) + "-" + (c.getTime().getMonth() + 1) + "-" + (c.getTime().getDate() + n) + " 00:00:00";

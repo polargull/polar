@@ -50,5 +50,6 @@ public class HttpUnitTest {
         req.setParameter("uname", "极地鸥");
         req.setParameter("password", "123abc");
         WebResponse rep = session.getResponse(req);
+        System.out.println(rep.getText());
     }
 }

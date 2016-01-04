@@ -37,11 +37,19 @@ public class ProductStyleProperty {
         if (obj == null) {
             return false;
         }
+        if (!(obj instanceof ProductStyleProperty)) {
+            return false;
+        }
         ProductStyleProperty other = (ProductStyleProperty) obj;
         if (this.name.equals(other.getName()) && this.value.equals(other.getValue())) {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return 1; // any arbitrary constant will do
     }
 
 }

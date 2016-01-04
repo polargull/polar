@@ -9,7 +9,9 @@ import com.polarbear.util.date.SystemClock;
  */
 public class Constants {    
     public static final String UNAME = "极地鸥";
+    public static final String ERROR_UNAME = "test@123.com";
     public static final String PWD = "123456";
+    public static final String ERROR_PWD = "123abc";
     public static final long CELLPHONE = 13717686218l;
     public static final long ERR_CELLPHONE = 1717686218l;
     public static final int VERIFY_CODE = 666888;

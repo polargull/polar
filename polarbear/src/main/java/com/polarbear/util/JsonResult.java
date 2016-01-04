@@ -59,7 +59,7 @@ public class JsonResult {
         this.body = body;
     }
 
-    public class MsgHead {
+    public static class MsgHead {
         private String ecode = ResultState.SUCCESS.ecode();
         private String emsg = ResultState.SUCCESS.emsg();
 
