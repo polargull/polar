@@ -16,7 +16,6 @@ import com.polarbear.web.regist.AppRegisterController;
 public class RegistStep2Test {
     @Test
     public void shouldValidateWhenInputCorrectVerifyCodeOnRegistStep2() throws UnsupportedEncodingException {
-        System.out.println(RegistStep1Test.RETURN_ENCODE_VERIFY_CODE+" >>> "+RegistStep1Test.RETURN_VERIFY_CODE);
         anRequest(REGIST_STEP2_URL)
         .withCookie(AppRegisterController.ENCODE_VERIFY_CODE, RegistStep1Test.RETURN_ENCODE_VERIFY_CODE)
         .addParams(AppRegisterController.VERIFY_CODE, String.valueOf(RegistStep1Test.RETURN_VERIFY_CODE))
