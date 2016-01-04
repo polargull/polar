@@ -1,10 +1,12 @@
 package com.polarbear.service.register;
 
+import static com.polarbear.service.register.util.VerifyCodeDecoder.decodeCellphone;
+import static com.polarbear.service.register.util.VerifyCodeDecoder.decodeVerifyCode;
+import static com.polarbear.service.register.util.VerifyCodeDecoder.decodeVerifyCodeCreateTime;
 import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
 import static com.polarbear.util.Constants.ResultState.VERIFY_CODE_INVIDIT;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.joda.time.DateTime;
@@ -19,7 +21,6 @@ import com.polarbear.service.login.LoginData;
 import com.polarbear.util.MD5Util;
 import com.polarbear.util.date.IClock;
 import com.polarbear.util.date.SystemClock;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 @Service
 public class AppRegisterStep2Service {
@@ -56,21 +57,5 @@ public class AppRegisterStep2Service {
         return user;
     }
 
-    private String decodeVerifyCode(String encodeVerifyCode) throws UnsupportedEncodingException {
-        return verifyDecode(encodeVerifyCode)[0];
-    }
 
-    private long decodeVerifyCodeCreateTime(String encodeVerifyCode) throws NumberFormatException, UnsupportedEncodingException {
-        return Long.parseLong(verifyDecode(encodeVerifyCode)[2]);
-    }
-
-    private String decodeCellphone(String encodeVerifyCode) throws UnsupportedEncodingException {
-        return verifyDecode(encodeVerifyCode)[1];
-    }
-
-    private String[] verifyDecode(String encodeVerifyCode) throws UnsupportedEncodingException {
-        String urlDecode = URLDecoder.decode(encodeVerifyCode, "utf-8");
-        String verifyDecodeCode = new String(Base64.decode(urlDecode));
-        return verifyDecodeCode.split(":");
-    }
 }

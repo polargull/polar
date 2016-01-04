@@ -48,7 +48,7 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
         setServiceAndDependentComponent(appRegisterController, "appRegisterStep2Service");
         super.setUp(appRegisterController);
         try {
-            NEED_COMPARE_VERIFY_CODE_ENCODE = new VerifyCodeEncoder().encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
+            NEED_COMPARE_VERIFY_CODE_ENCODE = VerifyCodeEncoder.getInstance().encodeNeedCompareVerifyCode(VERIFY_CODE, CELLPHONE);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

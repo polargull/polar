@@ -19,7 +19,7 @@ import com.polarbear.web.regist.bean.ReturnVerifyCode;
 public class AppRegisterStep1Service {
     @Autowired(required = false)
     SmsService smsService;
-    VerifyCodeEncoder verifyCodeEncoder = new VerifyCodeEncoder();
+    VerifyCodeEncoder verifyCodeEncoder = VerifyCodeEncoder.getInstance();
     
     public ReturnVerifyCode completeStep1(long cellphone) throws RemoteInvokeServiceException, UnsupportedEncodingException {
         SmsMessage smsMessage = SmsMessageCreater.createMsg(SmsMessageCreater.REGISTER_VERIFICATION_CODE);
