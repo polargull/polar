@@ -3,7 +3,8 @@ package com.polarbear.util;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
+
+import org.joda.time.DateTime;
 
 import com.polarbear.domain.User;
 
@@ -14,7 +15,6 @@ public class MD5Util {
 	 * 
 	 * @param user
 	 *            要激活的帐户
-	 * @return 将随机数和email组合后，通过md5加密后的16进制格式的字符串
 	 */
 	public static String generateCheckcode(User user) {
 		String randomCode = user.getEmail();
@@ -23,8 +23,7 @@ public class MD5Util {
 	}
 	
 	public static String generateCheckcodeData() {
-		//String randomCode = user.getEmail();
-		String s = DateFormatUtil.formatDateH(new Date());
+		String s = new DateTime().toString("yyyy-MM-dd HH");
 		return encode2hex(s);
 	}
 
