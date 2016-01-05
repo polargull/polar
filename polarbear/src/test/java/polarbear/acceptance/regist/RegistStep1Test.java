@@ -20,7 +20,7 @@ public class RegistStep1Test {
     public static String RETURN_ENCODE_VERIFY_CODE;
 
     @Test
-    public void shouldReturnVerifyCodeWhenInputCorrectCellphoneOnRegistStep1() throws UnsupportedEncodingException {
+    public void shouldReturnVerifyCodeWhenInputCorrectCellphoneOnRegistStep1() {
         anRequest(REGIST_STEP1_URL)
         .addParams("cellphone", String.valueOf(NEW_CELLPHONE))
         .post(new ResultCallback() {
@@ -37,7 +37,7 @@ public class RegistStep1Test {
     }
 
     @Test
-    public void shouldInvalidWhenInputErrCellphoneOnRegistStep1() throws UnsupportedEncodingException {
+    public void shouldInvalidWhenInputErrCellphoneOnRegistStep1() {
         anRequest(REGIST_STEP1_URL)
         .addParams("cellphone", String.valueOf(ERR_CELLPHONE))
         .post(new ResultCallback() {

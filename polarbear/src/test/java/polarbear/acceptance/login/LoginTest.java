@@ -24,7 +24,7 @@ import com.polarbear.util.cookie.UserCookieUtil;
 public class LoginTest {
     
     @Test
-    public void shouldValidateWhenInputCorrectNameAndPwd() throws MalformedURLException, IOException, SAXException {
+    public void shouldValidateWhenInputCorrectNameAndPwd() {
         anRequest(LOGIN_URL)
             .addParams("uname", UNAME)
             .addParams("password", PWD)
@@ -40,7 +40,7 @@ public class LoginTest {
     }
     
     @Test
-    public void shouldInValidateWhenInputErrNameAndPwd() throws MalformedURLException, IOException, SAXException {
+    public void shouldInValidateWhenInputErrNameAndPwd() {
         anRequest(LOGIN_URL)
             .addParams("uname", ERROR_UNAME)
             .addParams("password", ERROR_PWD)

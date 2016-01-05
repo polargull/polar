@@ -46,7 +46,7 @@ public class Request {
         return this;
     }
 
-    public Request addParams(String name, String value) throws UnsupportedEncodingException {
+    public Request addParams(String name, String value) {
         reqParam.put(name, value);
         return this;
     }
@@ -63,7 +63,7 @@ public class Request {
         }
     }
 
-    private void handleReq(ResultCallback callback) throws IOException, SAXException, UnsupportedEncodingException {
+    private void handleReq(ResultCallback callback) throws IOException, SAXException {
         WebResponse response = mockExplore.getResponse(req);
         JsonResult jsonResult = JsonResultConvertUtil.convertJsonObj(response.getText());
         callback.getMockExplore(mockExplore);
