@@ -10,11 +10,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import polarbear.acceptance.AbstractAcceptanceTest;
 import polarbear.acceptance.Request.ResultCallback;
 import static polarbear.test.util.Constants.*;
 
@@ -23,16 +21,11 @@ import com.polarbear.service.login.LoginData;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.UserCookieUtil;
 
-public class LoginTest extends AbstractAcceptanceTest {
+public class LoginTest {
     
-    @Before
-    public void setUp() throws Exception {
-        super.setUp(LOGIN_URL);
-    }
-
     @Test
     public void shouldValidateWhenInputCorrectNameAndPwd() throws MalformedURLException, IOException, SAXException {
-        anRequest(url)
+        anRequest(LOGIN_URL)
             .addParams("uname", UNAME)
             .addParams("password", PWD)
             .post(new ResultCallback() {
@@ -48,7 +41,7 @@ public class LoginTest extends AbstractAcceptanceTest {
     
     @Test
     public void shouldInValidateWhenInputErrNameAndPwd() throws MalformedURLException, IOException, SAXException {
-        anRequest(url)
+        anRequest(LOGIN_URL)
             .addParams("uname", ERROR_UNAME)
             .addParams("password", ERROR_PWD)
             .post(new ResultCallback() {

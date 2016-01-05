@@ -46,7 +46,6 @@
   		<dependency org="javax.servlet" name="javax.servlet-api" rev="3.1.0" conf="test->default;provided->default" />
   		<dependency org="org.springframework" name="spring-orm" rev="3.2.4.RELEASE" conf="test->default;default" />
   		<dependency org="joda-time" name="joda-time" rev="2.9.1" conf="test->default;default" />
-  		<dependency org="org.joda" name="joda-convert" rev="1.2" conf="test->default;default" />
   		<dependency org="com.alibaba" name="fastjson" rev="1.2.7" conf="test->default;default" />
   		<dependency org="org.springframework" name="spring-context" rev="3.2.4.RELEASE" conf="test->default;default" />
   		<dependency org="org.springframework" name="spring-webmvc" rev="3.2.4.RELEASE" conf="test->default;default" />

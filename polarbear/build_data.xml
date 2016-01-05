@@ -16,12 +16,19 @@
 	</target>
 	<target name="mysql-drop-table" depends="mysql-init" description="create the database and account">
 		<ext:mysql-admin>
+			SET FOREIGN_KEY_CHECKS = 0;
+			DROP TABLE IF EXISTS `shopcart_log`;
+			DROP TABLE IF EXISTS `product_style`;
+			DROP TABLE IF EXISTS `product`;
+			DROP TABLE IF EXISTS `shopcart`;
 			DROP TABLE IF EXISTS `user`;
+			SET FOREIGN_KEY_CHECKS = 1;
 		</ext:mysql-admin>
 	</target>
 	<target name="mysql-create-data" depends="mysql-init" description="create the database and account">
 		<ext:mysql-admin>
 			insert into `user`(`cellphone`,`name`,`pwd`,`createTime`) values('13717686218','极地鸥','e10adc3949ba59abbe56e057f20f883e',unix_timestamp());
+			INSERT INTO `product`(`count`,`createTime`,`p_desc`,`image`,`name`,`price`,`state`) VALUES (2, unix_timestamp(), '儿童玩具', 'http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;', '变性精钢', 100, 1);
 		</ext:mysql-admin>
 	</target>
 </project>
