@@ -8,12 +8,13 @@ public class UserBuilder {
     private String uname;
     private String pwd;
     private long cellphone;
+    private int createTime;
     
     private long id;
     public static UserBuilder anUser() {
         return new UserBuilder();
     }
-
+    
     public UserBuilder withID(long id) {
         this.id = ID.generate();
         return this;
@@ -21,6 +22,11 @@ public class UserBuilder {
     
     public UserBuilder withUname(String uname) {
         this.uname = uname;
+        return this;
+    }
+    
+    public UserBuilder withCreateTime(int createTime) {
+        this.createTime = createTime;
         return this;
     }
     
@@ -33,6 +39,7 @@ public class UserBuilder {
         this.pwd = pwd;
         return this;
     }
+    
 
     public User build() {
         User user = new User();
@@ -42,6 +49,7 @@ public class UserBuilder {
         user.setName(uname);
         user.setPwd(pwd);
         user.setCellphone(cellphone);
+        user.setCreateTime(createTime);
         return user;
     }
 }

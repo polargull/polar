@@ -22,6 +22,6 @@ public class DateUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(new DateTime(getCurrentSeconds() * 1000l).toString("yyyy-MM-dd HH:mm:ss"));
+        System.out.println(getCurrentSeconds() * 1000l);
     }
 }

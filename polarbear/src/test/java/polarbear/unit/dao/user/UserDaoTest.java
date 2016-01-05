@@ -18,6 +18,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
+import com.polarbear.util.DateUtil;
+
 import static polarbear.test.util.Constants.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,7 +44,7 @@ public class UserDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Test
     public void shouldRegisterSuccessWhenInputCorrectUnameAndPwdAndCellphone() {
         try {
-            userDao.store(anUser().withUname(NEW_REGISTER).withPassword(MD5_PWD).withCellphone(NEW_CELLPHONE).build());
+            userDao.store(anUser().withUname(NEW_REGISTER).withPassword(MD5_PWD).withCellphone(NEW_CELLPHONE).withCreateTime(DateUtil.getCurrentSeconds()).build());
         } catch (DaoException e) {
             fail("注册dao操作失败了,msg:" + e.getMessage());
         }

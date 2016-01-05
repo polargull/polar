@@ -18,6 +18,7 @@ import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
+import com.polarbear.util.DateUtil;
 import com.polarbear.util.MD5Util;
 import com.polarbear.util.date.IClock;
 import com.polarbear.util.date.SystemClock;
@@ -52,7 +53,7 @@ public class AppRegisterStep2Service {
 
     private User storeUser(long cellPhone, String pwd) throws DaoException {
         String md5_pwd = MD5Util.encode2hex(pwd);
-        User user = new User(String.valueOf(cellPhone), md5_pwd, cellPhone);
+        User user = new User(String.valueOf(cellPhone), md5_pwd, cellPhone, DateUtil.getCurrentSeconds());
         userDao.store(user);
         return user;
     }

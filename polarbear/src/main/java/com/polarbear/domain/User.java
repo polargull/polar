@@ -10,26 +10,27 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
-
 @NamedQueries( { @NamedQuery(name = "queryUnameAndPwd", query = "from User u where u.name = ? and u.pwd = ?"),
         @NamedQuery(name = "findUserByGenderAndNameAndPage", query = "from User u where u.name = ? and u.gender = ?"),
         @NamedQuery(name = "updateUserNameByGender", query = "update User u set u.name = ? where u.gender = ?") })
 @Entity
-@Table(name = "user",uniqueConstraints = {@UniqueConstraint(columnNames="name"),@UniqueConstraint(columnNames="cellphone")})
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = "name"), @UniqueConstraint(columnNames = "cellphone") })
 public class User {
     @Id
     @GeneratedValue
     Long id;
-    @Column(nullable=false)
+    @Column(nullable = false)
     String name;
-    @Column(nullable=false)
+    @Column(nullable = false)
     String pwd;
     @Column
     String email;
-    @Column(nullable=false)
+    @Column(nullable = false)
     Long cellphone;
     @Column
     Short gender;
+    @Column(nullable = false)
+    Integer createTime;
 
     public User() {
     }
@@ -52,12 +53,13 @@ public class User {
         this.cellphone = cellphone;
         this.gender = gender;
     }
-    
-    public User(String name, String pwd, Long cellphone) {
+
+    public User(String name, String pwd, Long cellphone, Integer createTime) {
         super();
         this.name = name;
         this.pwd = pwd;
         this.cellphone = cellphone;
+        this.createTime = createTime;
     }
 
     public Long getId() {
@@ -106,6 +108,14 @@ public class User {
 
     public void setGender(Short gender) {
         this.gender = gender;
+    }
+
+    public Integer getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Integer createTime) {
+        this.createTime = createTime;
     }
 
 }
