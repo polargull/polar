@@ -29,4 +29,6 @@
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/" p:suffix=".jsp" />
+		
+	<import resource="spring-mvc-interceptor.xml"/>
 </beans>
