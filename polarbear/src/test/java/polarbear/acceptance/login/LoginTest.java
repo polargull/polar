@@ -1,20 +1,25 @@
 package polarbear.acceptance.login;
 
-import static com.polarbear.util.Constants.ResultState.*;
-import static org.hamcrest.CoreMatchers.*;
+import static com.polarbear.util.Constants.ResultState.LOGIN_NAME_PWD_ERR;
+import static com.polarbear.util.Constants.ResultState.SUCCESS;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
-import static polarbear.test.util.JsonResultConvertUtil.*;
+import static polarbear.test.util.Constants.ERROR_PWD;
+import static polarbear.test.util.Constants.ERROR_UNAME;
+import static polarbear.test.util.Constants.LOGIN_URL;
+import static polarbear.test.util.Constants.PWD;
+import static polarbear.test.util.Constants.UNAME;
+import static polarbear.test.util.JsonResultConvertUtil.resultBody;
+import static polarbear.test.util.JsonResultConvertUtil.resultState;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
 import polarbear.acceptance.Request.ResultCallback;
-import static polarbear.test.util.Constants.*;
 
 import com.meterware.httpunit.WebResponse;
 import com.polarbear.service.login.LoginData;
