@@ -101,7 +101,7 @@ public class Constants {
         , DB_ERR("E00001000", "数据库错误")
         , SYSTEM_ERR("E00001001", "系统错误，请稍后重试")
         , R_MOBILE_ERR("E00001003", "该号码已经注册")
-        , R_12("E00001004", "用户名格式错误")
+        , COOKIE_ERR("E00001004", "Cookie中的数据校验错误")
         , LOGIN_NAME_PWD_ERR("E00001005", "用户或密码不正确")
         , R_14("E00001006", "密码错误")
         , UPLOAD_SUCCESS("E00001007", "上传成功")
