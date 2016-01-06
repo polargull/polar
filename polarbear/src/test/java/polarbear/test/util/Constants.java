@@ -20,6 +20,10 @@ public class Constants {
     public static final String NEW_REGISTER = "Test_"+new SystemClock().now().getMinuteOfDay();
     public static final long NEW_CELLPHONE = RandomUtil.getMockCellPhone();
     public static final long PRODUCT_ID = 1L;
+    public static final String PRODUCT_NAME = "变形精钢";
+    public static final int PRODUCT_COUNT = 1;
+    public static final double PRODUCT_PRICE = 100D;
+    
     public static final String LOGIN_URL = Loader.getInstance().getProps("login.url");
     public static final String REGIST_STEP1_URL = Loader.getInstance().getProps("regist.step1.url");
     public static final String REGIST_STEP2_URL = Loader.getInstance().getProps("regist.step2.url");
