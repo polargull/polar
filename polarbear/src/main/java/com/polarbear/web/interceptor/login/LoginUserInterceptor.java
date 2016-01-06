@@ -4,13 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.polarbear.util.cookie.CookieHelper;
 import com.polarbear.util.cookie.UserCookieUtil;
-import com.polarbear.web.interceptor.AbstractHandlerInterceptor;
 
 @Component
-public class LoginUserInterceptor extends AbstractHandlerInterceptor {
+public class LoginUserInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
