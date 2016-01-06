@@ -64,7 +64,8 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
         });
         Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE);
         MvcResult result = mockMvc.perform(post(REGIST_STEP2_URL).cookie(cookie).param("verifycode", String.valueOf(VERIFY_CODE)).param("pwd", PWD)).andExpect(status().isOk())
-                .andDo(print()).andReturn();
+//                .andDo(print())
+                .andReturn();
         assertThat(resultState(result), is(SUCCESS));
         assertThat(result.getResponse().getCookie(UserCookieUtil.COOKIE_NAME).getValue(), not(nullValue()));
         assertThat(resultBody(result, LoginData.class).getUser().getName(), is(UNAME));
@@ -90,7 +91,9 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
         MockHttpServletRequestBuilder mockRequest = post(REGIST_STEP2_URL).param("verifycode", verifycode).param("pwd", pwd);
         if (cookie != null)
             mockRequest.cookie(cookie);
-        MvcResult result = mockMvc.perform(mockRequest).andExpect((verifycode == null || pwd == null) ? status().isBadRequest() : status().isOk()).andDo(print()).andReturn();
+        MvcResult result = mockMvc.perform(mockRequest).andExpect((verifycode == null || pwd == null) ? status().isBadRequest() : status().isOk())
+//        .andDo(print())
+        .andReturn();
         if (verifycode == null || pwd == null) {
             return;
         }
@@ -107,7 +110,8 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
         });
         Cookie cookie = new Cookie(AppRegisterController.ENCODE_VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE);
         MvcResult result = mockMvc.perform(post(REGIST_STEP2_URL).cookie(cookie).param("verifycode", String.valueOf(VERIFY_CODE)).param("pwd", PWD)).andExpect(status().isOk())
-                .andDo(print()).andReturn();
+//                .andDo(print())
+                .andReturn();
         assertThat(resultState(result), is(PARAM_ERR));
     }
 

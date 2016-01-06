@@ -49,7 +49,7 @@ public class LoginControllerTest extends AbstractContextControllerTest {
                     .param("uname", UNAME)
                     .param("password", PWD))
             .andExpect(status().isOk())
-            .andDo(print())
+//            .andDo(print())
             .andReturn();
         assertThat(result.getResponse().getCookie(UserCookieUtil.COOKIE_NAME).getValue(),not(nullValue()));
         assertThat(resultState(result), is(SUCCESS));

@@ -76,7 +76,6 @@ public class HaveStyleProductTest extends
 		long stylekey = jdbcTemplate.queryForObject(
 				"select productStyle_id from product where id = ? ",
 				new Object[] { testProduct.getId() }, Long.class);
-		System.out.println(stylekey+" "+testStyle.getId());
 		assertEquals(stylekey, testStyle.getId());
 	}
 }

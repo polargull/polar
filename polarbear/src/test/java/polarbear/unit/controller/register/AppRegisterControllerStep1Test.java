@@ -47,7 +47,7 @@ public class AppRegisterControllerStep1Test extends AbstractContextControllerTes
             .perform(post(REGIST_STEP1_URL)
                     .param("cellphone", String.valueOf(CELLPHONE)))
             .andExpect(status().isOk())
-            .andDo(print())
+//            .andDo(print())
             .andReturn();
         assertThat(result.getResponse().getCookie(AppRegisterController.ENCODE_VERIFY_CODE).getValue(),not(equalTo("")));
         assertThat(resultState(result), is(SUCCESS));
@@ -67,7 +67,7 @@ public class AppRegisterControllerStep1Test extends AbstractContextControllerTes
             .perform(post(REGIST_STEP1_URL)
                     .param("cellphone", String.valueOf(ERR_CELLPHONE)))
             .andExpect(status().isOk())
-            .andDo(print())
+//            .andDo(print())
             .andReturn();
         assertThat(result.getResponse().getCookie(AppRegisterController.ENCODE_VERIFY_CODE),nullValue());
         assertThat(resultState(result), is(PARAM_ERR));
@@ -87,7 +87,7 @@ public class AppRegisterControllerStep1Test extends AbstractContextControllerTes
             .perform(post(REGIST_STEP1_URL)
                     .param("cellphone", String.valueOf(CELLPHONE)))
             .andExpect(status().isOk())
-            .andDo(print())
+//            .andDo(print())
             .andReturn();
         assertThat(result.getResponse().getCookie(AppRegisterController.ENCODE_VERIFY_CODE), nullValue());
         assertThat(resultState(result), is(SMS_SEND_FAIL));
