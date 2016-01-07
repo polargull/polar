@@ -3,8 +3,6 @@ package com.polarbear.web.interceptor.login;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -17,15 +15,15 @@ import com.polarbear.domain.User;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.CookieHelper;
 import com.polarbear.util.cookie.UserCookieUtil;
+import com.polarbear.util.factory.CurrentThreadUserFactory;
 
 public class LoginUserInterceptor extends HandlerInterceptorAdapter {
 //    private Log log = LogFactory.getLog(LoginUserInterceptor.class);
-    private static final ThreadLocal<User> threadLocal = new ThreadLocal<User>();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
-            decodeAndSetUserToThreadLocal(request);
+            decodeAndSetUserToThreadLocal(request);            
         } catch (ValidateException e) {
             response.getWriter().write(JSONObject.toJSONString(new JsonResult(e.state)));
             return false;
@@ -35,12 +33,12 @@ public class LoginUserInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        threadLocal.remove();
+        CurrentThreadUserFactory.remove();
     }
 
     private void decodeAndSetUserToThreadLocal(HttpServletRequest request) throws ValidateException, DaoException {
         long uid = decodeUserId(request);
-        threadLocal.set(getUser(request, uid));
+        CurrentThreadUserFactory.setUser(getUser(request, uid));
     }
 
     private User getUser(HttpServletRequest request, long uid) throws DaoException {
