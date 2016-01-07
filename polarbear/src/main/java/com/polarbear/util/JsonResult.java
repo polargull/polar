@@ -46,6 +46,11 @@ public class JsonResult {
         this.head = head;
     }
 
+    public JsonResult put(Object value) {
+        this.body.put(value.getClass().getSimpleName().toLowerCase(), value);
+        return this;
+    }
+
     public JsonResult put(String key, Object value) {
         this.body.put(key.toLowerCase(), value);
         return this;
