@@ -3,6 +3,8 @@ package com.polarbear.web.interceptor.login;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -18,10 +20,11 @@ import com.polarbear.util.cookie.UserCookieUtil;
 import com.polarbear.util.factory.CurrentThreadUserFactory;
 
 public class LoginUserInterceptor extends HandlerInterceptorAdapter {
-//    private Log log = LogFactory.getLog(LoginUserInterceptor.class);
+    private Log log = LogFactory.getLog(LoginUserInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.debug("");
         try {
             decodeAndSetUserToThreadLocal(request);            
         } catch (ValidateException e) {
@@ -33,6 +36,7 @@ public class LoginUserInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        log.debug("");
         CurrentThreadUserFactory.remove();
     }
 

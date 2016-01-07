@@ -24,25 +24,21 @@ import com.polarbear.util.JsonResult;
 @Controller
 @RequestMapping("/shopcart")
 public class ShopcartController {
-    private Log log = LogFactory.getLog(ShopcartController.class);
+    private Log                log = LogFactory.getLog(ShopcartController.class);
 
     @Autowired(required = false)
     private AddShopcartService AddShopcartService;
 
     @RequestMapping(value = { "/addShopcart.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object addShopcart(HttpServletResponse response, HttpServletRequest request, @RequestParam("pid") String pid) {
-        log.debug("pid="+pid);
-        try {
-            validate(pid);
-            AddShopcartService.addShopcart(Long.valueOf(pid));
-            log.debug("addShopcart end!");
-        } catch (ValidateException e) {
-            return new JsonResult(e.state);
-        }
+    public Object addShopcart(HttpServletResponse response, HttpServletRequest request, @RequestParam("pid") String pid) throws ValidateException {
+        log.debug("pid=" + pid);
+        validate(pid);
+        AddShopcartService.addShopcart(Long.valueOf(pid));
+        log.debug("addShopcart end!");
         return new JsonResult(SUCCESS).put(new MyShopcart());
     }
-    
+
     private void validate(String pid) throws ValidateException {
         if (!NumberUtils.isDigits(pid)) {
             throw new ValidateException(PARAM_ERR);
