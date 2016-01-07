@@ -10,6 +10,8 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 @NamedQueries( { @NamedQuery(name = "queryUnameAndPwd", query = "from User u where u.name = ? and u.pwd = ?"),
         @NamedQuery(name = "findUserByGenderAndNameAndPage", query = "from User u where u.name = ? and u.gender = ?"),
         @NamedQuery(name = "updateUserNameByGender", query = "update User u set u.name = ? where u.gender = ?") })
@@ -78,6 +80,7 @@ public class User {
         this.name = name;
     }
 
+    @JSONField(serialize = false)
     public String getPwd() {
         return pwd;
     }
