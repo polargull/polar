@@ -20,6 +20,7 @@ public class Constants {
     public static final String NEW_REGISTER = "Test_"+new SystemClock().now().getMinuteOfDay();
     public static final long NEW_CELLPHONE = RandomUtil.getMockCellPhone();
     public static final long PRODUCT_ID = 1L;
+    public static final String ERR_PRODUCT_ID = "adf";
     public static final String PRODUCT_NAME = "变形精钢";
     public static final int PRODUCT_COUNT = 1;
     public static final double PRODUCT_PRICE = 100D;

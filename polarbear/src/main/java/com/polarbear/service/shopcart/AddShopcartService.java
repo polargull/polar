@@ -21,7 +21,7 @@ public class AddShopcartService {
 
     public MyShopcart addShopcart(long pid) {
         User user = CurrentThreadUserFactory.getUser();
-        log.debug("user:" + user.getName());
+        
         return null;
     }
 }

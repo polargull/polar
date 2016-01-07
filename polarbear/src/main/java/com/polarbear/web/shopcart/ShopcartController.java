@@ -32,7 +32,7 @@ public class ShopcartController {
     @RequestMapping(value = { "/addShopcart.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public Object addShopcart(HttpServletResponse response, HttpServletRequest request, @RequestParam("pid") String pid) {
-        log.debug("addShopcart begin!");
+        log.debug("pid="+pid);
         try {
             validate(pid);
             AddShopcartService.addShopcart(Long.valueOf(pid));
