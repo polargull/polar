@@ -37,7 +37,7 @@ public class LoginController {
             validate(uname, password);
             LoginData loginData = loginService.login(uname, password);
             UserCookieUtil.saveUserCookie(loginData.getUser(), request, response, 0);
-            return new JsonResult(SUCCESS).put(LoginData.class.getSimpleName(), loginData);
+            return new JsonResult(SUCCESS).put(loginData);
         } catch (LoginException e) {
             return new JsonResult(LOGIN_NAME_PWD_ERR);
         } catch (DaoException e) {
