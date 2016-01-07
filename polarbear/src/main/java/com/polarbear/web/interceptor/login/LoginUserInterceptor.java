@@ -7,19 +7,25 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.alibaba.fastjson.JSONObject;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
+import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.CookieHelper;
 import com.polarbear.util.cookie.UserCookieUtil;
-
 
 public class LoginUserInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        setUserToRequest(request);
+        try {
+            setUserToRequest(request);
+        } catch (ValidateException e) {
+            response.getWriter().write(JSONObject.toJSONString(new JsonResult(e.state)));
+            return false;
+        }
         return true;
     }
 

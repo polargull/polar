@@ -12,7 +12,7 @@ public class LoginUserDecoder {
 
     public static long decodeUserId(String loginUserDecode) throws ValidateException {
         if (StringUtils.isEmpty(loginUserDecode)) {
-            throw new ValidateException(COOKIE_ERR);
+            throw new ValidateException(NEED_LOGIN);
         }
         String cookieValueDecode = new String(Base64.decode(loginUserDecode));
         String cookieValues[] = cookieValueDecode.split(":");
