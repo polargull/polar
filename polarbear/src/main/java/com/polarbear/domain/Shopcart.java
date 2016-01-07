@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 @Entity
 @Table(name = "shopcart")
 public class Shopcart {
@@ -29,7 +31,8 @@ public class Shopcart {
         this.price = price;
         this.createTime = createTime;
     }
-
+    
+    @JSONField(serialize = false)
     public long getId() {
         return id;
     }
@@ -38,6 +41,7 @@ public class Shopcart {
         this.id = id;
     }
 
+    @JSONField(serialize = false)
     public User getUser() {
         return user;
     }
@@ -62,6 +66,7 @@ public class Shopcart {
         this.price = price;
     }
 
+    @JSONField(serialize = false)
     public Integer getCreateTime() {
         return createTime;
     }
