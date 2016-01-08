@@ -54,7 +54,7 @@ public class JsonResultConvertUtil {
         return resultBody(jsonResult, clazz);
     }
 
-    private static JsonResult convertJsonObj(MvcResult result) throws UnsupportedEncodingException {
+    public static JsonResult convertJsonObj(MvcResult result) throws UnsupportedEncodingException {
         return convertJsonObj(result.getResponse().getContentAsString());
     }
 

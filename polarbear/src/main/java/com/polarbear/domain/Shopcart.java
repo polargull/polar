@@ -7,8 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
 import com.alibaba.fastjson.annotation.JSONField;
 
+@NamedQueries( { @NamedQuery(name = "queryUserId", query = "from Shopcart sc where sc.user_id = ?") })
 @Entity
 @Table(name = "shopcart")
 public class Shopcart {

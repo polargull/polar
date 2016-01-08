@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.polarbear.dao.BaseDao;
+import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Product;
 import com.polarbear.domain.Shopcart;
 import com.polarbear.domain.User;
@@ -19,9 +20,9 @@ public class AddShopcartService {
     @Autowired
     BaseDao<Product> productDao;
 
-    public MyShopcart addShopcart(long pid) {
+    public int addShopcart(long pid) throws DaoException {
         User user = CurrentThreadUserFactory.getUser();
-        
-        return null;
+        shopcartDao.findByNamedQueryObject("queryUserId", Long.valueOf(pid));
+        return 0;
     }
 }

@@ -17,26 +17,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polarbear.ValidateException;
+import com.polarbear.dao.DaoException;
 import com.polarbear.service.shopcart.AddShopcartService;
 import com.polarbear.service.shopcart.MyShopcart;
 import com.polarbear.util.JsonResult;
+import com.polarbear.util.cookie.CookieHelper;
 
 @Controller
 @RequestMapping("/shopcart")
 public class ShopcartController {
     private Log                log = LogFactory.getLog(ShopcartController.class);
+    public static String COUNT = "count";
 
     @Autowired(required = false)
-    private AddShopcartService AddShopcartService;
+    private AddShopcartService addShopcartService;
 
     @RequestMapping(value = { "/addShopcart.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object addShopcart(HttpServletResponse response, HttpServletRequest request, @RequestParam("pid") String pid) throws ValidateException {
+    public Object addShopcart(HttpServletResponse response, HttpServletRequest request, @RequestParam("pid") String pid) throws ValidateException, DaoException {
         log.debug("pid=" + pid);
         validate(pid);
-        AddShopcartService.addShopcart(Long.valueOf(pid));
-        log.debug("addShopcart end!");
-        return new JsonResult(SUCCESS).put(new MyShopcart());
+        int count = addShopcartService.addShopcart(Long.valueOf(pid));
+        CookieHelper.setCookie(response, COUNT, String.valueOf(count));
+        log.debug("pid = " + pid + ", op successful!");
+        return new JsonResult(SUCCESS);
     }
 
     private void validate(String pid) throws ValidateException {
