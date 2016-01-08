@@ -20,7 +20,7 @@ import com.polarbear.service.shopcart.ShopcartProduct;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.UserCookieUtil;
 
-public class ShopcartAddTest {
+public class AddShopcartTest {
 
     @Test
     public void shouldSuccessReturnShopcartJsonDataWhenSelectProductAddShopcartAndUserLogined() {
