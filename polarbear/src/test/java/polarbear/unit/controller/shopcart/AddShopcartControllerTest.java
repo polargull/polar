@@ -20,16 +20,16 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import polarbear.unit.controller.AbstractContextControllerTest;
 
 import com.polarbear.dao.DaoException;
-import com.polarbear.service.shopcart.AddShopcartService;
+import com.polarbear.service.shopcart.ModifyShopcartService;
 import com.polarbear.web.shopcart.ShopcartController;
 
 public class AddShopcartControllerTest extends AbstractContextControllerTest {
     ShopcartController shopcartController = new ShopcartController();
-    public AddShopcartService addShopcartService;
+    public ModifyShopcartService modifyShopcartService;
 
     @Before
     public void setup() {
-        setServiceAndDependentComponent(shopcartController, "addShopcartService");
+        setServiceAndDependentComponent(shopcartController, "modifyShopcartService");
         super.setUp(shopcartController);
     }
 
@@ -37,7 +37,7 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
     public void shouldReturnShopcartCountInCookieWhenInputProductId() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(addShopcartService).addShopcart(PRODUCT_ID);
+                allowing(modifyShopcartService).addShopcart(PRODUCT_ID);
                 // 设定预期值
                 will(returnValue(1));
             }
@@ -57,7 +57,7 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
     public void shouldInvalidateWhenInputErrProductId() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(addShopcartService).addShopcart(PRODUCT_ID);
+                allowing(modifyShopcartService).addShopcart(PRODUCT_ID);
                 // 设定预期值
                 will(returnValue(1));
             }
@@ -78,12 +78,12 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
             .andReturn();
         assertThat(resultState(result), is(PARAM_ERR));
     }
-    
+
     @Test
     public void shouldInvalidateWhenAddShopcartServiceDaoErr() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(addShopcartService).addShopcart(PRODUCT_ID);
+                allowing(modifyShopcartService).addShopcart(PRODUCT_ID);
                 // 设定预期值
                 will(throwException(new DaoException(DB_ERR)));
             }

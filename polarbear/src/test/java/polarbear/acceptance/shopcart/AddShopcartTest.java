@@ -32,7 +32,7 @@ public class AddShopcartTest {
                 MyShopcart myShopcart = resultBody(jsonResult, MyShopcart.class);
                 ShopcartProduct p = resultBody(jsonResult, MyShopcart.class).getProductList().get(0);
                 assertThat(p.getName(), is(PRODUCT_NAME));
-                assertThat(myShopcart.getShopcart().getCount(), is(PRODUCT_COUNT));
+                assertThat(myShopcart.getShopcart().getProductNum(), is(PRODUCT_COUNT));
             }
         });
     }

@@ -37,7 +37,7 @@ public class HaveStyleProductTest extends
 
 		testProduct = new Product();
 		testProduct.setName("test1");
-		testProduct.setCount(10);
+		testProduct.setNum(10);
 		testProduct.setProductStyle(testStyle);
 		testProduct.setCreateTime(11111);
 		testProduct.setExtProperty("{color:\"红色\",size:\"M\"}");

@@ -1,7 +1,9 @@
 package com.polarbear.dao;
 
+import static com.polarbear.util.Constants.ResultState.DB_ERR;
+
 import java.util.List;
-import static com.polarbear.util.Constants.ResultState.*;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class BaseDao<T> {
@@ -17,7 +18,6 @@ public class BaseDao<T> {
     @Autowired
     private HibernateTemplate hibernateTemplate;
 
-    @Transactional
     public void store(T obj) throws DaoException {
         try {
             hibernateTemplate.saveOrUpdate(obj);

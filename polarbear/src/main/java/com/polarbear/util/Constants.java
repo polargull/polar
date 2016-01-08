@@ -17,29 +17,13 @@ public class Constants {
     public static String REQ_SUF_JSON = ".json";
 
     /**
-     * 标签类型
+     * 商品状态
      */
-    public static enum TAG_TYPE {
-        /**
-         * 文字标签(默认标签)
-         */
-        DEFAULT(1),
-        /**
-         * 地点标签
-         */
-        PLACE(2),
-        /**
-         * 人物标签
-         */
-        PEOPLE(3),
-        /**
-         * 语音标签
-         */
-        VOICE(4);
-
+    public enum PRODUCT_STATE {
+        PUT_ON(1), PULL_OFF(2);
         private final int value;
 
-        TAG_TYPE(int value) {
+        PRODUCT_STATE(int value) {
             this.value = value;
         }
 
@@ -47,44 +31,7 @@ public class Constants {
             return this.value;
         }
     }
-
-    /**
-     * 排序类型
-     */
-    public static enum SORT_TYPE {
-        ASC("ASC"), DESC("DESC");
-
-        private final String value;
-
-        SORT_TYPE(String value) {
-            this.value = value;
-        }
-
-        public String value() {
-            return value;
-        }
-    }
-
-    /**
-     * 排序类型，升序 OR 降序
-     * 
-     * @author james
-     * 
-     */
-    public enum ComparaType {
-        DESC("DESC"), ASC("ASC");
-
-        private final String value;
-
-        ComparaType(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
+   
     /**
      * 操作结果,不够了
      */
@@ -112,7 +59,7 @@ public class Constants {
         , R_20("E0000100C", "时间选择超出设置范围")
         , R_21("E0000100D", "订单与用户不匹配")
         , R_22("E0000100E", " 查询订单与支付订单不匹配")
-        , R_23("E0000100F", " 支付方式不正确 ");
+        , PRODUCT_PULL_OFF("E0000100F", "抱歉,您挑选该商品刚下架");
 
         private String ecode;
         private String emsg;
@@ -130,96 +77,5 @@ public class Constants {
             return this.emsg;
         }
     }
-
-    public enum SessionKey {
-        /**
-         * 用户信息UserVO
-         */
-        USER("SESSION_USER"),
-        /**
-         * 购物车信息
-         */
-        SHOPCART("NA_IOS_SHOPCART"),
-        /**
-         * 收件箱
-         */
-        INBOX("SESSION_INBOX"),
-        /**
-         * 收件箱消息阅读器
-         */
-        INBOX_MSG_READER("SESSION_INBOX_MSG_READER"),
-        /**
-         * 登录后获取到的token
-         */
-        TOKEN("TOKEN");
-
-        private String value;
-
-        private SessionKey(String value) {
-            this.value = value;
-        }
-
-        public String value() {
-            return value;
-        }
-    }
-
-    public static class RspInfo {
-
-        public static final String KEY_ERROR_CODE = "ecode";
-
-        /**
-         * 消息
-         */
-        public static final String KEY_ERROR_MSG = "msg";
-        /**
-         * 消息外层包装
-         */
-        public static final String KEY_INFO = "info";
-    }
-
-    /**
-     * 关注 OR 粉丝
-     */
-    public static enum FOLLOW_TYPE {
-        /**
-         * 关注
-         */
-        FOLLOWER_ATTRNTION(1),
-        /**
-         * 粉丝
-         */
-        FOLLOWER_FANS(2);
-
-        private final int value;
-
-        FOLLOW_TYPE(int value) {
-            this.value = value;
-        }
-
-        public int value() {
-            return this.value;
-        }
-    }
-
-    /**
-     * ios json key
-     * 
-     * @author zhangxing 2015-3-13
-     */
-    public static enum IOS_JSON_KEY {
-        USER("UserVo"), SHOPCART("shopcart"), QQLOGINURL("qqloginURL"), QQLOGINCALLBACK("qqloginCallback"), WEIBOLOGIN("weibologin"), WEIBOLOGINCALLBACK("weibologinCallback"), AVAILTICKETNUM(
-                "availTicketNum"), COLDTICKETNUM("coldTicketNum"), UNPERFORMORDERNUM("unperformOrderNum"), WAITCOMMENTNUM("waitCommentNum"), UNPAYNUM("unpayNum"), UNRECEIVENUM(
-                "unreceiveNum"), APPEALNUM("appealNum"), ORDERLISTINFO("orderListInfo");
-
-        private String value;
-
-        private IOS_JSON_KEY(String value) {
-            this.value = value;
-        }
-
-        public String value() {
-            return value;
-        }
-    }
+    
 }

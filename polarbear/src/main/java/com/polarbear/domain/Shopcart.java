@@ -12,7 +12,10 @@ import org.hibernate.annotations.NamedQuery;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-@NamedQueries( { @NamedQuery(name = "queryUserId", query = "from Shopcart sc where sc.user_id = ?") })
+
+@NamedQueries( {
+    @NamedQuery(name = "queryUserId", query = "from Shopcart sc where sc.user = ?")
+    })
 @Entity
 @Table(name = "shopcart")
 public class Shopcart {
@@ -22,7 +25,7 @@ public class Shopcart {
     @OneToOne
     User user;
     @Column
-    Integer count;
+    Integer productNum;
     @Column
     Double price;
     @Column
@@ -31,7 +34,7 @@ public class Shopcart {
     public Shopcart(User user, Integer count, Double price, Integer createTime) {
         super();
         this.user = user;
-        this.count = count;
+        this.productNum = count;
         this.price = price;
         this.createTime = createTime;
     }
@@ -54,12 +57,12 @@ public class Shopcart {
         this.user = user;
     }
 
-    public Integer getCount() {
-        return count;
+    public Integer getProductNum() {
+        return productNum;
     }
 
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setProductNum(Integer count) {
+        this.productNum = count;
     }
 
     public Double getPrice() {

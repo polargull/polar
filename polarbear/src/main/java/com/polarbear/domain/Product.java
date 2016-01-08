@@ -8,8 +8,11 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+
+import com.polarbear.util.DateUtil;
 @NamedQueries( {
-	@NamedQuery(name = "querySameStyleProductByStyleId", query = "from Product p where p.productStyle.id = ?")
+	@NamedQuery(name = "querySameStyleProductByStyleId", query = "from Product p where p.productStyle.id = ?"),
+	@NamedQuery(name = "queryProductByIdAndState", query = "from Product p where p.id = ? and p.state = ?")
 	})
 @Entity
 public class Product {
@@ -21,7 +24,7 @@ public class Product {
 	@Column
 	String name;
 	@Column
-	int count;
+	int num;
 	@Column(name = "p_desc")
 	String desc;
 	@Column
@@ -94,12 +97,12 @@ public class Product {
 		this.name = name;
 	}
 
-	public int getCount() {
-		return count;
+	public int getNum() {
+		return num;
 	}
 
-	public void setCount(int count) {
-		this.count = count;
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 	public ProductStyle getProductStyle() {
@@ -157,10 +160,17 @@ public class Product {
 	public void setCreateTime(int createTime) {
 		this.createTime = createTime;
 	}
+	
+    public double getRealPrice() {
+        if (salePrice >= 0 && saleBeginTime >= DateUtil.getCurrentSeconds() && saleEndTime <= DateUtil.getCurrentSeconds()) {
+            return salePrice;
+        }
+        return price;
+    }
 
 	@Override
 	public String toString() {
-		return "Product [count=" + count + ", createTime=" + createTime
+		return "Product [count=" + num + ", createTime=" + createTime
 				+ ", desc=" + desc + ", extProperty=" + extProperty + ", id="
 				+ id + ", image=" + image + ", name=" + name + ", price="
 				+ price + ", saleBeginTime=" + saleBeginTime + ", saleEndTime="

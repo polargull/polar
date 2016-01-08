@@ -24,7 +24,7 @@ public class ShopcartProduct {
     }
 
     public int getCount() {
-        return product.getCount();
+        return product.getNum();
     }
 
     public double getPrice() {

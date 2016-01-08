@@ -28,7 +28,7 @@ public class ProductBuilder {
         ProductStyle style = styleBuilder.build();
         p.setId(id);
         p.setName("test1");
-        p.setCount(10);
+        p.setNum(10);
         p.setProductStyle(style);
         p.setCreateTime(11111);
         p.setExtProperty(style.getStyleProperties());
