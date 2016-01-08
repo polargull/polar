@@ -39,14 +39,12 @@ public class AppRegisterController {
 
     @RequestMapping(value = { "registStep1.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object registStep1(HttpServletResponse response, HttpServletRequest request, @RequestParam("cellphone") String cellphone) {
+    public Object registStep1(HttpServletResponse response, HttpServletRequest request, @RequestParam("cellphone") String cellphone) throws ValidateException {
         try {
             validateCellphone(cellphone);
             ReturnVerifyCode verifyCode = appRegisterStep1Service.completeStep1(Long.parseLong(cellphone));
             CookieHelper.setCookie(response, ENCODE_VERIFY_CODE, verifyCode.getEncodeNeedCompareVerifyCode());
             return new JsonResult(SUCCESS).put(VERIFY_CODE, verifyCode.getVerifyCode());
-        } catch (ValidateException e) {
-            return new JsonResult(e.state);
         } catch (RemoteInvokeServiceException e) {
             return new JsonResult(e.state);
         } catch (UnsupportedEncodingException e) {
@@ -56,15 +54,13 @@ public class AppRegisterController {
 
     @RequestMapping(value = { "registStep2.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object registStep2(HttpServletResponse response, HttpServletRequest request, @RequestParam("verifycode") String verifycode, @RequestParam("pwd") String pwd) {
+    public Object registStep2(HttpServletResponse response, HttpServletRequest request, @RequestParam("verifycode") String verifycode, @RequestParam("pwd") String pwd) throws ValidateException {
         try {
             String encodeVerifyCode = CookieHelper.getCookieValue(request, ENCODE_VERIFY_CODE);
             validateParam(verifycode, encodeVerifyCode, pwd);
             LoginData loginData = appRegisterStep2Service.completeStep2(Integer.valueOf(verifycode), encodeVerifyCode, pwd);
             UserCookieUtil.saveUserCookie(loginData.getUser(), request, response, 0);
             return new JsonResult(SUCCESS).put(LoginData.class.getSimpleName(), loginData);
-        } catch (ValidateException e) {
-            return new JsonResult(e.state);
         } catch (DaoException e) {
             return new JsonResult(e.state);
         } catch (UnsupportedEncodingException e) {
