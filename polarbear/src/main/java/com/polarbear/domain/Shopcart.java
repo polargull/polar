@@ -39,6 +39,14 @@ public class Shopcart {
         this.createTime = createTime;
     }
     
+    public Shopcart(User user, Integer createTime) {
+        super();
+        this.user = user;
+        this.productNum = 0;
+        this.price = 0d;
+        this.createTime = createTime;
+    }
+    
     @JSONField(serialize = false)
     public long getId() {
         return id;

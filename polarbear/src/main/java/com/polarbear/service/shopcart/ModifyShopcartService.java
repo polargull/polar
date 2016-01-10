@@ -44,7 +44,7 @@ public class ModifyShopcartService {
     }
 
     private Shopcart updateMyShopCart(long pid, int num) throws DaoException, ValidateException {
-        Product p = productPicker.pickoutTheProdct(pid);
+        Product p = productPicker.pickoutTheProduct(pid);
         Shopcart shopcart = getShopcart(p);
         updateShopCartNumAndPrice(p, num, shopcart);
         dbDelegateOp(p, num, shopcart);
@@ -65,7 +65,7 @@ public class ModifyShopcartService {
         User user = CurrentThreadUserFactory.getUser();
         Shopcart shopcart = shopcartDao.findByNamedQueryObject("queryUserId", user);
         if (shopcart == null) {
-            shopcart = new Shopcart(user, 1, p.getPrice(), DateUtil.getCurrentSeconds());
+            shopcart = new Shopcart(user, DateUtil.getCurrentSeconds());
         }
         return shopcart;
     }

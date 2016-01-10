@@ -10,13 +10,13 @@ public class UserBuilder {
     private long cellphone;
     private int createTime;
     
-    private long id;
+    private Long id;
     public static UserBuilder anUser() {
         return new UserBuilder();
     }
     
     public UserBuilder withID(long id) {
-        this.id = ID.generate();
+        this.id = id;
         return this;
     }
     
@@ -43,9 +43,7 @@ public class UserBuilder {
 
     public User build() {
         User user = new User();
-        if (id != 0 ) {
-            user.setId(id);
-        }
+        user.setId(id);
         user.setName(uname);
         user.setPwd(pwd);
         user.setCellphone(cellphone);

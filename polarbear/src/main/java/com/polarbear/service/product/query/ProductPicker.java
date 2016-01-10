@@ -16,7 +16,7 @@ public class ProductPicker {
     @Autowired
     BaseDao<Product> productDao;
 
-    public Product pickoutTheProdct(long pid) throws DaoException, ValidateException {
+    public Product pickoutTheProduct(long pid) throws DaoException, ValidateException {
         Product p = productDao.findByNamedQueryObject("queryProductByIdAndState", pid, PUT_ON.value());
         if (p == null)
             throw new ValidateException(PRODUCT_PULL_OFF);

@@ -18,7 +18,8 @@ public abstract class AbstractMock {
         }
     };
 
-    public BaseDao userDao, productDao;
+    public BaseDao userDao, productDao, shopcartDao, shopcartLogDao;
+    
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
     private void dynamicSetCompomentMock(String fieldName, Object mock) {
@@ -40,10 +41,11 @@ public abstract class AbstractMock {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     protected void setServiceAndDependentComponent(Object service, String... compomentNames) {
         TestAnnotationFiledUtil addFiledUtil = new TestAnnotationFiledUtil().setComponent(service);
         for (String daoName : compomentNames) {
-            Object mock = context.mock(getFieldType(daoName));
+            Object mock = context.mock(getFieldType(daoName), daoName);
             dynamicSetCompomentMock(daoName, mock);
             addFiledUtil.addField(daoName, mock);
         }

@@ -34,8 +34,8 @@ public class MultipleStyleProductQueryTest extends AbstractMock {
             {
                 allowing(productDao).findByNamedQuery("querySameStyleProductByStyleId", anNeedStyle().STYLE_ID);
                 List<Product> sameStyleProductList = new ArrayList<Product>();
-                sameStyleProductList.add(anProduct().withStyle(anStyle().withProperty("颜色:红色")).build());
-                sameStyleProductList.add(anProduct().withStyle(anStyle().withProperty("颜色:黄色,大小:L")).build());
+                sameStyleProductList.add(anProduct().withExtProperty("颜色:红色").build());
+                sameStyleProductList.add(anProduct().withExtProperty("颜色:黄色,大小:L").build());
                 // 设定预期值
                 will(returnValue(sameStyleProductList));
             }

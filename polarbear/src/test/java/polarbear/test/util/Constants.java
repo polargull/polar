@@ -7,7 +7,8 @@ import com.polarbear.util.date.SystemClock;
 /**
  * 应用的全局常量
  */
-public class Constants {    
+public class Constants {
+    public static final long USER_ID = 1L;
     public static final String UNAME = "极地鸥";
     public static final String ERROR_UNAME = "test@123.com";
     public static final String PWD = "123456";

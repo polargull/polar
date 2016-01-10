@@ -4,10 +4,13 @@ import polarbear.test.util.ID;
 
 import com.polarbear.domain.Product;
 import com.polarbear.domain.ProductStyle;
+import com.polarbear.service.product.util.StylePropertyTransferUtil;
 
 public class ProductBuilder {
-    private StyleBuilder styleBuilder = new StyleBuilder();
-    private long id = ID.generate();
+    private StyleBuilder styleBuilder;
+    private double       price = 1d;
+    private String       extProperty;
+    private long         id    = ID.generate();
 
     public static ProductBuilder anProduct() {
         return new ProductBuilder();
@@ -18,22 +21,34 @@ public class ProductBuilder {
         return this;
     }
 
+    public ProductBuilder withExtProperty(String extProperty) {
+        this.extProperty = StylePropertyTransferUtil.propertyStrToJson(extProperty);
+        return this;
+    }
+
     public ProductBuilder withID(long id) {
         this.id = id;
         return this;
     }
 
+    public ProductBuilder withPrice(double price) {
+        this.price = price;
+        return this;
+    }
+
     public Product build() {
         Product p = new Product();
-        ProductStyle style = styleBuilder.build();
         p.setId(id);
+        if (styleBuilder != null) {
+            ProductStyle style = styleBuilder.build();
+            p.setProductStyle(style);
+        }
+        p.setExtProperty(extProperty);
         p.setName("test1");
         p.setNum(10);
-        p.setProductStyle(style);
         p.setCreateTime(11111);
-        p.setExtProperty(style.getStyleProperties());
         p.setImage("");
-        p.setPrice(20d);
+        p.setPrice(price);
         p.setState(1);
         p.setDesc(null);
         p.setTag("衣服");
