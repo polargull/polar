@@ -10,157 +10,156 @@ import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 import com.polarbear.util.DateUtil;
-@NamedQueries( {
-	@NamedQuery(name = "querySameStyleProductByStyleId", query = "from Product p where p.productStyle.id = ?"),
-	@NamedQuery(name = "queryProductByIdAndState", query = "from Product p where p.id = ? and p.state = ?")
-	})
+
+@NamedQueries( { @NamedQuery(name = "querySameStyleProductByStyleId", query = "from Product p where p.productStyle.id = ?"),
+        @NamedQuery(name = "queryProductByIdAndState", query = "from Product p where p.id = ? and p.state = ?") })
 @Entity
 public class Product {
-	@Id
-	@GeneratedValue
-	long id;
-	@ManyToOne
-	ProductStyle productStyle;
-	@Column
-	String name;
-	@Column
-	int num;
-	@Column(name = "p_desc")
-	String desc;
-	@Column
-	String tag;
-	@Column(length = 1000)
-	String image;
-	@Column
-	double price;
-	@Column
-	int state;
-	@Column
-	String extProperty;
-	@Column
-	double salePrice;
-	@Column
-	int saleBeginTime;
-	@Column
-	int saleEndTime;
-	@Column
-	int createTime;
+    @Id
+    @GeneratedValue
+    Long id;
+    @ManyToOne
+    ProductStyle productStyle;
+    @Column
+    String name;
+    @Column
+    int num;
+    @Column(name = "p_desc")
+    String desc;
+    @Column
+    String tag;
+    @Column(length = 1000)
+    String image;
+    @Column
+    Double price;
+    @Column
+    Integer state;
+    @Column
+    String extProperty;
+    @Column
+    Double salePrice;
+    @Column
+    Integer saleBeginTime;
+    @Column
+    Integer saleEndTime;
+    @Column
+    Integer createTime;
 
-	public Product() {
-	}
+    public Product() {
+    }
 
-	public String getDesc() {
-		return desc;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getTag() {
-		return tag;
-	}
+    public ProductStyle getProductStyle() {
+        return productStyle;
+    }
 
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
+    public void setProductStyle(ProductStyle productStyle) {
+        this.productStyle = productStyle;
+    }
 
-	public String getImage() {
-		return image;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setImage(String image) {
-		this.image = image;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public double getPrice() {
-		return price;
-	}
+    public int getNum() {
+        return num;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public void setNum(int num) {
+        this.num = num;
+    }
 
-	public long getId() {
-		return id;
-	}
+    public String getDesc() {
+        return desc;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getTag() {
+        return tag;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
-	public int getNum() {
-		return num;
-	}
+    public String getImage() {
+        return image;
+    }
 
-	public void setNum(int num) {
-		this.num = num;
-	}
+    public void setImage(String image) {
+        this.image = image;
+    }
 
-	public ProductStyle getProductStyle() {
-		return productStyle;
-	}
+    public Double getPrice() {
+        return price;
+    }
 
-	public void setProductStyle(ProductStyle productStyle) {
-		this.productStyle = productStyle;
-	}
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
-	public int getState() {
-		return state;
-	}
+    public Integer getState() {
+        return state;
+    }
 
-	public void setState(int state) {
-		this.state = state;
-	}
+    public void setState(Integer state) {
+        this.state = state;
+    }
 
-	public String getExtProperty() {
-		return extProperty;
-	}
+    public String getExtProperty() {
+        return extProperty;
+    }
 
-	public void setExtProperty(String extProperty) {
-		this.extProperty = extProperty;
-	}
+    public void setExtProperty(String extProperty) {
+        this.extProperty = extProperty;
+    }
 
-	public double getSalePrice() {
-		return salePrice;
-	}
+    public Double getSalePrice() {
+        return salePrice;
+    }
 
-	public void setSalePrice(double salePrice) {
-		this.salePrice = salePrice;
-	}
+    public void setSalePrice(Double salePrice) {
+        this.salePrice = salePrice;
+    }
 
-	public int getSaleBeginTime() {
-		return saleBeginTime;
-	}
+    public Integer getSaleBeginTime() {
+        return saleBeginTime;
+    }
 
-	public void setSaleBeginTime(int saleBeginTime) {
-		this.saleBeginTime = saleBeginTime;
-	}
+    public void setSaleBeginTime(Integer saleBeginTime) {
+        this.saleBeginTime = saleBeginTime;
+    }
 
-	public int getSaleEndTime() {
-		return saleEndTime;
-	}
+    public Integer getSaleEndTime() {
+        return saleEndTime;
+    }
 
-	public void setSaleEndTime(int saleEndTime) {
-		this.saleEndTime = saleEndTime;
-	}
+    public void setSaleEndTime(Integer saleEndTime) {
+        this.saleEndTime = saleEndTime;
+    }
 
-	public int getCreateTime() {
-		return createTime;
-	}
+    public Integer getCreateTime() {
+        return createTime;
+    }
 
-	public void setCreateTime(int createTime) {
-		this.createTime = createTime;
-	}
-	
+    public void setCreateTime(Integer createTime) {
+        this.createTime = createTime;
+    }
+
     public double getRealPrice() {
         if (salePrice >= 0 && saleBeginTime >= DateUtil.getCurrentSeconds() && saleEndTime <= DateUtil.getCurrentSeconds()) {
             return salePrice;
@@ -168,15 +167,11 @@ public class Product {
         return price;
     }
 
-	@Override
-	public String toString() {
-		return "Product [count=" + num + ", createTime=" + createTime
-				+ ", desc=" + desc + ", extProperty=" + extProperty + ", id="
-				+ id + ", image=" + image + ", name=" + name + ", price="
-				+ price + ", saleBeginTime=" + saleBeginTime + ", saleEndTime="
-				+ saleEndTime + ", salePrice=" + salePrice + ", state=" + state
-				+ ", tag=" + tag + "]";
-	}
+    @Override
+    public String toString() {
+        return "Product [createTime=" + createTime + ", desc=" + desc + ", extProperty=" + extProperty + ", id=" + id + ", image=" + image + ", name=" + name + ", num=" + num
+                + ", price=" + price + ", productStyle=" + productStyle + ", saleBeginTime=" + saleBeginTime + ", saleEndTime=" + saleEndTime + ", salePrice=" + salePrice
+                + ", state=" + state + ", tag=" + tag + "]";
+    }
 
-	
 }

@@ -15,24 +15,26 @@ import org.junit.Test;
 import polarbear.acceptance.Request;
 import polarbear.acceptance.Request.ResultCallback;
 
+import com.meterware.httpunit.WebResponse;
 import com.polarbear.service.shopcart.MyShopcart;
 import com.polarbear.service.shopcart.ShopcartProduct;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.UserCookieUtil;
+import com.polarbear.web.shopcart.ShopcartController;
 
 public class AddShopcartTest {
 
     @Test
-    public void shouldSuccessReturnShopcartJsonDataWhenSelectProductAddShopcartAndUserLogined() {
+    public void shouldSuccessReturnCookieShopcartNumJsonDataWhenSelectProductAddShopcartAndUserLogined() {
         anRequest(SHOPCART_ADD_URL).withCookie(UserCookieUtil.COOKIE_NAME, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
         .addParams("pid",String.valueOf(PRODUCT_ID))
         .post(new ResultCallback() {
             public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                 assertThat(resultState(jsonResult), is(SUCCESS));
-                MyShopcart myShopcart = resultBody(jsonResult, MyShopcart.class);
-                ShopcartProduct p = resultBody(jsonResult, MyShopcart.class).getProductList().get(0);
-                assertThat(p.getName(), is(PRODUCT_NAME));
-                assertThat(myShopcart.getShopcart().getProductNum(), is(PRODUCT_COUNT));
+                assertThat(jsonResult.getBody().isEmpty(),is(true));
+            }
+            public void onResponse(WebResponse response) {
+                assertThat(response.getNewCookieValue(ShopcartController.COUNT),notNullValue());
             }
         });
     }
