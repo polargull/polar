@@ -1,9 +1,14 @@
 package polarbear.unit.service.shopcart;
 
-import static com.polarbear.util.Constants.ResultState.*;
-import static org.hamcrest.Matchers.*;
+import static com.polarbear.util.Constants.ResultState.DB_ERR;
+import static com.polarbear.util.Constants.ResultState.PRODUCT_NUM_IS_0;
+import static com.polarbear.util.Constants.ResultState.PRODUCT_PULL_OFF;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static polarbear.test.util.Constants.*;
+import static polarbear.test.util.Constants.PRODUCT_ID;
+import static polarbear.testdata.product.ProductBuilder.anProduct;
+import static polarbear.testdata.shopcart.ShopcartBuilder.anShopcart;
+import static polarbear.testdata.user.UserBuilder.anUser;
 
 import javax.security.auth.login.LoginException;
 
@@ -17,20 +22,12 @@ import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Shopcart;
 import com.polarbear.domain.ShopcartLog;
-import com.polarbear.domain.User;
-
-import static com.polarbear.util.Constants.*;
 import com.polarbear.service.product.query.ProductPicker;
 import com.polarbear.service.shopcart.ModifyShopcartService;
-import com.polarbear.util.MD5Util;
-import com.polarbear.util.factory.CurrentThreadUserFactory;
-
-import static polarbear.testdata.product.ProductBuilder.*;
-import static polarbear.testdata.user.UserBuilder.*;
 
 public class AddShopcartServiceTest extends AbstractMock {
     private ModifyShopcartService modifyShopService = new ModifyShopcartService();
-    public ProductPicker          productPicker;
+    public ProductPicker productPicker;
 
     @Before
     public void setUp() {
@@ -39,12 +36,11 @@ public class AddShopcartServiceTest extends AbstractMock {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void shouldRetureShopcarProductNumWhenAddShopcartAndLogined() throws DaoException, ValidateException {
-//        CurrentThreadUserFactory.setUser(anUser().withID(USER_ID).build());
+    public void shouldRetureShopcarProductNumWhenAddShopcartAndLoginedAndNoHaveShopcart() throws DaoException, ValidateException {
         context.checking(new Expectations() {
             {
                 allowing(productPicker).pickoutTheProduct(PRODUCT_ID);
-                will(returnValue(anProduct().withID(PRODUCT_ID).build()));
+                will(returnValue(anProduct().withID(PRODUCT_ID).withPrice(99d).build()));
             }
         });
         context.checking(new Expectations() {
@@ -63,20 +59,90 @@ public class AddShopcartServiceTest extends AbstractMock {
                 allowing(shopcartLogDao).store(with(any(ShopcartLog.class)));
             }
         });
-        assertThat(modifyShopService.addShopcart(PRODUCT_ID), is(1));
+        Shopcart shopcart = modifyShopService.addShopcart(PRODUCT_ID);
+        assertThat(shopcart.getProductNum(), is(1));
+        assertThat(shopcart.getPrice(), is(99d));
     }
-
-    // @Test
-    public void shouldThrowLoginExceptionWhenLoginFail() throws LoginException, DaoException {
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void shouldRetureShopcarProductNumWhenAddShopcartAndLoginedAndHaveShopcart() throws DaoException, ValidateException {
         context.checking(new Expectations() {
             {
-                allowing(userDao).findByNamedQueryObject("queryUnameAndPwd", UNAME, MD5Util.encode2hex(PWD));
-                // 设定预期值
+                allowing(productPicker).pickoutTheProduct(PRODUCT_ID);
+                will(returnValue(anProduct().withID(PRODUCT_ID).withPrice(99d).build()));
+            }
+        });
+        context.checking(new Expectations() {
+            {
+                allowing(shopcartDao).findByNamedQueryObject(with(any(String.class)), with(any(Object.class)));
+                will(returnValue(anShopcart().withPrice(66d).withProductNum(6).withUser(anUser()).build()));
+            }
+        });
+        context.checking(new Expectations() {
+            {
+                allowing(shopcartDao).store(with(any(Shopcart.class)));
+            }
+        });
+        context.checking(new Expectations() {
+            {
+                allowing(shopcartLogDao).store(with(any(ShopcartLog.class)));
+            }
+        });
+        Shopcart shopcart = modifyShopService.addShopcart(PRODUCT_ID);
+        assertThat(shopcart.getProductNum(), is(7));
+        assertThat(shopcart.getPrice(), is(165d));
+    }
+
+    @Test
+    public void shouldThrowValidateExceptionWhenPickoutProductAlreadyPullOff() throws LoginException, DaoException, ValidateException {
+        context.checking(new Expectations() {
+            {
+                allowing(productPicker).pickoutTheProduct(PRODUCT_ID);
+                will(throwException(new ValidateException(PRODUCT_PULL_OFF)));
+            }
+        });
+        expectedEx.expect(ValidateException.class);
+        expectedEx.expectMessage(PRODUCT_PULL_OFF.emsg());
+        modifyShopService.addShopcart(PRODUCT_ID);
+    }
+
+    @Test
+    public void shouldThrowValidateExceptionWhenPickoutProductNumIs0() throws LoginException, DaoException, ValidateException {
+        context.checking(new Expectations() {
+            {
+                allowing(productPicker).pickoutTheProduct(PRODUCT_ID);
+                will(throwException(new ValidateException(PRODUCT_NUM_IS_0)));
+            }
+        });
+        expectedEx.expect(ValidateException.class);
+        expectedEx.expectMessage(PRODUCT_NUM_IS_0.emsg());
+        modifyShopService.addShopcart(PRODUCT_ID);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void shouldThrowValidateExceptionWhenStoreDBERR() throws LoginException, DaoException, ValidateException {
+        context.checking(new Expectations() {
+            {
+                allowing(productPicker).pickoutTheProduct(PRODUCT_ID);
+                will(returnValue(anProduct().withID(PRODUCT_ID).withPrice(99d).build()));
+            }
+        });
+        context.checking(new Expectations() {
+            {
+                allowing(shopcartDao).findByNamedQueryObject(with(any(String.class)), with(any(Object.class)));
                 will(returnValue(null));
             }
         });
-        expectedEx.expect(LoginException.class);
-        expectedEx.expectMessage(LOGIN_NAME_PWD_ERR.emsg());
-        // loginService.login(UNAME, PWD);
+        context.checking(new Expectations() {
+            {
+                allowing(shopcartDao).store(with(any(Shopcart.class)));
+                will(throwException(new DaoException(DB_ERR)));
+            }
+        });
+        expectedEx.expect(DaoException.class);
+        expectedEx.expectMessage(DB_ERR.emsg());
+        modifyShopService.addShopcart(PRODUCT_ID);
     }
 }

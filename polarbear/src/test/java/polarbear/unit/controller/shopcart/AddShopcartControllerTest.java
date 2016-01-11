@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static polarbear.test.util.Constants.*;
 import static polarbear.test.util.JsonResultConvertUtil.convertJsonObj;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
+import static polarbear.testdata.shopcart.ShopcartBuilder.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -39,7 +40,7 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
             {
                 allowing(modifyShopcartService).addShopcart(PRODUCT_ID);
                 // 设定预期值
-                will(returnValue(1));
+                will(returnValue(anShopcart().withProductNum(1).build()));
             }
         });
         MvcResult result = mockMvc

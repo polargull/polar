@@ -29,8 +29,8 @@ public class ModifyShopcartService {
     ProductPicker productPicker;
 
     @Transactional
-    public int addShopcart(long pid) throws DaoException, ValidateException {
-        return addProductToShopcart(pid, 1).getProductNum();
+    public Shopcart addShopcart(long pid) throws DaoException, ValidateException {
+        return addProductToShopcart(pid, 1);
     }
 
     @Transactional

@@ -1,7 +1,7 @@
 package com.polarbear.service.product.query;
 
 import static com.polarbear.util.Constants.PRODUCT_STATE.PUT_ON;
-import static com.polarbear.util.Constants.ResultState.PRODUCT_PULL_OFF;
+import static com.polarbear.util.Constants.ResultState.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class ProductPicker {
         if (p == null)
             throw new ValidateException(PRODUCT_PULL_OFF);
         if (p.getNum() == 0)
-            throw new ValidateException(PRODUCT_PULL_OFF);
+            throw new ValidateException(PRODUCT_NUM_IS_0);
         return p;
     }
 }

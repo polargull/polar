@@ -54,12 +54,12 @@ public class Constants {
         , UPLOAD_SUCCESS("E00001007", "上传成功")
         , UPLOAD_FAILURE("E00001008", "上传失败")
         , R_17("E00001009", "无效Tooken")
-        , R_18("E0000100A", "登录失败")
         , R_19("E0000100B", "该用户已经被绑定")
         , R_20("E0000100C", "时间选择超出设置范围")
         , R_21("E0000100D", "订单与用户不匹配")
         , R_22("E0000100E", " 查询订单与支付订单不匹配")
-        , PRODUCT_PULL_OFF("E0000100F", "抱歉,您挑选该商品刚下架");
+        , PRODUCT_NUM_IS_0("E0000100A", "抱歉,您挑选该商品已被别人抢购完,不能购买了")
+        , PRODUCT_PULL_OFF("E0000100F", "抱歉,您挑选该商品刚下架,不能购买了");
 
         private String ecode;
         private String emsg;

@@ -37,7 +37,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, String pwd, String email, Long cellphone, Short gender) {
+    public User(Long id, String name, String pwd, String email, Long cellphone, Short gender, Integer createTime) {
         super();
         this.id = id;
         this.name = name;
@@ -45,6 +45,7 @@ public class User {
         this.email = email;
         this.cellphone = cellphone;
         this.gender = gender;
+        this.createTime = createTime;
     }
 
     public User(String name, String pwd, String email, Long cellphone, Short gender) {

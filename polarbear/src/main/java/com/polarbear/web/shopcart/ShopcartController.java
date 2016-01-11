@@ -36,7 +36,7 @@ public class ShopcartController {
     public Object addShopcart(HttpServletResponse response, HttpServletRequest request, @RequestParam("pid") String pid) throws ValidateException, DaoException {
         log.debug("pid=" + pid);
         validate(pid);
-        int count = modifyShopcartService.addShopcart(Long.valueOf(pid));
+        int count = modifyShopcartService.addShopcart(Long.valueOf(pid)).getProductNum();
         CookieHelper.setCookie(response, COUNT, String.valueOf(count));
         log.debug("pid = " + pid + ", op successful!");
         return new JsonResult(SUCCESS);

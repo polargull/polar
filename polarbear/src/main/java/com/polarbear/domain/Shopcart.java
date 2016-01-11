@@ -31,6 +31,15 @@ public class Shopcart {
     @Column
     Integer createTime;
 
+    public Shopcart(long id, User user, Integer productNum, Double price, Integer createTime) {
+        super();
+        this.id = id;
+        this.user = user;
+        this.productNum = productNum;
+        this.price = price;
+        this.createTime = createTime;
+    }
+
     public Shopcart(User user, Integer count, Double price, Integer createTime) {
         super();
         this.user = user;
