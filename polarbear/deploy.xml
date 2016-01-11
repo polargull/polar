@@ -13,6 +13,7 @@
 		<property name="application.url" value="http://${url.server}:${deploy.port}/index.html" />
 	</target>
 	<target name="undeploy" depends="deploy-properties" description="undeploy">
+		<delete dir="${tomcat.work}" />
 		<delete dir="${deploy.dir}/${project.name}/" />
 		<delete file="${deploy.dir}/${target.war.name}"/>
 	</target>
