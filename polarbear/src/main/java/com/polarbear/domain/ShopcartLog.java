@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class ShopcartLog {
     @Id
     @GeneratedValue
-    long id;
+    Long id;
     @ManyToOne
     Product product;
     @Column
@@ -22,6 +22,15 @@ public class ShopcartLog {
     @Column
     Integer createTime;
 
+    public ShopcartLog(Long id, Product product, Integer count, Shopcart shopCart, Integer createTime) {
+        super();
+        this.id = id;
+        this.product = product;
+        this.count = count;
+        this.shopCart = shopCart;
+        this.createTime = createTime;
+    }
+
     public ShopcartLog(Product product, Integer count, Shopcart shopCart, Integer createTime) {
         super();
         this.product = product;
@@ -30,11 +39,11 @@ public class ShopcartLog {
         this.createTime = createTime;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

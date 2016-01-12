@@ -21,7 +21,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class Shopcart {
     @Id
     @GeneratedValue
-    long id;
+    Long id;
     @OneToOne
     User user;
     @Column
@@ -31,7 +31,9 @@ public class Shopcart {
     @Column
     Integer createTime;
 
-    public Shopcart(long id, User user, Integer productNum, Double price, Integer createTime) {
+    public Shopcart() {}
+
+    public Shopcart(Long id, User user, Integer productNum, Double price, Integer createTime) {
         super();
         this.id = id;
         this.user = user;
@@ -57,11 +59,11 @@ public class Shopcart {
     }
     
     @JSONField(serialize = false)
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

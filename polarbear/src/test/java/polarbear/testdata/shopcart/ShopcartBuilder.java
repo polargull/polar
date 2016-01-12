@@ -1,6 +1,5 @@
 package polarbear.testdata.shopcart;
 
-import polarbear.test.util.ID;
 import polarbear.testdata.user.UserBuilder;
 
 import com.polarbear.domain.Shopcart;
@@ -37,6 +36,6 @@ public class ShopcartBuilder {
     }
 
     public Shopcart build() {
-        return new Shopcart(id == null ? ID.generate() : id, userBuilder == null ? null : userBuilder.build(), productNum, price, DateUtil.getCurrentSeconds());
+        return new Shopcart(id, userBuilder == null ? null : userBuilder.build(), productNum, price, DateUtil.getCurrentSeconds());
     }
 }
