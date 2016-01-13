@@ -24,8 +24,11 @@ public class Constants {
     public static final String ERR_PRODUCT_ID = "adf";
     public static final String PRODUCT_NAME = "变形精钢";
     public static final int PRODUCT_NUM = 1;
-    public static final double PRODUCT_PRICE = 100D;    
+    public static final double PRODUCT_PRICE = 100D;
+    public static final double PRODUCT_SALE_PRICE = 60D;
     public static final long SHOPCARD_ID = 1L;
+    public static final double SHOPCART_ORIGIN_PRICE = 100d;
+    public static final int SHOPCART_ORIGIN_NUM = 2;
     
     public static final String LOGIN_URL = Loader.getInstance().getProps("login.url");
     public static final String REGIST_STEP1_URL = Loader.getInstance().getProps("regist.step1.url");

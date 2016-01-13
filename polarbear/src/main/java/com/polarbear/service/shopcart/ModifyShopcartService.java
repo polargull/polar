@@ -58,7 +58,7 @@ public class ModifyShopcartService {
 
     private void updateShopCartNumAndPrice(Product p, int num, Shopcart shopcart) {
         shopcart.setProductNum(shopcart.getProductNum() + num);
-        shopcart.setPrice(Arith.add(shopcart.getPrice(), p.getPrice()));
+        shopcart.setPrice(Arith.add(shopcart.getPrice(), p.getRealPrice()));
     }
 
     private Shopcart getShopcart(Product p) throws DaoException {

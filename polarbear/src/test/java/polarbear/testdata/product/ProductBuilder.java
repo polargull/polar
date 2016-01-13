@@ -1,16 +1,20 @@
 package polarbear.testdata.product;
 
-import polarbear.test.util.ID;
 
 import com.polarbear.domain.Product;
 import com.polarbear.domain.ProductStyle;
 import com.polarbear.service.product.util.StylePropertyTransferUtil;
+import com.polarbear.util.DateUtil;
 
 public class ProductBuilder {
     private StyleBuilder styleBuilder;
-    private double       price = 1d;
+    private Double       price = 1d;
     private String       extProperty;
-    private long         id    = ID.generate();
+    private Long         id;
+    private Double salePrice;
+    private Integer saleBeginTime;
+    private Integer saleEndTime;
+    private Integer num;
 
     public static ProductBuilder anProduct() {
         return new ProductBuilder();
@@ -36,6 +40,26 @@ public class ProductBuilder {
         return this;
     }
 
+    public ProductBuilder withSalePrice(double price) {
+        this.salePrice = price;
+        return this;
+    }
+    
+    public ProductBuilder withSaleBeginTime(int saleBeginTime) {
+        this.saleBeginTime = saleBeginTime;
+        return this;
+    }
+    
+    public ProductBuilder withSaleEndTime(int saleEndTime) {
+        this.saleEndTime = saleEndTime;
+        return this;
+    }
+    
+    public ProductBuilder withNum(int num) {
+        this.num = num;
+        return this;
+    }
+
     public Product build() {
         Product p = new Product();
         p.setId(id);
@@ -45,16 +69,16 @@ public class ProductBuilder {
         }
         p.setExtProperty(extProperty);
         p.setName("test1");
-        p.setNum(10);
-        p.setCreateTime(11111);
+        p.setNum(num == null ? 1 : num);
+        p.setCreateTime(DateUtil.getCurrentSeconds());
         p.setImage("");
         p.setPrice(price);
         p.setState(1);
         p.setDesc(null);
         p.setTag("衣服");
-        p.setSalePrice(1d);
-        p.setSaleBeginTime(11);
-        p.setSaleEndTime(11);
+        p.setSalePrice(salePrice);
+        p.setSaleBeginTime(saleBeginTime);
+        p.setSaleEndTime(saleEndTime);
         return p;
     }
 }

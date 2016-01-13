@@ -161,7 +161,7 @@ public class Product {
     }
 
     public double getRealPrice() {
-        if (salePrice >= 0 && saleBeginTime >= DateUtil.getCurrentSeconds() && saleEndTime <= DateUtil.getCurrentSeconds()) {
+        if ((salePrice != null && salePrice >= 0) && (saleBeginTime !=null && saleBeginTime <= DateUtil.getCurrentSeconds()) && (saleEndTime != null && saleEndTime >= DateUtil.getCurrentSeconds())) {            
             return salePrice;
         }
         return price;
