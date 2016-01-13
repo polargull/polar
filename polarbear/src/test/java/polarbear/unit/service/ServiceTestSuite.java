@@ -7,7 +7,9 @@ import polarbear.unit.service.login.LoginServiceTest;
 import polarbear.unit.service.product.MultipleStyleProductQueryTest;
 import polarbear.unit.service.register.AppRegisterServiceStep1Test;
 import polarbear.unit.service.register.AppRegisterServiceStep2Test;
+import polarbear.unit.service.shopcart.AddShopcartProductServiceTest;
 import polarbear.unit.service.shopcart.AddShopcartServiceTest;
+import polarbear.unit.service.shopcart.RemoveShopcartProductServiceTest;
 import polarbear.unit.service.sms.SmsServiceTest;
 import polarbear.unit.service.user.validate.UnameUniqueValidatorTest;
 
@@ -18,7 +20,10 @@ import polarbear.unit.service.user.validate.UnameUniqueValidatorTest;
     ,AppRegisterServiceStep2Test.class
     ,SmsServiceTest.class
     ,UnameUniqueValidatorTest.class
-    ,AddShopcartServiceTest.class })
+    ,AddShopcartServiceTest.class
+    ,AddShopcartProductServiceTest.class
+    ,RemoveShopcartProductServiceTest.class
+    })
 public class ServiceTestSuite {
     // the class remains empty,
     // used only as a holder for the above annotations

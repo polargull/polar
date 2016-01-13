@@ -29,6 +29,8 @@ public class Constants {
     public static final long SHOPCARD_ID = 1L;
     public static final double SHOPCART_ORIGIN_PRICE = 100d;
     public static final int SHOPCART_ORIGIN_NUM = 2;
+    public static final int PRODUCT_BUY_NUM = 2;
+    public static final int PRODUCT_REMOVE_NUM = 1;
     
     public static final String LOGIN_URL = Loader.getInstance().getProps("login.url");
     public static final String REGIST_STEP1_URL = Loader.getInstance().getProps("regist.step1.url");
