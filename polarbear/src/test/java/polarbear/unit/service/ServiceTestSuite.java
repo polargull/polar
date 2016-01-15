@@ -22,7 +22,6 @@ import polarbear.unit.service.user.validate.UnameUniqueValidatorTest;
     ,UnameUniqueValidatorTest.class
     ,AddShopcartServiceTest.class
     ,AddShopcartProductServiceTest.class
-    ,RemoveShopcartProductServiceTest.class
     })
 public class ServiceTestSuite {
     // the class remains empty,

@@ -27,32 +27,7 @@ public class RemoveShopcartProductServiceTest extends AbstractShopcartServiceTes
     @SuppressWarnings("unchecked")
     @Test
     public void shouldRemoveSuccessWhenAddHaveStockProductInShopcart() throws DaoException, ValidateException {
-        context.checking(new Expectations() {
-            {
-                oneOf(productPicker).pickoutTheProduct(PRODUCT_ID);
-                will(returnValue(anProduct().withID(PRODUCT_ID).withPrice(PRODUCT_PRICE).build()));
-                oneOf(productPicker).pickoutTheProduct(PRODUCT_ID);
-                will(returnValue(anProduct()
-                        .withID(PRODUCT_ID)
-                        .withPrice(PRODUCT_PRICE)
-                        .withSalePrice(PRODUCT_SALE_PRICE)
-                        .withSaleBeginTime((int)(new DateTime().plusMinutes(-1).getMillis()/1000L))
-                        .withSaleEndTime((int)(new DateTime().plusDays(1).getMillis()/1000L))
-                        .build()));
-            }
-        });
-        context.checking(new Expectations() {
-            {
-                context.checking(new Expectations() {
-                    {
-                        oneOf(shopcartDao).findByNamedQueryObject(with(any(String.class)), with(any(Object.class)));
-                        will(returnValue(anShopcart().withPrice(SHOPCART_ORIGIN_PRICE).withProductNum(SHOPCART_ORIGIN_NUM).withUser(anUser()).build()));
-                        oneOf(shopcartDao).findByNamedQueryObject(with(any(String.class)), with(any(Object.class)));
-                        will(returnValue(anShopcart().withPrice(SHOPCART_ORIGIN_PRICE - PRODUCT_PRICE).withProductNum(SHOPCART_ORIGIN_NUM - PRODUCT_REMOVE_NUM).withUser(anUser()).build()));
-                    }
-                });
-            }
-        });
+        expectProductPickerOp();
         context.checking(new Expectations() {
             {
                 allowing(shopcartDao).store(with(any(Shopcart.class)));
@@ -60,7 +35,7 @@ public class RemoveShopcartProductServiceTest extends AbstractShopcartServiceTes
         });
         context.checking(new Expectations() {
             {
-                allowing(shopcartLogDao).store(with(any(ShopcartLog.class)));
+                allowing(shopcartDetailDao).store(with(any(ShopcartLog.class)));
             }
         });
         testRemoveOriginPriceProduct();
@@ -68,13 +43,13 @@ public class RemoveShopcartProductServiceTest extends AbstractShopcartServiceTes
     }
 
     private void testRemoveSalePriceProduct() throws DaoException, ValidateException {
-        Shopcart shopcart = modifyShopService.removeProductFromShopcart(PRODUCT_ID, PRODUCT_REMOVE_NUM);
+        Shopcart shopcart = modifyShopService.decreaseProductFromShopcart(PRODUCT_ID, PRODUCT_REMOVE_NUM);
         assertThat(shopcart.getProductNum(), is(SHOPCART_ORIGIN_NUM - PRODUCT_REMOVE_NUM * 2));
         assertThat(shopcart.getPrice(), is(SHOPCART_ORIGIN_PRICE - PRODUCT_PRICE - PRODUCT_SALE_PRICE * PRODUCT_REMOVE_NUM));
     }
 
     private void testRemoveOriginPriceProduct() throws DaoException, ValidateException {
-        Shopcart shopcart = modifyShopService.removeProductFromShopcart(PRODUCT_ID, PRODUCT_REMOVE_NUM);
+        Shopcart shopcart = modifyShopService.decreaseProductFromShopcart(PRODUCT_ID, PRODUCT_REMOVE_NUM);
         assertThat(shopcart.getProductNum(), is(SHOPCART_ORIGIN_NUM - PRODUCT_REMOVE_NUM));
         assertThat(shopcart.getPrice(), is(SHOPCART_ORIGIN_PRICE - PRODUCT_PRICE * PRODUCT_REMOVE_NUM));
     }

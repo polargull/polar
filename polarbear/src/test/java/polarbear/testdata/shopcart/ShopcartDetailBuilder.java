@@ -2,45 +2,45 @@ package polarbear.testdata.shopcart;
 
 import polarbear.testdata.product.ProductBuilder;
 
-import com.polarbear.domain.ShopcartLog;
+import com.polarbear.domain.ShopcartDetail;
 import com.polarbear.util.DateUtil;
 
-public class ShopcartLogBuilder {
+public class ShopcartDetailBuilder {
     Long id;
     ProductBuilder productBuilder;
-    Integer count;
+    Integer num;
     ShopcartBuilder shopCartBuilder;
     Integer createTime;
 
-    public static ShopcartLogBuilder anShopcartLog() {
-        return new ShopcartLogBuilder();
+    public static ShopcartDetailBuilder anShopcartDetail() {
+        return new ShopcartDetailBuilder();
     }
 
-    public ShopcartLogBuilder withId(long id) {
+    public ShopcartDetailBuilder withId(long id) {
         this.id = id;
         return this;
     }
 
-    public ShopcartLogBuilder withProduct(ProductBuilder productBuilder) {
+    public ShopcartDetailBuilder withProduct(ProductBuilder productBuilder) {
         this.productBuilder = productBuilder;
         return this;
     }
 
-    public ShopcartLogBuilder withCount(int count) {
-        this.count = count;
+    public ShopcartDetailBuilder withNum(int num) {
+        this.num = num;
         return this;
     }
 
-    public ShopcartLogBuilder withShopcart(ShopcartBuilder shopcartBuilder) {
+    public ShopcartDetailBuilder withShopcart(ShopcartBuilder shopcartBuilder) {
         this.shopCartBuilder = shopcartBuilder;
         return this;
     }
 
-    public ShopcartLog build() {
-        return new ShopcartLog(
+    public ShopcartDetail build() {
+        return new ShopcartDetail(
                 id, 
                 productBuilder == null ? null : productBuilder.build(), 
-                count,
+                num,
                 shopCartBuilder == null ? null : shopCartBuilder.build(),
                 DateUtil.getCurrentSeconds());
     }

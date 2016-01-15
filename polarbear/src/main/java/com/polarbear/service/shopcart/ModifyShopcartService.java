@@ -11,6 +11,7 @@ import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Product;
 import com.polarbear.domain.Shopcart;
+import com.polarbear.domain.ShopcartDetail;
 import com.polarbear.domain.ShopcartLog;
 import com.polarbear.domain.User;
 import com.polarbear.service.product.query.ProductPicker;
@@ -24,41 +25,51 @@ public class ModifyShopcartService {
     @Autowired
     BaseDao<Shopcart> shopcartDao;
     @Autowired
-    BaseDao<ShopcartLog> shopcartLogDao;
+    BaseDao<ShopcartDetail> shopcartDetailDao;
     @Autowired
     ProductPicker productPicker;
 
     @Transactional
     public Shopcart addShopcart(long pid) throws DaoException, ValidateException {
-        return addProductToShopcart(pid, 1);
+        return increaseProductToShopcart(pid, 1);
     }
 
     @Transactional
-    public Shopcart addProductToShopcart(long pid, int num) throws DaoException, ValidateException {
+    public Shopcart increaseProductToShopcart(long pid, int num) throws DaoException, ValidateException {
         return updateMyShopCart(pid, num);
     }
 
     @Transactional
-    public Shopcart removeProductFromShopcart(long pid, int num) throws DaoException, ValidateException {
+    public Shopcart decreaseProductFromShopcart(long pid, int num) throws DaoException, ValidateException {
         return updateMyShopCart(pid, -num);
     }
 
     private Shopcart updateMyShopCart(long pid, int num) throws DaoException, ValidateException {
         Product p = productPicker.pickoutTheProduct(pid);
-        Shopcart shopcart = getShopcart(p);
-        updateShopCartNumAndPrice(p, num, shopcart);
-        dbDelegateOp(p, num, shopcart);
+        Shopcart shopcart = updateShopCartNumAndPrice(p, num);
+        updateShopCartDetail(shopcart, p, num);
         return shopcart;
+    }    
+
+    private void updateShopCartDetail(Shopcart shopcart, Product p, int num) throws DaoException {
+        ShopcartDetail sd = getShopcartDetail(shopcart, p, num);
+        shopcartDetailDao.store(sd);
     }
 
-    private void dbDelegateOp(Product p, int num, Shopcart shopcart) throws DaoException {
-        shopcartDao.store(shopcart);
-        shopcartLogDao.store(new ShopcartLog(p, num, shopcart, DateUtil.getCurrentSeconds()));
+    private ShopcartDetail getShopcartDetail(Shopcart shopcart, Product p, int num) throws DaoException {
+        ShopcartDetail sd = shopcartDetailDao.findByNamedQueryObject("queryByShopcartAndProduct", shopcart, p);
+        if (sd == null) {
+            return new ShopcartDetail(p, num, shopcart, DateUtil.getCurrentSeconds());
+        }
+        return sd;
     }
 
-    private void updateShopCartNumAndPrice(Product p, int num, Shopcart shopcart) {
+    private Shopcart updateShopCartNumAndPrice(Product p, int num) throws DaoException {
+        Shopcart shopcart = getShopcart(p);
         shopcart.setProductNum(shopcart.getProductNum() + num);
         shopcart.setPrice(Arith.add(shopcart.getPrice(), p.getRealPrice() * num));
+        shopcartDao.store(shopcart);
+        return shopcart;
     }
 
     private Shopcart getShopcart(Product p) throws DaoException {

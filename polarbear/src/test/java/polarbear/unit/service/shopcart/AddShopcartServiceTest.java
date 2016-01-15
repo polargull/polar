@@ -1,12 +1,12 @@
 package polarbear.unit.service.shopcart;
 
 import static com.polarbear.util.Constants.ResultState.*;
-import static polarbear.test.util.Constants.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-import static polarbear.test.util.Constants.PRODUCT_ID;
+import static polarbear.test.util.Constants.*;
 import static polarbear.testdata.product.ProductBuilder.anProduct;
 import static polarbear.testdata.shopcart.ShopcartBuilder.anShopcart;
+import static polarbear.testdata.shopcart.ShopcartDetailBuilder.anShopcartDetail;
 import static polarbear.testdata.user.UserBuilder.anUser;
 
 import javax.security.auth.login.LoginException;
@@ -20,44 +20,35 @@ import polarbear.unit.service.AbstractMock;
 
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
+import com.polarbear.domain.Product;
 import com.polarbear.domain.Shopcart;
-import com.polarbear.domain.ShopcartLog;
+import com.polarbear.domain.ShopcartDetail;
 import com.polarbear.service.product.query.ProductPicker;
 import com.polarbear.service.shopcart.ModifyShopcartService;
 
-public class AddShopcartServiceTest extends AbstractMock {
-    private ModifyShopcartService modifyShopService = new ModifyShopcartService();
-    public ProductPicker productPicker;
+public class AddShopcartServiceTest extends AbstractShopcartServiceTest {
 
     @Before
     public void setUp() {
-        setServiceAndDependentComponent(modifyShopService, "shopcartDao", "shopcartLogDao", "productPicker");
+        super.setUp();
     }
 
     @SuppressWarnings("unchecked")
     @Test
     public void shouldRetureShopcarWhenAddShopcartAndLoginedAndNoHaveShopcart() throws DaoException, ValidateException {
-        context.checking(new Expectations() {
-            {
-                allowing(shopcartDao).findByNamedQueryObject(with(any(String.class)), with(any(Object.class)));
-                will(returnValue(null));
-            }
-        });
-        setExpectCommonOp();
+        expectProductPickerOp();
+        expectShopcartDaoOp(false);
+        expectShopcartDetailDaoOp();
         testOriginPriceProductWhenNoHaveShopcart();
         testSalePriceProductWhenNoHaveShopcart();
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void shouldRetureShopcarWhenAddShopcartAndLoginedAndHaveShopcart() throws DaoException, ValidateException {
-        context.checking(new Expectations() {
-            {
-                allowing(shopcartDao).findByNamedQueryObject(with(any(String.class)), with(any(Object.class)));
-                will(returnValue(anShopcart().withPrice(SHOPCART_ORIGIN_PRICE).withProductNum(SHOPCART_ORIGIN_NUM).withUser(anUser()).build()));
-            }
-        });
-        setExpectCommonOp();
+        expectProductPickerOp();
+        expectShopcartDaoOp(true);
+        expectShopcartDetailDaoOp();
         testOriginPriceProductWhenHaveShopcart();
         testSalePriceProductWhenHaveShopcart();
     }
@@ -138,32 +129,4 @@ public class AddShopcartServiceTest extends AbstractMock {
         assertThat(shopcart.getPrice(), is(PRODUCT_SALE_PRICE));
     }    
 
-    @SuppressWarnings("unchecked")
-    private void setExpectCommonOp() throws DaoException, ValidateException {
-        context.checking(new Expectations() {
-            {
-                oneOf(productPicker).pickoutTheProduct(PRODUCT_ID);
-                will(returnValue(anProduct().withID(PRODUCT_ID).withPrice(PRODUCT_PRICE).build()));
-                oneOf(productPicker).pickoutTheProduct(PRODUCT_ID);
-                will(returnValue(anProduct()
-                        .withID(PRODUCT_ID)
-                        .withPrice(PRODUCT_PRICE)
-                        .withSalePrice(PRODUCT_SALE_PRICE)
-                        .withSaleBeginTime((int)(new DateTime().plusMinutes(-1).getMillis()/1000L))
-                        .withSaleEndTime((int)(new DateTime().plusDays(1).getMillis()/1000L))
-                        .build()));
-            }
-        });
-        context.checking(new Expectations() {
-            {
-                allowing(shopcartDao).store(with(any(Shopcart.class)));
-            }
-        });
-        context.checking(new Expectations() {
-            {
-                allowing(shopcartLogDao).store(with(any(ShopcartLog.class)));
-            }
-        });
-    }
-    
 }

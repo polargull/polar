@@ -2,13 +2,16 @@ package polarbear.unit.dao.shopcart;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static polarbear.test.util.Constants.*;
-import static polarbear.testdata.shopcart.ShopcartBuilder.anShopcart;
-import static polarbear.testdata.shopcart.ShopcartLogBuilder.anShopcartLog;
+import static polarbear.test.util.Constants.PRODUCT_ID;
+import static polarbear.test.util.Constants.PRODUCT_NUM;
+import static polarbear.test.util.Constants.PRODUCT_PRICE;
+import static polarbear.test.util.Constants.SHOPCARD_ID;
+import static polarbear.test.util.Constants.USER_ID;
 import static polarbear.testdata.product.ProductBuilder.anProduct;
+import static polarbear.testdata.shopcart.ShopcartBuilder.anShopcart;
+import static polarbear.testdata.shopcart.ShopcartDetailBuilder.anShopcartDetail;
 import static polarbear.testdata.user.UserBuilder.anUser;
 
 import java.sql.ResultSet;
@@ -27,7 +30,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Shopcart;
-import com.polarbear.domain.ShopcartLog;
+import com.polarbear.domain.ShopcartDetail;
+import com.polarbear.util.DateUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/test-beans.xml", "/spring/spring-dao.xml" })
@@ -36,7 +40,7 @@ public class ShopcartDaoTest extends AbstractTransactionalJUnit4SpringContextTes
     @Autowired
     private BaseDao<Shopcart> shopcartDao;
     @Autowired
-    private BaseDao<ShopcartLog> shopcartLogDao;
+    private BaseDao<ShopcartDetail> shopcartDetailDao;
     
     @Before
     public void setUp() {
@@ -58,20 +62,20 @@ public class ShopcartDaoTest extends AbstractTransactionalJUnit4SpringContextTes
                       }
               }
         );          
-    }
+    }    
     
     @Test
-    public void shouldHaveOneShopcartLogWhenAddMyShopcart() throws DaoException {
+    public void shouldAddShopcartDetailSucessWhenAddMyShopcart() throws DaoException {
         try {            
-            shopcartLogDao.store(anShopcartLog()
+            shopcartDetailDao.store(anShopcartDetail()
                                     .withProduct(anProduct().withID(PRODUCT_ID))
                                     .withShopcart(anShopcart().withId(SHOPCARD_ID))
-                                    .withCount(PRODUCT_NUM)
+                                    .withNum(PRODUCT_NUM)
                                     .build());
         } catch (DaoException e) {
             fail("注册dao操作失败了,msg:" + e.getMessage());
         }        
-        jdbcTemplate.query("select count, product_id, createTime, shopCart_id from shopcart_log where shopcart_id = ?",new Object[] {USER_ID},
+        jdbcTemplate.query("select num, product_id, createTime, shopCart_id from shopcart_detail where id = ?",new Object[] {1l},
                new RowCallbackHandler(){
                       public void processRow(ResultSet rs) throws SQLException{
                             assertThat(rs.getInt(1), equalTo(PRODUCT_NUM));
@@ -81,5 +85,23 @@ public class ShopcartDaoTest extends AbstractTransactionalJUnit4SpringContextTes
                       }
               }
         );          
+    }
+    
+    @Test
+    public void shouldQueryShopcartDetailSucessWhenAddMyShopcart() {
+        jdbcTemplate.update("insert into shopcart_detail(num,shopcart_id,product_id,createtime) values(?,?,?,?)",PRODUCT_NUM,SHOPCARD_ID,PRODUCT_ID,DateUtil.getCurrentSeconds());
+        ShopcartDetail sd;
+        try {
+            sd = shopcartDetailDao.findByNamedQueryObject("queryByShopcartAndProduct", anShopcart().withId(SHOPCARD_ID).build(),anProduct().withID(PRODUCT_ID).build());
+            assertThat(sd, notNullValue());
+            assertThat(sd.getNum(), equalTo(PRODUCT_NUM));
+            assertThat(sd.getProduct().getId(), equalTo(PRODUCT_ID));
+            assertThat(sd.getShopCart().getId(), equalTo(SHOPCARD_ID));
+        } catch (DaoException e) {
+            fail(e.getMessage());
+        }
+//        assertThat(rs.getInt(1), equalTo(PRODUCT_NUM));
+//        assertThat(rs.getLong(2), equalTo(PRODUCT_ID));        
+//        assertThat(rs.getLong(4), equalTo(SHOPCARD_ID));
     }
 }

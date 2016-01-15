@@ -18,6 +18,7 @@
 		<ext:mysql-admin>
 			SET FOREIGN_KEY_CHECKS = 0;
 			DROP TABLE IF EXISTS `shopcart_log`;
+			DROP TABLE IF EXISTS `shopcart_detail`;
 			DROP TABLE IF EXISTS `product_style`;
 			DROP TABLE IF EXISTS `product`;
 			DROP TABLE IF EXISTS `shopcart`;

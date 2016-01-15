@@ -18,7 +18,7 @@ public abstract class AbstractMock {
         }
     };
 
-    public BaseDao userDao, productDao, shopcartDao, shopcartLogDao;
+    public BaseDao userDao, productDao, shopcartDao, shopcartDetailDao;
     
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
