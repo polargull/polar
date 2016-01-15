@@ -12,7 +12,6 @@ import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Product;
 import com.polarbear.domain.Shopcart;
 import com.polarbear.domain.ShopcartDetail;
-import com.polarbear.domain.ShopcartLog;
 import com.polarbear.domain.User;
 import com.polarbear.service.product.query.ProductPicker;
 import com.polarbear.util.DateUtil;

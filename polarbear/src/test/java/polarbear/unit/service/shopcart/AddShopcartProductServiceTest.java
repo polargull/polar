@@ -1,22 +1,25 @@
 package polarbear.unit.service.shopcart;
 
-import static com.polarbear.util.Constants.ResultState.*;
-import static org.hamcrest.Matchers.*;
+import static com.polarbear.util.Constants.ResultState.PRODUCT_NUM_IS_0;
+import static com.polarbear.util.Constants.ResultState.PRODUCT_PULL_OFF;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static polarbear.test.util.Constants.*;
-import static polarbear.testdata.product.ProductBuilder.anProduct;
+import static polarbear.test.util.Constants.PRODUCT_BUY_NUM;
+import static polarbear.test.util.Constants.PRODUCT_ID;
+import static polarbear.test.util.Constants.PRODUCT_PRICE;
+import static polarbear.test.util.Constants.PRODUCT_SALE_PRICE;
+import static polarbear.test.util.Constants.SHOPCART_ORIGIN_NUM;
+import static polarbear.test.util.Constants.SHOPCART_ORIGIN_PRICE;
 import static polarbear.testdata.shopcart.ShopcartBuilder.anShopcart;
 import static polarbear.testdata.user.UserBuilder.anUser;
 
 import org.jmock.Expectations;
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Shopcart;
-import com.polarbear.domain.ShopcartLog;
 
 public class AddShopcartProductServiceTest extends AbstractShopcartServiceTest {
 
