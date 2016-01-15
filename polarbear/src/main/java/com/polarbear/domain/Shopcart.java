@@ -2,8 +2,10 @@ package com.polarbear.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,6 +26,8 @@ public class Shopcart {
     Long id;
     @OneToOne
     User user;
+    @OneToMany(fetch=FetchType.LAZY)
+    ShopcartDetail shopcartDetails;
     @Column
     Integer productNum;
     @Column
@@ -99,6 +103,14 @@ public class Shopcart {
 
     public void setCreateTime(Integer createTime) {
         this.createTime = createTime;
+    }
+
+    public ShopcartDetail getShopcartDetails() {
+        return shopcartDetails;
+    }
+
+    public void setShopcartDetails(ShopcartDetail shopcartDetails) {
+        this.shopcartDetails = shopcartDetails;
     }
 
 }
