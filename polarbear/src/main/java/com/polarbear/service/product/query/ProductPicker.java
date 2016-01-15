@@ -1,17 +1,18 @@
 package com.polarbear.service.product.query;
 
 import static com.polarbear.util.Constants.PRODUCT_STATE.PUT_ON;
-import static com.polarbear.util.Constants.ResultState.*;
+import static com.polarbear.util.Constants.ResultState.PRODUCT_NUM_IS_0;
+import static com.polarbear.util.Constants.ResultState.PRODUCT_PULL_OFF;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.polarbear.ValidateException;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Product;
 
-@Service
+@Component
 public class ProductPicker {
     @Autowired
     BaseDao<Product> productDao;
