@@ -2,6 +2,7 @@ package polarbear.unit.dao.shopcart;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static polarbear.test.util.Constants.PRODUCT_ID;
@@ -16,6 +17,7 @@ import static polarbear.testdata.user.UserBuilder.anUser;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -100,8 +102,18 @@ public class ShopcartDaoTest extends AbstractTransactionalJUnit4SpringContextTes
         } catch (DaoException e) {
             fail(e.getMessage());
         }
-//        assertThat(rs.getInt(1), equalTo(PRODUCT_NUM));
-//        assertThat(rs.getLong(2), equalTo(PRODUCT_ID));        
-//        assertThat(rs.getLong(4), equalTo(SHOPCARD_ID));
+    }
+    
+    @Test
+    public void shouldQuerySucessWhenInShopcartGetOrderDetail() {
+        jdbcTemplate.update("insert into shopcart_detail(num,shopcart_id,product_id,createtime) values(?,?,?,?)", PRODUCT_NUM, SHOPCARD_ID, PRODUCT_ID + 1, DateUtil
+                .getCurrentSeconds());
+        try {
+            Shopcart shopcart = shopcartDao.findById(Shopcart.class, SHOPCARD_ID);
+            List<ShopcartDetail> shopcartDetails = shopcart.getShopcartDetails();
+            assertThat(shopcartDetails.size(), is(2));
+        } catch (DaoException e) {
+            fail(e.getMessage());
+        }
     }
 }

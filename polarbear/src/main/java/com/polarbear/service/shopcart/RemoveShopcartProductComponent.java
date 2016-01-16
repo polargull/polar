@@ -20,9 +20,8 @@ public class RemoveShopcartProductComponent {
     @Autowired
     BaseDao<Product> productDao;
 
-    public void removeProductFromShopcart(long pid) throws DaoException {
+    public void removeProductFromShopcart(Product p) throws DaoException {
         User u = CurrentThreadUserFactory.getUser();
-        Product p = productDao.findById(Product.class, pid);
         Shopcart shopcart = shopcartDao.findByNamedQueryObject("queryUserId", u);
         ShopcartDetail shopcartDetail = shopcartDetailDao.findByNamedQueryObject("queryByShopcartAndProduct", shopcart, p);
         shopcartDetailDao.delete(shopcartDetail);

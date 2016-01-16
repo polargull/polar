@@ -1,11 +1,11 @@
 package com.polarbear.domain;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -29,8 +29,8 @@ public class Shopcart {
     Long id;
     @OneToOne
     User user;
-    @OneToMany(fetch=FetchType.LAZY)
-    Set<ShopcartDetail> shopcartDetails = new HashSet<ShopcartDetail>();;
+    @OneToMany(mappedBy="shopCart")
+    List<ShopcartDetail> shopcartDetails = new ArrayList<ShopcartDetail>();;
     @Column
     Integer productNum;
     @Column
@@ -108,11 +108,11 @@ public class Shopcart {
         this.createTime = createTime;
     }
 
-    public Set<ShopcartDetail> getShopcartDetails() {
+    public List<ShopcartDetail> getShopcartDetails() {
         return shopcartDetails;
     }
 
-    public void setShopcartDetails(Set<ShopcartDetail> shopcartDetails) {
+    public void setShopcartDetails(List<ShopcartDetail> shopcartDetails) {
         this.shopcartDetails = shopcartDetails;
     }
 
