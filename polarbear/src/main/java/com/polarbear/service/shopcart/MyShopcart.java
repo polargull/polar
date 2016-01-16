@@ -1,18 +1,17 @@
 package com.polarbear.service.shopcart;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.polarbear.domain.Shopcart;
 
 public class MyShopcart {
-    private List<ShopcartProduct> productList = new ArrayList<ShopcartProduct>();
     private Shopcart shopcart;
+    private List<ShopcartProduct> productList;
 
     public MyShopcart() {
     }
 
-    public MyShopcart(List<ShopcartProduct> productList, Shopcart shopcart) {
+    public MyShopcart(Shopcart shopcart, List<ShopcartProduct> productList) {
         super();
         this.productList = productList;
         this.shopcart = shopcart;

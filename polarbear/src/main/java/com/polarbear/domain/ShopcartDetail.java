@@ -7,12 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
-@NamedQueries({
-    @NamedQuery(name = "queryByShopcartAndProduct", query = "from ShopcartDetail sd where sd.shopCart = ? and sd.product = ?")
-})
+@NamedQueries( { @NamedQuery(name = "queryByShopcartAndProduct", query = "from ShopcartDetail sd where sd.shopCart = ? and sd.product = ?") })
 @Entity
 @Table(name = "shopcart_detail")
 public class ShopcartDetail {
@@ -20,10 +19,12 @@ public class ShopcartDetail {
     @GeneratedValue
     Long id;
     @ManyToOne
+    @Index(name = "productid_shopcartid_index")
     Product product;
     @Column
     Integer num;
     @ManyToOne
+    @Index(name = "productid_shopcartid_index")
     Shopcart shopCart;
     @Column
     Integer createTime;
@@ -39,7 +40,7 @@ public class ShopcartDetail {
         this.shopCart = shopCart;
         this.createTime = createTime;
     }
-    
+
     public ShopcartDetail(Product product, Integer num, Shopcart shopCart, Integer createTime) {
         super();
         this.product = product;
@@ -87,5 +88,5 @@ public class ShopcartDetail {
     public void setCreateTime(Integer createTime) {
         this.createTime = createTime;
     }
-    
+
 }

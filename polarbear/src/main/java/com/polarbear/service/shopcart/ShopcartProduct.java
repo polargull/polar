@@ -5,9 +5,14 @@ import com.polarbear.domain.Product;
 
 public class ShopcartProduct {
     private Product product;
+    private Integer num;
 
-    public void setProduct(Product product) {
+    public ShopcartProduct() {
+    }
+
+    public ShopcartProduct(Product product, int num) {
         this.product = product;
+        this.num = num;
     }
 
     @JSONField(serialize = false)
@@ -23,12 +28,16 @@ public class ShopcartProduct {
         return product.getImage();
     }
 
-    public int getCount() {
-        return product.getNum();
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 
     public double getPrice() {
-        return product.getPrice();
+        return product.getRealPrice();
     }
 
 }
