@@ -1,5 +1,8 @@
 package com.polarbear.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,7 +30,7 @@ public class Shopcart {
     @OneToOne
     User user;
     @OneToMany(fetch=FetchType.LAZY)
-    ShopcartDetail shopcartDetails;
+    Set<ShopcartDetail> shopcartDetails = new HashSet<ShopcartDetail>();;
     @Column
     Integer productNum;
     @Column
@@ -105,11 +108,11 @@ public class Shopcart {
         this.createTime = createTime;
     }
 
-    public ShopcartDetail getShopcartDetails() {
+    public Set<ShopcartDetail> getShopcartDetails() {
         return shopcartDetails;
     }
 
-    public void setShopcartDetails(ShopcartDetail shopcartDetails) {
+    public void setShopcartDetails(Set<ShopcartDetail> shopcartDetails) {
         this.shopcartDetails = shopcartDetails;
     }
 
