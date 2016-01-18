@@ -4,7 +4,7 @@ import org.junit.Before;
 
 import polarbear.unit.service.AbstractMock;
 
-public class RemoveShopcartProductServiceTest extends AbstractMock {
+public class DecreaseProductNumFromShopcartServiceTest extends AbstractMock {
 
     @Before
     public void setUp() {

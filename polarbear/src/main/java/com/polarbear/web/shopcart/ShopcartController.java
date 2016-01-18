@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
-import com.polarbear.service.shopcart.ModifyShopcartService;
+import com.polarbear.service.shopcart.ShopcartService;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.CookieHelper;
 
@@ -29,14 +29,14 @@ public class ShopcartController {
     public static String COUNT = "count";
 
     @Autowired(required = false)
-    private ModifyShopcartService modifyShopcartService;
+    private ShopcartService shopcartService;
 
     @RequestMapping(value = { "/addShopcart.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public Object addShopcart(HttpServletResponse response, HttpServletRequest request, @RequestParam("pid") String pid) throws ValidateException, DaoException {
         log.debug("pid=" + pid);
         validate(pid);
-        int count = modifyShopcartService.addShopcart(Long.valueOf(pid)).getProductNum();
+        int count = shopcartService.addProductToShopcart(Long.valueOf(pid));
         CookieHelper.setCookie(response, COUNT, String.valueOf(count));
         log.debug("pid = " + pid + ", op successful!");
         return new JsonResult(SUCCESS);

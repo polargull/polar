@@ -1,14 +1,18 @@
 package polarbear.unit.controller.shopcart;
 
-import static com.polarbear.util.Constants.ResultState.*;
-import static org.hamcrest.Matchers.*;
+import static com.polarbear.util.Constants.ResultState.DB_ERR;
+import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
+import static com.polarbear.util.Constants.ResultState.SUCCESS;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static polarbear.test.util.Constants.*;
+import static polarbear.test.util.Constants.PRODUCT_ID;
+import static polarbear.test.util.Constants.SHOPCART_ADD_URL;
 import static polarbear.test.util.JsonResultConvertUtil.convertJsonObj;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
-import static polarbear.testdata.shopcart.ShopcartBuilder.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -21,16 +25,16 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import polarbear.unit.controller.AbstractContextControllerTest;
 
 import com.polarbear.dao.DaoException;
-import com.polarbear.service.shopcart.ModifyShopcartService;
+import com.polarbear.service.shopcart.ShopcartService;
 import com.polarbear.web.shopcart.ShopcartController;
 
 public class AddShopcartControllerTest extends AbstractContextControllerTest {
     ShopcartController shopcartController = new ShopcartController();
-    public ModifyShopcartService modifyShopcartService;
+    public ShopcartService shopcartService;
 
     @Before
     public void setup() {
-        setServiceAndDependentComponent(shopcartController, "modifyShopcartService");
+        setServiceAndDependentComponent(shopcartController, "shopcartService");
         super.setUp(shopcartController);
     }
 
@@ -38,9 +42,9 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
     public void shouldReturnShopcartCountInCookieWhenInputProductId() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(modifyShopcartService).addShopcart(PRODUCT_ID);
+                allowing(shopcartService).addProductToShopcart(PRODUCT_ID);
                 // 设定预期值
-                will(returnValue(anShopcart().withProductNum(1).build()));
+                will(returnValue(1));
             }
         });
         MvcResult result = mockMvc
@@ -58,7 +62,7 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
     public void shouldInvalidateWhenInputErrProductId() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(modifyShopcartService).addShopcart(PRODUCT_ID);
+                allowing(shopcartService).addProductToShopcart(PRODUCT_ID);
                 // 设定预期值
                 will(returnValue(1));
             }
@@ -84,7 +88,7 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
     public void shouldInvalidateWhenAddShopcartServiceDaoErr() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(modifyShopcartService).addShopcart(PRODUCT_ID);
+                allowing(shopcartService).addProductToShopcart(PRODUCT_ID);
                 // 设定预期值
                 will(throwException(new DaoException(DB_ERR)));
             }

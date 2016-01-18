@@ -21,16 +21,16 @@ import com.polarbear.util.money.Arith;
 @Service
 public class ModifyShopcartService {
     private Log log = LogFactory.getLog(ModifyShopcartService.class);
-    @Autowired
+    @Autowired(required = false)
     BaseDao<Shopcart> shopcartDao;
-    @Autowired
+    @Autowired(required = false)
     BaseDao<ShopcartDetail> shopcartDetailDao;
-    @Autowired
+    @Autowired(required = false)
     ProductPicker productPicker;
 
     @Transactional
-    public Shopcart addShopcart(long pid) throws DaoException, ValidateException {
-        return increaseProductToShopcart(pid, 1);
+    public int addShopcart(long pid) throws DaoException, ValidateException {
+        return increaseProductToShopcart(pid, 1).getProductNum();
     }
 
     @Transactional
@@ -50,6 +50,14 @@ public class ModifyShopcartService {
         return shopcart;
     }    
 
+    private Shopcart updateShopCartNumAndPrice(Product p, int num) throws DaoException {
+        Shopcart shopcart = getShopcart(p);
+        shopcart.setProductNum(shopcart.getProductNum() + num);
+        shopcart.setPrice(Arith.add(shopcart.getPrice(), p.getRealPrice() * num));
+        shopcartDao.store(shopcart);
+        return shopcart;
+    }
+
     private void updateShopCartDetail(Shopcart shopcart, Product p, int num) throws DaoException {
         ShopcartDetail sd = getShopcartDetail(shopcart, p, num);
         shopcartDetailDao.store(sd);
@@ -61,14 +69,6 @@ public class ModifyShopcartService {
             return new ShopcartDetail(p, num, shopcart, DateUtil.getCurrentSeconds());
         }
         return sd;
-    }
-
-    private Shopcart updateShopCartNumAndPrice(Product p, int num) throws DaoException {
-        Shopcart shopcart = getShopcart(p);
-        shopcart.setProductNum(shopcart.getProductNum() + num);
-        shopcart.setPrice(Arith.add(shopcart.getPrice(), p.getRealPrice() * num));
-        shopcartDao.store(shopcart);
-        return shopcart;
     }
 
     private Shopcart getShopcart(Product p) throws DaoException {
