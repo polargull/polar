@@ -30,7 +30,7 @@ public class Shopcart {
     @OneToOne
     User user;
     @OneToMany(mappedBy="shopCart")
-    List<ShopcartDetail> shopcartDetails = new ArrayList<ShopcartDetail>();;
+    List<ShopcartDetail> shopcartDetails = new ArrayList<ShopcartDetail>();
     @Column
     Integer productNum;
     @Column

@@ -1,6 +1,8 @@
 package polarbear.testdata.product;
 
 
+import org.joda.time.DateTime;
+
 import com.polarbear.domain.Product;
 import com.polarbear.domain.ProductStyle;
 import com.polarbear.service.product.util.StylePropertyTransferUtil;
@@ -45,14 +47,22 @@ public class ProductBuilder {
         return this;
     }
     
-    public ProductBuilder withSaleBeginTime(int saleBeginTime) {
+    private ProductBuilder withSaleBeginTime(int saleBeginTime) {
         this.saleBeginTime = saleBeginTime;
         return this;
     }
     
-    public ProductBuilder withSaleEndTime(int saleEndTime) {
+    private ProductBuilder withSaleEndTime(int saleEndTime) {
         this.saleEndTime = saleEndTime;
         return this;
+    }
+    
+    public ProductBuilder isSaleExpire() {
+        return withSaleBeginTime((int) (new DateTime().plusMinutes(-1).getMillis() / 1000L)).withSaleEndTime((int) (new DateTime().plusDays(1).getMillis() / 1000L));
+    }
+    
+    public ProductBuilder isSale() {
+        return withSaleBeginTime((int) (new DateTime().plusDays(-1).getMillis() / 1000L)).withSaleEndTime((int) (new DateTime().plusMinutes(-1).getMillis() / 1000L));
     }
     
     public ProductBuilder withNum(int num) {

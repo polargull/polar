@@ -42,8 +42,7 @@ public class AbstractShopcartServiceTest extends AbstractMock {
                         .withID(PRODUCT_ID)
                         .withPrice(PRODUCT_PRICE)
                         .withSalePrice(PRODUCT_SALE_PRICE)
-                        .withSaleBeginTime((int)(new DateTime().plusMinutes(-1).getMillis()/1000L))
-                        .withSaleEndTime((int)(new DateTime().plusDays(1).getMillis()/1000L))
+                        
                         .build()));
             }
         });
