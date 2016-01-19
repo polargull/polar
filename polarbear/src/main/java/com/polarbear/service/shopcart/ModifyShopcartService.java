@@ -30,21 +30,16 @@ public class ModifyShopcartService {
 
     @Transactional
     public int addShopcart(long pid) throws DaoException, ValidateException {
-        return increaseProductToShopcart(pid, 1).getProductNum();
+        return updateProductNumFromShopCart(pid, 1).getProductNum();
     }
 
     @Transactional
-    public Shopcart increaseProductToShopcart(long pid, int num) throws DaoException, ValidateException {
-        return updateMyShopCart(pid, num);
-    }
-
-    @Transactional
-    public Shopcart decreaseProductFromShopcart(long pid, int num) throws DaoException, ValidateException {
-        return updateMyShopCart(pid, -num);
-    }
-
-    private Shopcart updateMyShopCart(long pid, int num) throws DaoException, ValidateException {
+    public Shopcart updateProductNumFromShopCart(long pid, int num) throws DaoException, ValidateException {
         Product p = productPicker.pickoutTheProduct(pid);
+        return updateShopcarRelationOp(num, p);
+    }
+
+    private Shopcart updateShopcarRelationOp(int num, Product p) throws DaoException {
         Shopcart shopcart = updateShopCartNumAndPrice(p, num);
         updateShopCartDetail(shopcart, p, num);
         return shopcart;
@@ -53,7 +48,6 @@ public class ModifyShopcartService {
     private Shopcart updateShopCartNumAndPrice(Product p, int num) throws DaoException {
         Shopcart shopcart = getShopcart(p);
         shopcart.setProductNum(shopcart.getProductNum() + num);
-        shopcart.setPrice(Arith.add(shopcart.getPrice(), p.getRealPrice() * num));
         shopcartDao.store(shopcart);
         return shopcart;
     }
@@ -68,6 +62,7 @@ public class ModifyShopcartService {
         if (sd == null) {
             return new ShopcartDetail(p, num, shopcart, DateUtil.getCurrentSeconds());
         }
+        sd.setNum(num);
         return sd;
     }
 

@@ -9,7 +9,6 @@ public class ShopcartBuilder {
     private Long id;
     private UserBuilder userBuilder;
     private Integer productNum;
-    private Double price;
 
     public static ShopcartBuilder anShopcart() {
         return new ShopcartBuilder();
@@ -30,12 +29,7 @@ public class ShopcartBuilder {
         return this;
     }
 
-    public ShopcartBuilder withPrice(double price) {
-        this.price = price;
-        return this;
-    }
-
     public Shopcart build() {
-        return new Shopcart(id, userBuilder == null ? null : userBuilder.build(), productNum, price, DateUtil.getCurrentSeconds());
+        return new Shopcart(id, userBuilder == null ? null : userBuilder.build(), productNum, DateUtil.getCurrentSeconds());
     }
 }

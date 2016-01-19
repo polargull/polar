@@ -56,7 +56,7 @@ public class ShopcartDaoTest extends AbstractTransactionalJUnit4SpringContextTes
         userDao.store(testUser);
         testProduct = anProduct().withNum(PRODUCT_NUM).withPrice(PRODUCT_PRICE).build();
         productDao.store(testProduct);
-        testShopcart = anShopcart().withPrice(PRODUCT_PRICE).withProductNum(SHOPCART_ORIGIN_NUM).withUser(anUser().withID(testUser.getId())).build();
+        testShopcart = anShopcart().withProductNum(SHOPCART_ORIGIN_NUM).withUser(anUser().withID(testUser.getId())).build();
         shopcartDao.store(testShopcart);
         testShopcartDetail = anShopcartDetail().withNum(PRODUCT_BUY_NUM).withProduct(anProduct().withID(testProduct.getId())).withShopcart(anShopcart().withId(testShopcart.getId())).build();
         shopcartDetailDao.store(testShopcartDetail);

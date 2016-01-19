@@ -34,34 +34,22 @@ public class Shopcart {
     @Column
     Integer productNum;
     @Column
-    Double price;
-    @Column
     Integer createTime;
 
     public Shopcart() {}
 
-    public Shopcart(Long id, User user, Integer productNum, Double price, Integer createTime) {
+    public Shopcart(Long id, User user, Integer productNum, Integer createTime) {
         super();
         this.id = id;
         this.user = user;
         this.productNum = productNum;
-        this.price = price;
         this.createTime = createTime;
     }
 
-    public Shopcart(User user, Integer count, Double price, Integer createTime) {
-        super();
-        this.user = user;
-        this.productNum = count;
-        this.price = price;
-        this.createTime = createTime;
-    }
-    
     public Shopcart(User user, Integer createTime) {
         super();
         this.user = user;
         this.productNum = 0;
-        this.price = 0d;
         this.createTime = createTime;
     }
     
@@ -89,14 +77,6 @@ public class Shopcart {
 
     public void setProductNum(Integer count) {
         this.productNum = count;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     @JSONField(serialize = false)
