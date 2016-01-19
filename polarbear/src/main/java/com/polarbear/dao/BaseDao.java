@@ -93,12 +93,12 @@ public class BaseDao<T> {
         }
     }
 
-    public T executeUpdate(final String sql, final Object... values) throws DaoException {
+    public T executeUpdate(final String nameQuery, final Object... values) throws DaoException {
         try {
             return hibernateTemplate.execute(new HibernateCallback<T>() {
                 @SuppressWarnings("unchecked")
                 public T doInHibernate(Session session) {
-                    Query query = session.getNamedQuery(sql);
+                    Query query = session.getNamedQuery(nameQuery);
                     for (int i = 0; values != null && i < values.length; i++) {
                         query.setParameter(i, values[i]);
                     }
