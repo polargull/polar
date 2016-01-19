@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -62,7 +63,7 @@ public class ShopcartDaoTest extends AbstractTransactionalJUnit4SpringContextTes
         shopcartDetailDao.store(testShopcartDetail);
     }        
     
-    @Test
+//    @Test
     public void shouldAddShopcartDetailSucessWhenAddMyShopcart() throws DaoException {        
         jdbcTemplate.query("select num, product_id, createTime, shopCart_id from shopcart_detail where id = ?", new Object[] {testShopcartDetail.getId()},
                new RowCallbackHandler(){
@@ -76,7 +77,7 @@ public class ShopcartDaoTest extends AbstractTransactionalJUnit4SpringContextTes
         );          
     }
     
-    @Test
+//    @Test
     public void shouldQueryShopcartDetailSucessWhenAddMyShopcart() {        
         try {
             ShopcartDetail sd = shopcartDetailDao.findByNamedQueryObject("queryByShopcartAndProduct", anShopcart().withId(testShopcart.getId()).build(),anProduct().withID(testProduct.getId()).build());
@@ -87,6 +88,11 @@ public class ShopcartDaoTest extends AbstractTransactionalJUnit4SpringContextTes
         } catch (DaoException e) {
             fail(e.getMessage());
         }
+    }
+    
+    @Test
+    public void deleteShopcartDetailByShopcartAndProduct() throws DaoException {
+        shopcartDetailDao.executeUpdate("deleteByShopcartAndProduct", anShopcart().withId(7l).build(),anProduct().withID(8l).build());
     }
     
 //    @Test

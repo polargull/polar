@@ -11,17 +11,29 @@ import polarbear.unit.service.AbstractMock;
 
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
+import com.polarbear.domain.Product;
 import com.polarbear.domain.Shopcart;
 import com.polarbear.domain.ShopcartDetail;
 import com.polarbear.service.product.query.ProductPicker;
 import com.polarbear.service.shopcart.ModifyShopcartService;
+import com.polarbear.service.shopcart.RemoveShopcartProductComponent;
 
 public class AbstractShopcartServiceTest extends AbstractMock {
     ModifyShopcartService modifyShopcartService = new ModifyShopcartService();
     public ProductPicker productPicker;
+    public RemoveShopcartProductComponent removeShopcartProductComponent; 
     
     public void setUp() {
-        setServiceAndDependentComponent(modifyShopcartService, "shopcartDao", "shopcartDetailDao", "productPicker");
+        setServiceAndDependentComponent(modifyShopcartService, "shopcartDao", "shopcartDetailDao", "productPicker", "productDao", "removeShopcartProductComponent");
+    }
+
+    protected void expectQueryProductOp() throws DaoException, ValidateException {
+        context.checking(new Expectations() {
+            {
+                allowing(productDao).findById(Product.class, PRODUCT_ID);
+                will(returnValue(anProduct().withID(PRODUCT_ID).withPrice(PRODUCT_PRICE).build()));
+            }
+        });
     }
     
     protected void expectProductPickerOp() throws DaoException, ValidateException {
