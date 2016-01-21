@@ -1,17 +1,28 @@
 package polarbear.unit.service.shopcart;
 
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
+import static polarbear.test.util.Constants.PRODUCT_ID;
+import static polarbear.test.util.Constants.SHOPCART_ORIGIN_NUM;
+
 import org.junit.Before;
-import static com.polarbear.util.Constants.ResultState.*;
-import static polarbear.test.util.Constants.*;
-import com.polarbear.util.Constants.PRODUCT_STATE;
+import org.junit.Test;
+
+import com.polarbear.ValidateException;
+import com.polarbear.dao.DaoException;
 
 public class RemoveShopcartProductServiceTest extends AbstractShopcartServiceTest {
 
     @Before
     public void setUp() {
+        super.setUp();
     }
 
-    public void shouldSuccessWhenRemoveProductFromShopcart() {
-//        modifyShopcartService.removeProductFromShopCart(PRODUCT_ID);
+    @Test
+    public void shouldSuccessWhenRemoveProductFromShopcart() throws DaoException, ValidateException {
+        expectFindProductOp();
+        expectRemoveShopcartProductComponentOp();
+        expectShopcartOp();
+        assertThat(modifyShopcartService.removeProductFromShopCart(PRODUCT_ID).getProductNum(), is(SHOPCART_ORIGIN_NUM - 1));
     }
 }
