@@ -16,7 +16,6 @@ import com.polarbear.domain.User;
 import com.polarbear.service.product.query.ProductPicker;
 import com.polarbear.util.DateUtil;
 import com.polarbear.util.factory.CurrentThreadUserFactory;
-import com.polarbear.util.money.Arith;
 
 @Service
 public class ModifyShopcartService {
@@ -27,6 +26,10 @@ public class ModifyShopcartService {
     BaseDao<ShopcartDetail> shopcartDetailDao;
     @Autowired(required = false)
     ProductPicker productPicker;
+    @Autowired(required = false)
+    BaseDao<Product> productDao;
+    @Autowired(required = false)
+    RemoveShopcartProductComponent removeShopcartProductComponent;
 
     @Transactional
     public int addShopcart(long pid) throws DaoException, ValidateException {
@@ -39,22 +42,29 @@ public class ModifyShopcartService {
         return updateShopcarRelationOp(num, p);
     }
 
-    private Shopcart updateShopcarRelationOp(int num, Product p) throws DaoException {
-        Shopcart shopcart = updateShopCartNumAndPrice(p, num);
-        updateShopCartDetail(shopcart, p, num);
-        return shopcart;
-    }    
+    @Transactional
+    public Shopcart removeProductFromShopCart(long pid) throws DaoException, ValidateException {
+        Product p = productDao.findById(Product.class, pid);
+        int removeNum = removeShopcartProductComponent.removeProductFromShopcart(p);
+        return updateShopCartNum(-removeNum);
+    }
 
-    private Shopcart updateShopCartNumAndPrice(Product p, int num) throws DaoException {
-        Shopcart shopcart = getShopcart(p);
+    private Shopcart updateShopcarRelationOp(int num, Product p) throws DaoException {
+        Shopcart shopcart = updateShopCartNum(num);
+        return updateShopCartDetail(shopcart, p, num);
+    }
+
+    private Shopcart updateShopCartNum(int num) throws DaoException {
+        Shopcart shopcart = getShopcart();
         shopcart.setProductNum(shopcart.getProductNum() + num);
         shopcartDao.store(shopcart);
         return shopcart;
     }
 
-    private void updateShopCartDetail(Shopcart shopcart, Product p, int num) throws DaoException {
+    private Shopcart updateShopCartDetail(Shopcart shopcart, Product p, int num) throws DaoException {
         ShopcartDetail sd = getShopcartDetail(shopcart, p, num);
         shopcartDetailDao.store(sd);
+        return shopcart;
     }
 
     private ShopcartDetail getShopcartDetail(Shopcart shopcart, Product p, int num) throws DaoException {
@@ -66,7 +76,7 @@ public class ModifyShopcartService {
         return sd;
     }
 
-    private Shopcart getShopcart(Product p) throws DaoException {
+    private Shopcart getShopcart() throws DaoException {
         User user = CurrentThreadUserFactory.getUser();
         Shopcart shopcart = shopcartDao.findByNamedQueryObject("queryUserId", user);
         if (shopcart == null) {

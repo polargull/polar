@@ -17,14 +17,13 @@ public class RemoveShopcartProductComponent {
     BaseDao<ShopcartDetail> shopcartDetailDao;
     @Autowired
     BaseDao<Shopcart> shopcartDao;
-    @Autowired
-    BaseDao<Product> productDao;
 
-    public void removeProductFromShopcart(Product p) throws DaoException {
+    public int removeProductFromShopcart(Product p) throws DaoException {
         User u = CurrentThreadUserFactory.getUser();
         Shopcart shopcart = shopcartDao.findByNamedQueryObject("queryUserId", u);
         ShopcartDetail shopcartDetail = shopcartDetailDao.findByNamedQueryObject("queryByShopcartAndProduct", shopcart, p);
         shopcartDetailDao.delete(shopcartDetail);
+        return shopcartDetail.getNum();
     }
 
 }
