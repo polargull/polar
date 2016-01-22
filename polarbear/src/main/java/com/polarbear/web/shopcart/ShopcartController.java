@@ -26,7 +26,7 @@ import com.polarbear.util.cookie.CookieHelper;
 @RequestMapping("/shopcart")
 public class ShopcartController {
     private Log                log = LogFactory.getLog(ShopcartController.class);
-    public static String COUNT = "count";
+    public static String COUNT = "productNum";
 
     @Autowired(required = false)
     private ShopcartService shopcartService;
