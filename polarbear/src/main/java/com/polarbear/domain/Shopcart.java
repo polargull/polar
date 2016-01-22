@@ -2,8 +2,8 @@ package com.polarbear.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +17,7 @@ import org.hibernate.annotations.NamedQuery;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-
-@NamedQueries( {
-    @NamedQuery(name = "queryUserId", query = "from Shopcart sc where sc.user = ?")
-    })
+@NamedQueries( { @NamedQuery(name = "queryUserId", query = "from Shopcart sc where sc.user = ?") })
 @Entity
 @Table(name = "shopcart")
 public class Shopcart {
@@ -29,14 +26,15 @@ public class Shopcart {
     Long id;
     @OneToOne
     User user;
-    @OneToMany(mappedBy="shopCart")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopCart")
     List<ShopcartDetail> shopcartDetails = new ArrayList<ShopcartDetail>();
     @Column
     Integer productNum;
     @Column
     Integer createTime;
 
-    public Shopcart() {}
+    public Shopcart() {
+    }
 
     public Shopcart(Long id, User user, Integer productNum, Integer createTime) {
         super();
@@ -52,7 +50,7 @@ public class Shopcart {
         this.productNum = 0;
         this.createTime = createTime;
     }
-    
+
     @JSONField(serialize = false)
     public Long getId() {
         return id;
