@@ -53,7 +53,7 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
             .andExpect(status().isOk())
 //            .andDo(print())
             .andReturn();
-        assertThat(result.getResponse().getCookie(ShopcartController.COUNT).getValue(),not(equalTo("")));
+        assertThat(result.getResponse().getCookie(ShopcartController.SHOPCART_PRODUCT_NUM).getValue(),not(equalTo("")));
         assertThat(resultState(result), is(SUCCESS));
         assertThat(convertJsonObj(result).getBody().isEmpty(), is(true));
     }

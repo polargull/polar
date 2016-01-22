@@ -26,7 +26,7 @@ import com.polarbear.util.cookie.CookieHelper;
 @RequestMapping("/shopcart")
 public class ShopcartController {
     private Log                log = LogFactory.getLog(ShopcartController.class);
-    public static String COUNT = "count";
+    public static String SHOPCART_PRODUCT_NUM = "productNum";
 
     @Autowired(required = false)
     private ShopcartService shopcartService;
@@ -37,7 +37,7 @@ public class ShopcartController {
         log.debug("pid=" + pid);
         validate(pid);
         int count = shopcartService.addProductToShopcart(Long.valueOf(pid));
-        CookieHelper.setCookie(response, COUNT, String.valueOf(count));
+        CookieHelper.setCookie(response, SHOPCART_PRODUCT_NUM, String.valueOf(count));
         log.debug("pid = " + pid + ", op successful!");
         return new JsonResult(SUCCESS);
     }

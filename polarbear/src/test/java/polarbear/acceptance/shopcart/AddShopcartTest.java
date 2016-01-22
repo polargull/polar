@@ -34,7 +34,7 @@ public class AddShopcartTest {
                 assertThat(jsonResult.getBody().isEmpty(),is(true));
             }
             public void onResponse(WebResponse response) {
-                assertThat(response.getNewCookieValue(ShopcartController.COUNT),is("1"));
+                assertThat(response.getNewCookieValue(ShopcartController.SHOPCART_PRODUCT_NUM),is("1"));
             }
         });
     }
