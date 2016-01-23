@@ -76,7 +76,7 @@ public class ModifyShopcartService {
         return sd;
     }
 
-    private Shopcart getShopcart() throws DaoException {
+    public Shopcart getShopcart() throws DaoException {
         User user = CurrentThreadUserFactory.getUser();
         Shopcart shopcart = shopcartDao.findByNamedQueryObject("queryUserId", user);
         if (shopcart == null) {

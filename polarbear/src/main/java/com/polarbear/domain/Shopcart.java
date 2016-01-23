@@ -51,7 +51,6 @@ public class Shopcart {
         this.createTime = createTime;
     }
 
-    @JSONField(serialize = false)
     public Long getId() {
         return id;
     }
@@ -60,7 +59,6 @@ public class Shopcart {
         this.id = id;
     }
 
-    @JSONField(serialize = false)
     public User getUser() {
         return user;
     }
@@ -77,7 +75,6 @@ public class Shopcart {
         this.productNum = count;
     }
 
-    @JSONField(serialize = false)
     public Integer getCreateTime() {
         return createTime;
     }

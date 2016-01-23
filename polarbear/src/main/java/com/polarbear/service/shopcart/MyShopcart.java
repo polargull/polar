@@ -2,9 +2,12 @@ package com.polarbear.service.shopcart;
 
 import java.util.List;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.polarbear.domain.Shopcart;
+import com.polarbear.util.money.Arith;
 
 public class MyShopcart {
+    @JSONField(serialize = false)
     private Shopcart shopcart;
     private List<ShopcartProduct> productList;
 
@@ -21,16 +24,16 @@ public class MyShopcart {
         return productList;
     }
 
-    public void setProductList(List<ShopcartProduct> productList) {
-        this.productList = productList;
+    public double getTotalPrice() {
+        double totalPrice = 0d;
+        for (ShopcartProduct sp : productList) {
+            totalPrice = Arith.add(totalPrice, sp.getPrice());
+        }
+        return totalPrice;
     }
 
-    public Shopcart getShopcart() {
-        return shopcart;
-    }
-
-    public void setShopcart(Shopcart shopcart) {
-        this.shopcart = shopcart;
+    public int getProductNum() {
+        return shopcart.getProductNum();
     }
 
 }

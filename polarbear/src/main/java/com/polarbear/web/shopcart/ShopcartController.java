@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
+import com.polarbear.service.shopcart.MyShopcart;
 import com.polarbear.service.shopcart.ShopcartService;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.CookieHelper;
@@ -46,5 +47,12 @@ public class ShopcartController {
         if (!NumberUtils.isDigits(pid)) {
             throw new ValidateException(PARAM_ERR);
         }
+    }
+    
+    @RequestMapping(value = { "/getMyShopcart.json" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public Object getMyShopcart() throws ValidateException, DaoException {
+        MyShopcart myShopcart = shopcartService.getMyShopcart();
+        return new JsonResult(SUCCESS).put(myShopcart);
     }
 }

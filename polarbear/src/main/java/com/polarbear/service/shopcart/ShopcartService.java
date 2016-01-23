@@ -28,8 +28,7 @@ public class ShopcartService {
     }
     
     public MyShopcart getMyShopcart() throws DaoException {
-        User u = CurrentThreadUserFactory.getUser();
-        Shopcart shopcart = shopcartDao.findByNamedQueryObject("queryUserId", u);
+        Shopcart shopcart = modifyShopcartService.getShopcart();
         List<ShopcartDetail> sdLst = shopcart.getShopcartDetails();
         List<ShopcartProduct> productList = new ArrayList<ShopcartProduct>();
         for (ShopcartDetail sd : sdLst) {
