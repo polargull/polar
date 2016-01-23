@@ -12,8 +12,6 @@ import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Shopcart;
 import com.polarbear.domain.ShopcartDetail;
-import com.polarbear.domain.User;
-import com.polarbear.util.factory.CurrentThreadUserFactory;
 
 @Service
 public class ShopcartService {
@@ -30,12 +28,16 @@ public class ShopcartService {
     @Transactional
     public MyShopcart getMyShopcart() throws DaoException {
         Shopcart shopcart = modifyShopcartService.getShopcart();
+        return new MyShopcart(shopcart,addShopcartProductList(shopcart));
+    }
+
+    private List<ShopcartProduct> addShopcartProductList(Shopcart shopcart) {
         List<ShopcartProduct> productList = new ArrayList<ShopcartProduct>();
         List<ShopcartDetail> sdLst = shopcart.getShopcartDetails();
         for (ShopcartDetail sd : sdLst) {
             productList.add(new ShopcartProduct(sd.getProduct(),sd.getNum()));
         }
-        return new MyShopcart(shopcart,productList);
+        return productList;
     }
 
 }
