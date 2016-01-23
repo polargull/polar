@@ -36,6 +36,7 @@ public class Constants {
     public static final String REGIST_STEP1_URL = Loader.getInstance().getProps("regist.step1.url");
     public static final String REGIST_STEP2_URL = Loader.getInstance().getProps("regist.step2.url");
     public static final String SHOPCART_ADD_URL = Loader.getInstance().getProps("shopcart.add.url");
+    public static final String SHOPCART_GET_URL = Loader.getInstance().getProps("shopcart.get.url");
 
     public enum ALLOWTYPE {
         FOLLOW(0), ATTEND(1);

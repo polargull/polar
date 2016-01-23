@@ -4,12 +4,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import polarbear.acceptance.login.LoginTest;
-import polarbear.acceptance.regist.RegistStep1Test;
-import polarbear.acceptance.regist.RegistStep2Test;
-import polarbear.acceptance.shopcart.AddShopcartTest;
+import polarbear.acceptance.regist.RegistTestSuite;
+import polarbear.acceptance.shopcart.ShopcartTestSuite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses( { LoginTest.class, RegistStep1Test.class, RegistStep2Test.class, AddShopcartTest.class })
+@Suite.SuiteClasses( { LoginTest.class, RegistTestSuite.class, ShopcartTestSuite.class })
 public class AcceptanceTestSuite {
 
 }

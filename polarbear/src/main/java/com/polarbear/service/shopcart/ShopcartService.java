@@ -27,10 +27,11 @@ public class ShopcartService {
         return modifyShopcartService.addShopcart(pid);
     }
     
+    @Transactional
     public MyShopcart getMyShopcart() throws DaoException {
         Shopcart shopcart = modifyShopcartService.getShopcart();
-        List<ShopcartDetail> sdLst = shopcart.getShopcartDetails();
         List<ShopcartProduct> productList = new ArrayList<ShopcartProduct>();
+        List<ShopcartDetail> sdLst = shopcart.getShopcartDetails();
         for (ShopcartDetail sd : sdLst) {
             productList.add(new ShopcartProduct(sd.getProduct(),sd.getNum()));
         }

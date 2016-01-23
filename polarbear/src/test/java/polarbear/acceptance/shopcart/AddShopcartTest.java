@@ -1,11 +1,14 @@
 package polarbear.acceptance.shopcart;
 
-import static com.polarbear.util.Constants.ResultState.*;
-import static org.hamcrest.CoreMatchers.*;
+import static com.polarbear.util.Constants.ResultState.NEED_LOGIN;
+import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
+import static com.polarbear.util.Constants.ResultState.SUCCESS;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
-import static polarbear.test.util.Constants.*;
-import static polarbear.test.util.JsonResultConvertUtil.resultBody;
+import static polarbear.test.util.Constants.ERR_PRODUCT_ID;
+import static polarbear.test.util.Constants.PRODUCT_ID;
+import static polarbear.test.util.Constants.SHOPCART_ADD_URL;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
 
 import java.io.UnsupportedEncodingException;
@@ -16,8 +19,6 @@ import polarbear.acceptance.Request;
 import polarbear.acceptance.Request.ResultCallback;
 
 import com.meterware.httpunit.WebResponse;
-import com.polarbear.service.shopcart.MyShopcart;
-import com.polarbear.service.shopcart.ShopcartProduct;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.UserCookieUtil;
 import com.polarbear.web.shopcart.ShopcartController;
