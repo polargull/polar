@@ -91,16 +91,10 @@ public class ShopcartDaoTest extends AbstractTransactionalJUnit4SpringContextTes
     }
     
     @Test
-    public void deleteShopcartDetailByShopcartAndProduct() throws DaoException {
-        shopcartDetailDao.executeUpdate("deleteByShopcartAndProduct", anShopcart().withId(7l).build(),anProduct().withID(8l).build());
-    }
-    
-//    @Test
     public void shouldQuerySucessWhenInShopcartGetOrderDetail() {
         try {
             Shopcart shopcart = shopcartDao.findById(Shopcart.class, testShopcart.getId());
-            System.out.println(shopcart.getId()+">>>>>>>>"+testShopcartDetail.getShopCart().getId());
-            List<ShopcartDetail> shopcartDetails = shopcart.getShopcartDetails();
+            List<ShopcartDetail> shopcartDetails = shopcartDetailDao.findByNamedQuery("queryByShopcart", shopcart);
             assertThat(shopcartDetails.size(), is(1));
         } catch (DaoException e) {
             fail(e.getMessage());

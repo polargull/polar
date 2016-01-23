@@ -26,8 +26,6 @@ public class Shopcart {
     Long id;
     @OneToOne
     User user;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopCart")
-    List<ShopcartDetail> shopcartDetails = new ArrayList<ShopcartDetail>();
     @Column
     Integer productNum;
     @Column
@@ -81,14 +79,6 @@ public class Shopcart {
 
     public void setCreateTime(Integer createTime) {
         this.createTime = createTime;
-    }
-
-    public List<ShopcartDetail> getShopcartDetails() {
-        return shopcartDetails;
-    }
-
-    public void setShopcartDetails(List<ShopcartDetail> shopcartDetails) {
-        this.shopcartDetails = shopcartDetails;
     }
 
 }

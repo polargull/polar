@@ -11,8 +11,9 @@ import org.hibernate.annotations.Index;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
-@NamedQueries( { @NamedQuery(name = "queryByShopcartAndProduct", query = "from ShopcartDetail sd where sd.shopCart = ? and sd.product = ?"),
-@NamedQuery(name = "deleteByShopcartAndProduct", query = "delete from ShopcartDetail sd where sd.shopCart = ? and sd.product = ?")
+@NamedQueries( { 
+@NamedQuery(name = "queryByShopcartAndProduct", query = "from ShopcartDetail sd where sd.shopCart = ? and sd.product = ?"),
+@NamedQuery(name = "queryByShopcart", query = "from ShopcartDetail sd where sd.shopCart = ?")
 })
 @Entity
 @Table(name = "shopcart_detail")
