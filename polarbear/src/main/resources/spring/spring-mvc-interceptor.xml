@@ -14,6 +14,7 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/shopcart/addShopcart.json" />
 			<mvc:mapping path="/shopcart/getMyShopcart.json" />
+			<mvc:mapping path="/shopcart/removeProduct.json" />
 			<bean class="com.polarbear.web.interceptor.login.LoginUserInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

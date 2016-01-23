@@ -3,7 +3,6 @@ package com.polarbear.web.shopcart;
 import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -26,7 +25,7 @@ import com.polarbear.util.cookie.CookieHelper;
 @Controller
 @RequestMapping("/shopcart")
 public class ShopcartController {
-    private Log                log = LogFactory.getLog(ShopcartController.class);
+    private Log log = LogFactory.getLog(ShopcartController.class);
     public static String SHOPCART_PRODUCT_NUM = "productNum";
 
     @Autowired(required = false)
@@ -34,7 +33,7 @@ public class ShopcartController {
 
     @RequestMapping(value = { "/addShopcart.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object addShopcart(HttpServletResponse response, HttpServletRequest request, @RequestParam("pid") String pid) throws ValidateException, DaoException {
+    public Object addShopcart(HttpServletResponse response, @RequestParam("pid") String pid) throws ValidateException, DaoException {
         log.debug("pid=" + pid);
         validate(pid);
         int count = shopcartService.addProductToShopcart(Long.valueOf(pid));
@@ -48,11 +47,19 @@ public class ShopcartController {
             throw new ValidateException(PARAM_ERR);
         }
     }
-    
+
     @RequestMapping(value = { "/getMyShopcart.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public Object getMyShopcart() throws ValidateException, DaoException {
         MyShopcart myShopcart = shopcartService.getMyShopcart();
+        return new JsonResult(SUCCESS).put(myShopcart);
+    }
+
+    @RequestMapping(value = { "/removeProduct.json" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public Object removeProduct(@RequestParam("pid") String pid) throws ValidateException, DaoException {
+        validate(pid);
+        MyShopcart myShopcart = shopcartService.deleteProductFromShopcart(Long.valueOf(pid));
         return new JsonResult(SUCCESS).put(myShopcart);
     }
 }

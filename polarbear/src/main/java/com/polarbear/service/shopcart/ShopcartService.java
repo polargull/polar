@@ -28,6 +28,12 @@ public class ShopcartService {
     }
 
     @Transactional
+    public MyShopcart deleteProductFromShopcart(long pid) throws DaoException, ValidateException {
+        Shopcart shopcart = modifyShopcartService.removeProductFromShopCart(pid);
+        return new MyShopcart(shopcart, addShopcartProductList(shopcart));
+    }
+
+    @Transactional
     public MyShopcart getMyShopcart() throws DaoException {
         Shopcart shopcart = modifyShopcartService.getShopcart();
         return new MyShopcart(shopcart, addShopcartProductList(shopcart));
