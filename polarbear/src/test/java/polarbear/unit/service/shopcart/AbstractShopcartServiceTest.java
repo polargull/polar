@@ -30,8 +30,8 @@ public class AbstractShopcartServiceTest extends AbstractMock {
     protected void expectFindProductOp() throws DaoException, ValidateException {
         context.checking(new Expectations() {
             {
-                allowing(productDao).findById(Product.class, PRODUCT_ID);
-                will(returnValue(anProduct().withID(PRODUCT_ID).withPrice(PRODUCT_PRICE).build()));
+                allowing(productDao).findById(Product.class, PRODUCT_1_ID);
+                will(returnValue(anProduct().withID(PRODUCT_1_ID).withPrice(PRODUCT_1_PRICE).build()));
             }
         });
     }
@@ -48,8 +48,8 @@ public class AbstractShopcartServiceTest extends AbstractMock {
     protected void expectProductPickerOp() throws DaoException, ValidateException {
         context.checking(new Expectations() {
             {
-                allowing(productPicker).pickoutTheProduct(PRODUCT_ID);
-                will(returnValue(anProduct().withPrice(PRODUCT_PRICE).build()));
+                allowing(productPicker).pickoutTheProduct(PRODUCT_1_ID);
+                will(returnValue(anProduct().withPrice(PRODUCT_1_PRICE).build()));
             }
         });
     }
@@ -74,7 +74,7 @@ public class AbstractShopcartServiceTest extends AbstractMock {
         context.checking(new Expectations() {
             {
                 allowing(shopcartDetailDao).findByNamedQueryObject(with(any(String.class)), with(any(Object.class)));
-                will(returnValue(anShopcartDetail().build()));
+                will(returnValue(null));
             }
         });
         context.checking(new Expectations() {

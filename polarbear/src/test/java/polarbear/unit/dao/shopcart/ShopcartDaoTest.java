@@ -55,7 +55,7 @@ public class ShopcartDaoTest extends AbstractTransactionalJUnit4SpringContextTes
     public void setUp() throws DaoException {
         testUser = anUser().withUname(NEW_REGISTER).withPassword(MD5_PWD).withCellphone(NEW_CELLPHONE).withCreateTime(DateUtil.getCurrentSeconds()).build();
         userDao.store(testUser);
-        testProduct = anProduct().withNum(PRODUCT_NUM).withPrice(PRODUCT_PRICE).build();
+        testProduct = anProduct().withNum(PRODUCT_NUM).withPrice(PRODUCT_1_PRICE).build();
         productDao.store(testProduct);
         testShopcart = anShopcart().withProductNum(SHOPCART_ORIGIN_NUM).withUser(anUser().withID(testUser.getId())).build();
         shopcartDao.store(testShopcart);

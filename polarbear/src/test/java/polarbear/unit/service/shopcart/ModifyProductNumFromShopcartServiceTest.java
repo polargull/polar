@@ -22,6 +22,6 @@ public class ModifyProductNumFromShopcartServiceTest extends AbstractShopcartSer
         expectProductPickerOp();
         expectShopcartOp();
         expectShopcartDetailOp();
-        assertThat(modifyShopcartService.updateProductNumFromShopCart(PRODUCT_ID, PRODUCT_BUY_NUM).getProductNum(), is(SHOPCART_ORIGIN_NUM + PRODUCT_BUY_NUM));
+        assertThat(modifyShopcartService.updateProductNumFromShopCart(PRODUCT_1_ID, PRODUCT_BUY_NUM).getProductNum(), is(SHOPCART_ORIGIN_NUM + PRODUCT_BUY_NUM));
     }
 }

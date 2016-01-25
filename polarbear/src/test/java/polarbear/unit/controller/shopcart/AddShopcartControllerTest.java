@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static polarbear.test.util.Constants.PRODUCT_ID;
+import static polarbear.test.util.Constants.PRODUCT_1_ID;
 import static polarbear.test.util.Constants.SHOPCART_ADD_URL;
 import static polarbear.test.util.JsonResultConvertUtil.convertJsonObj;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
@@ -42,14 +42,14 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
     public void shouldReturnShopcartCountInCookieWhenInputProductId() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(shopcartService).addProductToShopcart(PRODUCT_ID);
+                allowing(shopcartService).addProductToShopcart(PRODUCT_1_ID);
                 // 设定预期值
                 will(returnValue(1));
             }
         });
         MvcResult result = mockMvc
             .perform(post(SHOPCART_ADD_URL)
-                    .param("pid", String.valueOf(PRODUCT_ID)))
+                    .param("pid", String.valueOf(PRODUCT_1_ID)))
             .andExpect(status().isOk())
 //            .andDo(print())
             .andReturn();
@@ -62,7 +62,7 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
     public void shouldInvalidateWhenInputErrProductId() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(shopcartService).addProductToShopcart(PRODUCT_ID);
+                allowing(shopcartService).addProductToShopcart(PRODUCT_1_ID);
                 // 设定预期值
                 will(returnValue(1));
             }
@@ -88,14 +88,14 @@ public class AddShopcartControllerTest extends AbstractContextControllerTest {
     public void shouldInvalidateWhenAddShopcartServiceDaoErr() throws Exception {
         context.checking(new Expectations() {
             {
-                allowing(shopcartService).addProductToShopcart(PRODUCT_ID);
+                allowing(shopcartService).addProductToShopcart(PRODUCT_1_ID);
                 // 设定预期值
                 will(throwException(new DaoException(DB_ERR)));
             }
         });
         MvcResult result = mockMvc
         .perform(post(SHOPCART_ADD_URL)
-                .param("pid", String.valueOf(PRODUCT_ID)))
+                .param("pid", String.valueOf(PRODUCT_1_ID)))
         .andExpect(status().isOk())
 //        .andDo(print())
         .andReturn();

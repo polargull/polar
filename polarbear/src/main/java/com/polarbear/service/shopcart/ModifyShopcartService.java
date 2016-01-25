@@ -30,49 +30,61 @@ public class ModifyShopcartService {
     BaseDao<Product> productDao;
     @Autowired(required = false)
     RemoveShopcartProductComponent removeShopcartProductComponent;
+    private final String ADD_SHOPCART = "addShopcart";
+    private final String MODIYF_SHOPCART = "modifyShopcart";
 
     @Transactional
     public int addShopcart(long pid) throws DaoException, ValidateException {
-        return updateProductNumFromShopCart(pid, 1).getProductNum();
-    }
-
-    @Transactional
-    public Shopcart updateProductNumFromShopCart(long pid, int num) throws DaoException, ValidateException {
         Product p = productPicker.pickoutTheProduct(pid);
-        return updateShopcarRelationOp(num, p);
+        Shopcart shopcart = addOrRemoveShopCartNum(1);
+        return updateShopCartDetail(shopcart, p, 1, ADD_SHOPCART).getProductNum();
     }
 
     @Transactional
     public Shopcart removeProductFromShopCart(long pid) throws DaoException, ValidateException {
         Product p = productDao.findById(Product.class, pid);
         int removeNum = removeShopcartProductComponent.removeProductFromShopcart(p);
-        return updateShopCartNum(-removeNum);
+        return addOrRemoveShopCartNum(-removeNum);
     }
 
-    private Shopcart updateShopcarRelationOp(int num, Product p) throws DaoException {
-        Shopcart shopcart = updateShopCartNum(num);
-        return updateShopCartDetail(shopcart, p, num);
-    }
-
-    private Shopcart updateShopCartNum(int num) throws DaoException {
+    private Shopcart addOrRemoveShopCartNum(int num) throws DaoException {
         Shopcart shopcart = getShopcart();
         shopcart.setProductNum(shopcart.getProductNum() + num);
         shopcartDao.store(shopcart);
         return shopcart;
     }
 
-    private Shopcart updateShopCartDetail(Shopcart shopcart, Product p, int num) throws DaoException {
-        ShopcartDetail sd = getShopcartDetail(shopcart, p, num);
+    @Transactional
+    public Shopcart updateProductNumFromShopCart(long pid, int num) throws DaoException, ValidateException {
+        Product p = productPicker.pickoutTheProduct(pid);
+        Shopcart shopcart = updateShopCartNum(p, num);
+        return updateShopCartDetail(shopcart, p, num, MODIYF_SHOPCART);
+    }
+
+    private Shopcart updateShopCartNum(Product p, int num) throws DaoException {
+        Shopcart shopcart = getShopcart();
+        ShopcartDetail sd = getShopcartDetail(shopcart, p);
+        shopcart.setProductNum(shopcart.getProductNum() - sd.getNum() + num);
+        shopcartDao.store(shopcart);
+        return shopcart;
+    }
+
+    private Shopcart updateShopCartDetail(Shopcart shopcart, Product p, int num, String op) throws DaoException {
+        ShopcartDetail sd = getShopcartDetail(shopcart, p);
+        if (ADD_SHOPCART.equals(op)) {
+            sd.setNum(sd.getNum() + num);
+        } else if (MODIYF_SHOPCART.equals(op)) {
+            sd.setNum(num);
+        }
         shopcartDetailDao.store(sd);
         return shopcart;
     }
 
-    private ShopcartDetail getShopcartDetail(Shopcart shopcart, Product p, int num) throws DaoException {
+    private ShopcartDetail getShopcartDetail(Shopcart shopcart, Product p) throws DaoException {
         ShopcartDetail sd = shopcartDetailDao.findByNamedQueryObject("queryByShopcartAndProduct", shopcart, p);
         if (sd == null) {
-            return new ShopcartDetail(p, num, shopcart, DateUtil.getCurrentSeconds());
+            return new ShopcartDetail(p, 0, shopcart, DateUtil.getCurrentSeconds());
         }
-        sd.setNum(num);
         return sd;
     }
 

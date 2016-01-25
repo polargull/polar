@@ -22,7 +22,7 @@ public class MyShopcart {
 
     private synchronized void calcTotalPrice() {
         for (ShopcartProduct sp : productList) {
-            totalPrice = Arith.add(totalPrice, sp.getPrice());
+            totalPrice = Arith.add(totalPrice, Arith.multiply(sp.getPrice(), sp.getNum()));
         }
     }
     

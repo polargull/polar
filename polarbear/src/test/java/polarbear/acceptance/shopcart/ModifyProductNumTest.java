@@ -17,19 +17,20 @@ import com.polarbear.service.shopcart.MyShopcart;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.UserCookieUtil;
 
-public class RemoveProductFromShopcartTest {
-
+public class ModifyProductNumTest {
+    public static final int PRODUCT_2_ALREADY_BUY_NUM = 1;
     @Test
-    public void shouldSuccessReturnShopcartDataWhenSelectProductAddShopcartAndUserLogined() {
-        anRequest(SHOPCART_REMOVE_PRODUCT_URL).withCookie(UserCookieUtil.COOKIE_NAME, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
-        .addParams("pid",String.valueOf(PRODUCT_1_ID))
+    public void shouldReturnMyShopcartDataWhenModifyProductNumAndUserLogined() {
+        anRequest(SHOPCART_MODIFY_PRODUCT_NUM_URL).withCookie(UserCookieUtil.COOKIE_NAME, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
+        .addParams("pid", String.valueOf(PRODUCT_1_ID))
+        .addParams("num", String.valueOf(PRODUCT_BUY_NUM))
         .post(new ResultCallback() {
             public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                 assertThat(resultState(jsonResult), is(SUCCESS));
                 MyShopcart shopcart = resultBody(jsonResult, MyShopcart.class);
-                assertThat(shopcart.getProductNum(), equalTo(ModifyProductNumTest.PRODUCT_2_ALREADY_BUY_NUM));
-                assertThat(shopcart.getTotalPrice(), equalTo(ModifyProductNumTest.PRODUCT_2_ALREADY_BUY_NUM * PRODUCT_2_PRICE));
-                assertThat(shopcart.getProductList().size(), equalTo(1));
+                assertThat(shopcart.getProductNum(), equalTo(PRODUCT_BUY_NUM + PRODUCT_2_ALREADY_BUY_NUM));
+                assertThat(shopcart.getTotalPrice(), equalTo(PRODUCT_1_PRICE * PRODUCT_BUY_NUM + PRODUCT_2_PRICE * PRODUCT_2_ALREADY_BUY_NUM));
+                assertThat(shopcart.getProductList().size(), equalTo(2));
             }
         });
     }

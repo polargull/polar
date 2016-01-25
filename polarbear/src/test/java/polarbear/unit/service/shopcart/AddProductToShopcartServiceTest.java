@@ -30,7 +30,7 @@ public class AddProductToShopcartServiceTest extends AbstractShopcartServiceTest
         expectProductPickerOp();
         expectShopcartOp();
         expectShopcartDetailOp();
-        assertThat(modifyShopcartService.addShopcart(PRODUCT_ID), is(SHOPCART_ORIGIN_NUM + 1));
+        assertThat(modifyShopcartService.addShopcart(PRODUCT_1_ID), is(SHOPCART_ORIGIN_NUM + 1));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class AddProductToShopcartServiceTest extends AbstractShopcartServiceTest
         expectProductPickerOpThrowProductPullOffValidateException();
         expectedEx.expect(ValidateException.class);
         expectedEx.expectMessage(PRODUCT_PULL_OFF.emsg());        
-        modifyShopcartService.addShopcart(PRODUCT_ID);
+        modifyShopcartService.addShopcart(PRODUCT_1_ID);
     }
 
     @Test
@@ -46,13 +46,13 @@ public class AddProductToShopcartServiceTest extends AbstractShopcartServiceTest
         expectProductPickerOpThrowProductNumIs0ValidateException();
         expectedEx.expect(ValidateException.class);
         expectedEx.expectMessage(PRODUCT_NUM_IS_0.emsg());
-        modifyShopcartService.addShopcart(PRODUCT_ID);
+        modifyShopcartService.addShopcart(PRODUCT_1_ID);
     }
     
     private void expectProductPickerOpThrowProductPullOffValidateException() throws DaoException, ValidateException {
         context.checking(new Expectations() {
             {
-                allowing(productPicker).pickoutTheProduct(PRODUCT_ID);
+                allowing(productPicker).pickoutTheProduct(PRODUCT_1_ID);
                 will(throwException(new ValidateException(PRODUCT_PULL_OFF)));                    
             }
         });
@@ -61,7 +61,7 @@ public class AddProductToShopcartServiceTest extends AbstractShopcartServiceTest
     private void expectProductPickerOpThrowProductNumIs0ValidateException() throws DaoException, ValidateException {
         context.checking(new Expectations() {
             {
-                allowing(productPicker).pickoutTheProduct(PRODUCT_ID);
+                allowing(productPicker).pickoutTheProduct(PRODUCT_1_ID);
                 will(throwException(new ValidateException(PRODUCT_NUM_IS_0)));                    
             }
         });

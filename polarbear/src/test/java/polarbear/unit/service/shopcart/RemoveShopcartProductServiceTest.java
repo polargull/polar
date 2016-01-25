@@ -2,7 +2,7 @@ package polarbear.unit.service.shopcart;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-import static polarbear.test.util.Constants.PRODUCT_ID;
+import static polarbear.test.util.Constants.PRODUCT_1_ID;
 import static polarbear.test.util.Constants.SHOPCART_ORIGIN_NUM;
 
 import org.junit.Before;
@@ -23,6 +23,6 @@ public class RemoveShopcartProductServiceTest extends AbstractShopcartServiceTes
         expectFindProductOp();
         expectRemoveShopcartProductComponentOp();
         expectShopcartOp();
-        assertThat(modifyShopcartService.removeProductFromShopCart(PRODUCT_ID).getProductNum(), is(SHOPCART_ORIGIN_NUM - 1));
+        assertThat(modifyShopcartService.removeProductFromShopCart(PRODUCT_1_ID).getProductNum(), is(SHOPCART_ORIGIN_NUM - 1));
     }
 }

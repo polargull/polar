@@ -26,9 +26,9 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
     @Test
     public void shouldHaveProductWhenQueryProductByIdAndState() {
         try {
-            Product p = productDao.findByNamedQueryObject("queryProductByIdAndState", PRODUCT_ID, PUT_ON.value());
+            Product p = productDao.findByNamedQueryObject("queryProductByIdAndState", PRODUCT_1_ID, PUT_ON.value());
             assertThat(p, notNullValue());
-            assertThat(p.getId(), is(PRODUCT_ID));
+            assertThat(p.getId(), is(PRODUCT_1_ID));
             assertThat(p.getState(), is(PUT_ON.value()));
         } catch (DaoException e) {
             fail("挑选商品dao操作失败了,msg:" + e.getMessage());
