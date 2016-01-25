@@ -20,12 +20,25 @@ public class MyShopcart {
         calcTotalPrice();
     }
 
-    private synchronized void calcTotalPrice() {
+    public MyShopcart(List<ShopcartProduct> productList) {
+        super();
+        this.productList = productList;
+        calcTotalPrice();
+        calcTotalProductNum();
+    }
+
+    public void calcTotalProductNum() {
+        for (ShopcartProduct sp : productList) {
+            productNum += sp.getNum();
+        }
+    }
+
+    private void calcTotalPrice() {
         for (ShopcartProduct sp : productList) {
             totalPrice = Arith.add(totalPrice, Arith.multiply(sp.getPrice(), sp.getNum()));
         }
     }
-    
+
     public List<ShopcartProduct> getProductList() {
         return productList;
     }
@@ -33,7 +46,7 @@ public class MyShopcart {
     public void setProductList(List<ShopcartProduct> productList) {
         this.productList = productList;
     }
-    
+
     public double getTotalPrice() {
         return totalPrice;
     }

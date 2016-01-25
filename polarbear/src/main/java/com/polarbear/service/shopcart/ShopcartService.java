@@ -75,6 +75,7 @@ public class ShopcartService {
             put("ids", pidList);
         }};
         List<Product> productList = productDao.findByNamedQuery("queryPutOnProductByIds", param);
+        Map<Long, Integer> pid_num_map = parseShopcartCookieDataReturnMap(shopcartCookieData);
         return null;
     }
 
