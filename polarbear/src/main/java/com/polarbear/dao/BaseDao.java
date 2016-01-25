@@ -3,6 +3,8 @@ package com.polarbear.dao;
 import static com.polarbear.util.Constants.ResultState.DB_ERR;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -84,6 +86,24 @@ public class BaseDao<T> {
                     query.setMaxResults(pageSize);
                     for (int i = 0; values != null && i < values.length; i++) {
                         query.setParameter(i, values[i]);
+                    }
+                    return (T) query.list();
+                }
+            });
+        } catch (DataAccessException e) {
+            throw new DaoException(DB_ERR);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<T> findByNamedQuery(final String nameQuery, final Map<String, List> paramLst) throws DaoException {
+        try {
+            return hibernateTemplate.executeFind(new HibernateCallback<T>() {
+                public T doInHibernate(Session session) {
+                    Query query = (Query) session.getNamedQuery(nameQuery);
+                    Set<String> keySet = paramLst.keySet();
+                    for (String paramName : keySet) {
+                        query.setParameterList(paramName, paramLst.get(paramName));
                     }
                     return (T) query.list();
                 }

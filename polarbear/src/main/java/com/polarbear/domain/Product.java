@@ -11,8 +11,11 @@ import org.hibernate.annotations.NamedQuery;
 
 import com.polarbear.util.DateUtil;
 
-@NamedQueries( { @NamedQuery(name = "querySameStyleProductByStyleId", query = "from Product p where p.productStyle.id = ?"),
-        @NamedQuery(name = "queryProductByIdAndState", query = "from Product p where p.id = ? and p.state = ?") })
+@NamedQueries( { 
+        @NamedQuery(name = "querySameStyleProductByStyleId", query = "from Product p where p.productStyle.id = ?"),
+        @NamedQuery(name = "queryProductByIdAndState", query = "from Product p where p.id = ? and p.state = ?"),
+        @NamedQuery(name = "queryPutOnProductByIds", query = "from Product p where p.id in (:ids) and p.state = 1")
+})
 @Entity
 public class Product {
     @Id

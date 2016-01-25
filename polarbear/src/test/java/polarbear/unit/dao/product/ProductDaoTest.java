@@ -1,8 +1,17 @@
 package polarbear.unit.dao.product;
 
+import static com.polarbear.util.Constants.PRODUCT_STATE.PUT_ON;
 import static org.hamcrest.Matchers.*;
-import static com.polarbear.util.Constants.PRODUCT_STATE.*;
-import static polarbear.test.util.Constants.*;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static polarbear.test.util.Constants.PRODUCT_1_ID;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +19,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import static org.junit.Assert.*;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
@@ -33,5 +41,19 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
         } catch (DaoException e) {
             fail("挑选商品dao操作失败了,msg:" + e.getMessage());
         }
+    }
+    
+    @Test
+    public void queryProductByIds() throws DaoException {
+        final List<Long> ids = new ArrayList<Long>();
+        ids.add(1l);
+        ids.add(2l);
+        Map<String, List> param = new HashMap<String, List>() {
+            {
+                put("ids", ids);
+            }
+        };
+        List<Product> productList = productDao.findByNamedQuery("queryPutOnProductByIds", param);
+        assertThat(productList.size(),equalTo(2));
     }
 }

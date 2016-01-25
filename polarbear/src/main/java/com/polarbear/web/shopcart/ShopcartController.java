@@ -42,13 +42,6 @@ public class ShopcartController {
         return new JsonResult(SUCCESS);
     }
 
-    private void validate(String digits) throws ValidateException {
-        if (!NumberUtils.isDigits(digits)) {
-            throw new ValidateException(PARAM_ERR);
-        }
-    }
-        
-
     @RequestMapping(value = { "/getMyShopcart.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public Object getMyShopcart() throws ValidateException, DaoException {
@@ -63,7 +56,7 @@ public class ShopcartController {
         MyShopcart myShopcart = shopcartService.deleteProductFromShopcart(Long.valueOf(pid));
         return new JsonResult(SUCCESS).put(myShopcart);
     }
-    
+
     @RequestMapping(value = { "/modifyProductNum.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public Object removeProduct(@RequestParam("pid") String pid, @RequestParam("num") String num) throws ValidateException, DaoException {
@@ -71,5 +64,11 @@ public class ShopcartController {
         validate(num);
         MyShopcart myShopcart = shopcartService.modifyProductNumFromShopcart(Long.parseLong(pid), Integer.parseInt(num));
         return new JsonResult(SUCCESS).put(myShopcart);
+    }
+
+    private void validate(String digits) throws ValidateException {
+        if (!NumberUtils.isDigits(digits)) {
+            throw new ValidateException(PARAM_ERR);
+        }
     }
 }
