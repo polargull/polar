@@ -41,6 +41,7 @@ public class Constants {
     public static final String SHOPCART_GET_URL = Loader.getInstance().getProps("shopcart.get.url");
     public static final String SHOPCART_REMOVE_PRODUCT_URL = Loader.getInstance().getProps("shopcart.remove.url");
     public static final String SHOPCART_MODIFY_PRODUCT_NUM_URL = Loader.getInstance().getProps("shopcart.modify.url");
+    public static final String PRODUCT_DETAIL_URL = Loader.getInstance().getProps("product.detail.url");
     
     public enum ALLOWTYPE {
         FOLLOW(0), ATTEND(1);
