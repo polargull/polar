@@ -3,6 +3,7 @@ package com.polarbear.web.shopcart;
 import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.polarbear.ParseException;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
 import com.polarbear.service.shopcart.MyShopcart;
@@ -27,6 +29,7 @@ import com.polarbear.util.cookie.CookieHelper;
 public class ShopcartController {
     private Log log = LogFactory.getLog(ShopcartController.class);
     public static String SHOPCART_PRODUCT_NUM = "productNum";
+    public static String SHOPCART = "shopcart";
 
     @Autowired(required = false)
     private ShopcartService shopcartService;
@@ -44,8 +47,8 @@ public class ShopcartController {
 
     @RequestMapping(value = { "/getMyShopcart.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object getMyShopcart() throws ValidateException, DaoException {
-        MyShopcart myShopcart = shopcartService.getMyShopcart();
+    public Object getMyShopcart(HttpServletRequest request) throws ValidateException, DaoException, ParseException {        
+        MyShopcart myShopcart = shopcartService.getMyShopcart(CookieHelper.getCookieValue(request, SHOPCART));
         return new JsonResult(SUCCESS).put(myShopcart);
     }
 
@@ -59,7 +62,7 @@ public class ShopcartController {
 
     @RequestMapping(value = { "/modifyProductNum.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object removeProduct(@RequestParam("pid") String pid, @RequestParam("num") String num) throws ValidateException, DaoException {
+    public Object modifyProductNum(@RequestParam("pid") String pid, @RequestParam("num") String num) throws ValidateException, DaoException {
         validate(pid);
         validate(num);
         MyShopcart myShopcart = shopcartService.modifyProductNumFromShopcart(Long.parseLong(pid), Integer.parseInt(num));

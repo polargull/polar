@@ -1,5 +1,7 @@
 package com.polarbear.service.shopcart;
 
+import static com.polarbear.util.Constants.ResultState.SHOPCART_PARSE_ERR;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.polarbear.ParseException;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Product;
 import com.polarbear.domain.Shopcart;
 import com.polarbear.domain.ShopcartDetail;
+import com.polarbear.util.factory.CurrentThreadUserFactory;
 
 @Service
 public class ShopcartService {
@@ -45,7 +49,10 @@ public class ShopcartService {
     }
 
     @Transactional
-    public MyShopcart getMyShopcart() throws DaoException {
+    public MyShopcart getMyShopcart(String shopcartCookieData) throws DaoException, ParseException {
+        if (CurrentThreadUserFactory.getUser() == null) {
+            return getClientMyShopcart(shopcartCookieData);
+        }
         Shopcart shopcart = modifyShopcartService.getShopcart();
         return new MyShopcart(shopcart, addShopcartProductList(shopcart));
     }
@@ -66,37 +73,49 @@ public class ShopcartService {
      *            pid_num@pid_num@
      * @return
      * @throws DaoException
+     * @throws ParseException
      */
-    @SuppressWarnings({ "unchecked", "serial" })
     @Transactional
-    public Shopcart getShopcart(String shopcartCookieData) throws DaoException {
+    public MyShopcart getClientMyShopcart(String shopcartCookieData) throws DaoException, ParseException {
         final List<Long> pidList = parseShopcartCookieDataReturnPidList(shopcartCookieData);
-        Map<String,List> param = new HashMap<String,List>(){{
-            put("ids", pidList);
-        }};
-        List<Product> productList = productDao.findByNamedQuery("queryPutOnProductByIds", param);
-        Map<Long, Integer> pid_num_map = parseShopcartCookieDataReturnMap(shopcartCookieData);
-        return null;
+        List<ShopcartProduct> shopcartProductList = wrapShopcartProductList(shopcartCookieData, pidList);
+        return new MyShopcart(shopcartProductList);
     }
 
-    private Map<Long, Integer> parseShopcartCookieDataReturnMap(String shopcartCookieData) {
-        String[] pid_num_array = shopcartCookieData.split("@");
+    @SuppressWarnings( { "unchecked", "serial" })
+    private List<ShopcartProduct> wrapShopcartProductList(String shopcartCookieData, final List<Long> pidList) throws DaoException, ParseException {
+        Map<String, List> param = new HashMap<String, List>() {
+            {
+                put("ids", pidList);
+            }
+        };
+        List<Product> productList = productDao.findByNamedQuery("queryPutOnProductByIds", param);
+        Map<Long, Integer> pid_num_map = parseShopcartCookieDataReturnMap(shopcartCookieData);
+        List<ShopcartProduct> shopcartProductList = new ArrayList<ShopcartProduct>();
+        for (Product p : productList) {
+            shopcartProductList.add(new ShopcartProduct(p, pid_num_map.get(p.getId())));
+        }
+        return shopcartProductList;
+    }
+
+    private Map<Long, Integer> parseShopcartCookieDataReturnMap(String shopcartCookieData) throws ParseException {
+        String[] pid_num_array = shopcartCookieData.split("\\|");
         Map<Long, Integer> pid_num_map = new HashMap<Long, Integer>();
-        for (String pid_num : pid_num_array) {
-            long pid = Long.parseLong(pid_num.split("_")[0]);
-            int num = Integer.parseInt(pid_num.split("_")[1]);
-            pid_num_map.put(pid, num);
+        try {
+            for (String pid_num : pid_num_array) {
+                long pid = Long.parseLong(pid_num.split("_")[0]);
+                int num = Integer.parseInt(pid_num.split("_")[1]);
+                pid_num_map.put(pid, num);
+            }
+        } catch (Exception e) {
+            throw new ParseException(SHOPCART_PARSE_ERR);
         }
         return pid_num_map;
     }
 
-    private List<Long> parseShopcartCookieDataReturnPidList(String shopcartCookieData) {
-        String[] pid_num_array = shopcartCookieData.split("@");
-        List<Long> pidList = new ArrayList<Long>();
-        for (String pid_num : pid_num_array) {
-            long pid = Long.parseLong(pid_num.split("_")[0]);
-            pidList.add(pid);
-        }
+    private List<Long> parseShopcartCookieDataReturnPidList(String shopcartCookieData) throws ParseException {
+        Map<Long, Integer> pid_num_map = parseShopcartCookieDataReturnMap(shopcartCookieData);
+        List<Long> pidList = new ArrayList<Long>(pid_num_map.keySet());        
         return pidList;
     }
 }
