@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.polarbear.ParseException;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
 import com.polarbear.util.JsonResult;
@@ -29,6 +30,13 @@ public class MVCExceptionHandler {
     @ExceptionHandler(ValidateException.class)
     public @ResponseBody
     Object handleValidateException(ValidateException e, HttpServletRequest request) {
+        log.debug(">>>>>>>>>>>" + e.state.emsg());
+        return new JsonResult(e.state);
+    }
+    
+    @ExceptionHandler(ParseException.class)
+    public @ResponseBody
+    Object handleParseException(ParseException e, HttpServletRequest request) {
         log.debug(">>>>>>>>>>>" + e.state.emsg());
         return new JsonResult(e.state);
     }

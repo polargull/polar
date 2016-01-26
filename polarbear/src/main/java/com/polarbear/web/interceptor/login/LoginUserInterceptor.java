@@ -1,5 +1,10 @@
 package com.polarbear.web.interceptor.login;
 
+import static com.polarbear.util.Constants.ResultState.NEED_LOGIN;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,6 +26,11 @@ import com.polarbear.util.factory.CurrentThreadUserFactory;
 
 public class LoginUserInterceptor extends HandlerInterceptorAdapter {
     private Log log = LogFactory.getLog(LoginUserInterceptor.class);
+    private static Set<String> mayPassUrlsWhenNoLogin = new HashSet<String>();
+    
+    static {
+        mayPassUrlsWhenNoLogin.add("/shopcart/getMyShopcart.json");
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -53,7 +63,15 @@ public class LoginUserInterceptor extends HandlerInterceptorAdapter {
 
     private long decodeUserId(HttpServletRequest request) throws ValidateException {
         String loginUserEncoder = CookieHelper.getCookieValue(request, UserCookieUtil.COOKIE_NAME);
-        long uid = LoginUserDecoder.decodeUserId(loginUserEncoder);
+        long uid;
+        try {
+            uid = LoginUserDecoder.decodeUserId(loginUserEncoder);
+        } catch (ValidateException e) {
+            if (mayPassUrlsWhenNoLogin.contains(request.getRequestURI())) {
+                return 0;
+            }
+            throw new ValidateException(NEED_LOGIN);
+        }
         return uid;
     }
 
