@@ -3,6 +3,8 @@ package polarbear.integration.service.product;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static polarbear.testdata.product.StyleBuilder.anStyle;
+import static polarbear.testdata.product.ProductBuilder.anProduct;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -10,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Product;
@@ -30,9 +31,7 @@ public class HaveStyleProductTest extends
 
 	@Before
 	public void init() throws DaoException {
-		testStyle = new ProductStyle();
-		testStyle
-				.setStyleProperties("{color:[\"红色\",\"黄色\"],size:[\"M\",\"L\"]}");
+		testStyle = anStyle().withProperty("{color:[\"红色\",\"黄色\"],size:[\"M\",\"L\"]}").build();
 		productStyleDao.store(testStyle);
 
 		testProduct = new Product();

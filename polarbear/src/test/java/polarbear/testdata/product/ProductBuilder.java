@@ -28,7 +28,7 @@ public class ProductBuilder {
     }
 
     public ProductBuilder withExtProperty(String extProperty) {
-        this.extProperty = StylePropertyTransferUtil.propertyStrToJson(extProperty);
+        this.extProperty = extProperty;
         return this;
     }
 

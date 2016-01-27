@@ -29,8 +29,11 @@
 	<target name="mysql-create-data" depends="mysql-init" description="create the database and account">
 		<ext:mysql-admin> 
 			insert into `user`(`cellphone`,`name`,`pwd`,`createTime`) values('13717686218','极地鸥','e10adc3949ba59abbe56e057f20f883e',unix_timestamp());
+			insert into `product_style` (`styleProperties`) VALUES ('[{\"name\":\"颜色\",\"values\":[\"红色\",\"黄色\"]},{\"name\":\"大小\",\"values\":[\"M\",\"L\",\"XL\"]}]');
 			insert into `product`(`num`,`createTime`,`p_desc`,`image`,`name`,`price`,`state`) VALUES (2, unix_timestamp(), '儿童玩具1', 'http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;', '变形精钢1', 100, 1);
 			insert into `product`(`num`,`createTime`,`p_desc`,`image`,`name`,`price`,`state`) VALUES (3, unix_timestamp(), '儿童玩具2', 'http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;', '变形精钢2', 101, 1);
+			insert into `product`(`num`,`createTime`,`p_desc`,`extProperty`,`productStyle_id`,`image`,`name`,`price`,`state`) VALUES (6, unix_timestamp(), '多款式', '颜色:红色,大小:M', 1, 'http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;', '羽绒服', 150, 1);
+			insert into `product`(`num`,`createTime`,`p_desc`,`extProperty`,`productStyle_id`,`image`,`name`,`price`,`state`) VALUES (6, unix_timestamp(), '多款式', '颜色:黄色,大小:L', 1, 'http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;', '羽绒服', 150, 1);
 		</ext:mysql-admin>
 	</target>
 </project>

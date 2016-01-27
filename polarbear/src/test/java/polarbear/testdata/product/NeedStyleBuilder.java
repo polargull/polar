@@ -20,6 +20,5 @@ public class NeedStyleBuilder {
         needStyle.setStyleId(STYLE_ID);
         needStyle.setProperty(property);
         return needStyle;
-
     }
 }

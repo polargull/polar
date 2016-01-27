@@ -48,7 +48,6 @@ public class FastJsonTest {
         stylePropertyList.add(sizeProperty);
         String jsonObject = JSON.toJSONString(stylePropertyList);
         System.out.println(jsonObject);
-        
         System.out.println(new Integer(2) == 1);
     }
 

@@ -6,6 +6,15 @@ public class NeedStyle {
     long styleId;
     String property;
 
+    public NeedStyle() {
+    }
+
+    public NeedStyle(long styleId, String property) {
+        super();
+        this.styleId = styleId;
+        this.property = property;
+    }
+
     public long getStyleId() {
         return styleId;
     }
@@ -15,7 +24,7 @@ public class NeedStyle {
     }
 
     public String getProperty() {
-        return StylePropertyTransferUtil.propertyStrToJson(property);
+        return property;
     }
 
     public void setProperty(String property) {

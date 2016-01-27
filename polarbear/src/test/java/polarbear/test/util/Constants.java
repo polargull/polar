@@ -25,6 +25,7 @@ public class Constants {
     public static final String ERR_PRODUCT_ID = "adf";
     public static final String PRODUCT_NAME = "变形精钢";
     public static final int PRODUCT_NUM = 1;
+    public static final long PRODUCT_STYLE_ID = 1;
     public static final double PRODUCT_1_PRICE = 100D;
     public static final double PRODUCT_2_PRICE = 101D;
     public static final double PRODUCT_SALE_PRICE = 60D;
@@ -42,6 +43,7 @@ public class Constants {
     public static final String SHOPCART_REMOVE_PRODUCT_URL = Loader.getInstance().getProps("shopcart.remove.url");
     public static final String SHOPCART_MODIFY_PRODUCT_NUM_URL = Loader.getInstance().getProps("shopcart.modify.url");
     public static final String PRODUCT_DETAIL_URL = Loader.getInstance().getProps("product.detail.url");
+    public static final String PRODUCT_MULTIPLE_QUERY_URL = Loader.getInstance().getProps("product.multiple.query.url");
     
     public enum ALLOWTYPE {
         FOLLOW(0), ATTEND(1);

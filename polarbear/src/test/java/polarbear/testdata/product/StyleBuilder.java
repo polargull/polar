@@ -4,7 +4,7 @@ import com.polarbear.domain.ProductStyle;
 import com.polarbear.service.product.util.StylePropertyTransferUtil;
 
 public class StyleBuilder {
-    public static final long STYLE_ID = 1;
+    private Long STYLE_ID;
     private String property;
 
     public static StyleBuilder anStyle() {
@@ -18,7 +18,8 @@ public class StyleBuilder {
 
     public ProductStyle build() {
         ProductStyle style = new ProductStyle();
-        style.setId(STYLE_ID);
+        if (STYLE_ID != null)
+            style.setId(STYLE_ID);
         style.setStyleProperties(StylePropertyTransferUtil.propertyStrToJson(property));
         return style;
     }
