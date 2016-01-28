@@ -22,6 +22,8 @@ public class Constants {
     public static final long NEW_CELLPHONE = RandomUtil.getMockCellPhone();
     public static final long PRODUCT_1_ID = 1L;
     public static final long PRODUCT_2_ID = 2L;
+    public static final long PRODUCT_CATEGORY_1_ID = 1L;
+    public static final long PRODUCT_CATEGORY_2_ID = 2L;
     public static final String ERR_PRODUCT_ID = "adf";
     public static final String PRODUCT_NAME = "变形精钢";
     public static final int PRODUCT_NUM = 1;
@@ -44,6 +46,7 @@ public class Constants {
     public static final String SHOPCART_MODIFY_PRODUCT_NUM_URL = Loader.getInstance().getProps("shopcart.modify.url");
     public static final String PRODUCT_DETAIL_URL = Loader.getInstance().getProps("product.detail.url");
     public static final String PRODUCT_MULTIPLE_QUERY_URL = Loader.getInstance().getProps("product.multiple.query.url");
+    public static final String PRODUCT_CATEGORY_QUERY_URL = Loader.getInstance().getProps("product.category.query.url");
     
     public enum ALLOWTYPE {
         FOLLOW(0), ATTEND(1);

@@ -7,7 +7,7 @@
 	<import file="build.xml" />
 	<property name="sqlfile" value="deploy/user_data.sql" />
 	<target name="mysql-init" depends="ivy-resolve,displayInfo" xmlns:ivy="antlib:fr.jayasoft.ivy.ant">
-		<ivy:cachepath pathid="sql.classpath" conf="sql" /> 
+		<ivy:cachepath pathid="sql.classpath" conf="sql" />
 		<property name="mysql.root.pass" value="123" />
 		<property name="mysql.diary.pass" value="secret" />
 		<presetdef name="mysql-admin" uri="http://www.polarbear.com/d1/ext">

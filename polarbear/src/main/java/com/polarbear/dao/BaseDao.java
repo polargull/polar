@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,11 @@ public class BaseDao<T> {
 
     public List<T> findByNamedQueryByPage(final String nameQuery, final int pageNo, final int pageSize) throws DaoException {
         return findByNamedQueryByPage(nameQuery, null, pageNo, pageSize);
+    }
+
+    public List<T> findByNamedQueryByPage(String nameQuery, final Object[] values, String pageNo, String pageSize) throws DaoException {
+        pageSize = !NumberUtils.isDigits(pageSize) ? "10" : pageSize;
+        return findByNamedQueryByPage(nameQuery, values, Integer.parseInt(pageNo), Integer.parseInt(pageSize));
     }
 
     @SuppressWarnings("unchecked")

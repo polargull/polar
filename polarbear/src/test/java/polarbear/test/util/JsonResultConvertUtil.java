@@ -43,6 +43,17 @@ public class JsonResultConvertUtil {
         }
         return (T) JSON.parseObject(jsonResult.getBody().get(clazz.getSimpleName().toLowerCase()).toString(), clazz);
     }
+    
+    @SuppressWarnings("unchecked")
+    public static <T> T resultBody(JsonResult jsonResult, Class<T> clazz, Class subClazz) throws UnsupportedEncodingException {
+        if (jsonResult.getBody().get(clazz.getSimpleName().toLowerCase()) == null) {
+            return null;
+        }
+        if ("ArrayList".equals(clazz.getSimpleName())) {
+            return (T) JSON.parseArray(jsonResult.getBody().get(clazz.getSimpleName().toLowerCase()).toString(), subClazz);
+        }
+        return (T) JSON.parseObject(jsonResult.getBody().get(clazz.getSimpleName().toLowerCase()).toString(), clazz);
+    }
 
     public static String resultBody(MvcResult result, String bodyName) throws UnsupportedEncodingException {
         JsonResult jsonResult = convertJsonObj(result);

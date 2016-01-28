@@ -2,7 +2,6 @@ package polarbear.unit.dao.product;
 
 import static com.polarbear.util.Constants.PRODUCT_STATE.PUT_ON;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static polarbear.test.util.Constants.PRODUCT_1_ID;
@@ -22,6 +21,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
+import com.polarbear.domain.Category;
 import com.polarbear.domain.Product;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -56,4 +56,18 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
         List<Product> productList = productDao.findByNamedQuery("queryPutOnProductByIds", param);
         assertThat(productList.size(),equalTo(2));
     }
+    
+    @Test
+    public void queryProductByCategory() throws DaoException {
+        jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 0");
+        jdbcTemplate.update("delete from product");
+        jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 1");
+        jdbcTemplate.update("insert into `product`(`num`,`createTime`,`name`,`price`,`state`,`category_id`) VALUES (6, unix_timestamp(), '羽绒服1', 150, 1, 1)");
+        jdbcTemplate.update("insert into `product`(`num`,`createTime`,`name`,`price`,`state`,`category_id`) VALUES (6, unix_timestamp()+1, '羽绒服2', 150, 1, 1)");
+        List<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", new Object[] { new Category(1L) }, "1", null);
+        assertThat(productList.size(),equalTo(2));
+        assertThat(productList.get(0).getName(),equalTo("羽绒服2"));
+        assertThat(productList.get(1).getName(),equalTo("羽绒服1"));
+    }
+
 }
