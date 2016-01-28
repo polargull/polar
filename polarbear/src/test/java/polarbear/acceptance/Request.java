@@ -60,10 +60,12 @@ public class Request {
             callback.onError(e);
         } catch (IOException e) {
             callback.onError(e);
+        } catch (ClassNotFoundException e) {
+            callback.onError(e);
         }
     }
 
-    private void handleReq(ResultCallback callback) throws IOException, SAXException {
+    private void handleReq(ResultCallback callback) throws IOException, SAXException, ClassNotFoundException {
         WebResponse response = mockExplore.getResponse(req);
         JsonResult jsonResult = JsonResultConvertUtil.convertJsonObj(response.getText());
         callback.getMockExplore(mockExplore);
@@ -79,6 +81,8 @@ public class Request {
         } catch (SAXException e) {
             callback.onError(e);
         } catch (IOException e) {
+            callback.onError(e);
+        } catch (ClassNotFoundException e) {
             callback.onError(e);
         }
     }
@@ -118,7 +122,7 @@ public class Request {
          * 
          * @param t
          */
-        public abstract void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException;
+        public abstract void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException,ClassNotFoundException;
 
     }
     // WebRequest req = new PostMethodWebRequest(url);

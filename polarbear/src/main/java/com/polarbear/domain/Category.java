@@ -16,6 +16,11 @@ public class Category {
     public Category() {
     }
 
+    public Category(Long id) {
+        super();
+        this.id = id;
+    }
+    
     public Category(Long id, String desc) {
         super();
         this.id = id;

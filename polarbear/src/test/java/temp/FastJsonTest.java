@@ -1,5 +1,6 @@
 package temp;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.junit.Test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.polarbear.service.product.query.bean.ProductStyleProperty;
 
 public class FastJsonTest {
@@ -49,6 +51,50 @@ public class FastJsonTest {
         String jsonObject = JSON.toJSONString(stylePropertyList);
         System.out.println(jsonObject);
         System.out.println(new Integer(2) == 1);
+    }
+    
+    static class Foo<T>{
+        private T t;
+
+        public T getT() {
+            return t;
+        }
+
+        public void setT(T t) {
+            this.t = t;
+        }
+        
+    }
+    @Test
+    public void test_FirstWithClass() {
+        Foo<List<Integer>> foo = new Foo<List<Integer>>();
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(3);
+        list.add(1);
+        foo.setT(list);
+        String v = JSON.toJSONString(foo);
+        System.out.println(v);
+        //parse with class
+        Foo<?> rst = JSON.parseObject(v, foo.getClass());
+        System.out.println(rst.getT());
+        //parse with TypeReference
+        System.out.println(new TypeReference<Foo<List<Integer>>>(){}.getClass().getGenericSuperclass().toString());
+        ParameterizedType parameterizedType = (ParameterizedType) new TypeReference<Foo<List<Integer>>>(){}.getClass().getGenericSuperclass();
+        System.out.println(parameterizedType.getActualTypeArguments()[0]);
+        rst = JSON.parseObject(v,new TypeReference<Foo<List<Integer>>>(){});
+        System.out.println(rst.getT());
+    }
+    
+//  @Test//此用例跟上边那个不能同时跑，要不然上边跑过之后下边就跑不通了
+    public void test_FirstWithTypeReference() {
+        Foo<List<Integer>> foo = new Foo<List<Integer>>();
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(3);
+        foo.setT(list);
+        String v = JSON.toJSONString(foo);
+        System.out.println(v);
+        //parse with TypeReference
+        Foo<?> rst = JSON.parseObject(v,new TypeReference<Foo<List<Integer>>>(){});
     }
 
 }

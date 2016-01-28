@@ -1,10 +1,14 @@
 package polarbear.test.util;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.ParameterizedType;
 
 import org.springframework.test.web.servlet.MvcResult;
 
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
+
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.Constants.ResultState;
 
@@ -42,6 +46,16 @@ public class JsonResultConvertUtil {
             return null;
         }
         return (T) JSON.parseObject(jsonResult.getBody().get(clazz.getSimpleName().toLowerCase()).toString(), clazz);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T resultBody(JsonResult jsonResult, TypeReference<T> type) throws UnsupportedEncodingException, ClassNotFoundException {
+        ParameterizedType parameterizedType = (ParameterizedType) type.getClass().getGenericSuperclass();
+        ParameterizedTypeImpl typeImpl = (ParameterizedTypeImpl)parameterizedType.getActualTypeArguments()[0];
+        System.out.println(typeImpl.getOwnerType());
+        String className = typeImpl.getActualTypeArguments()[0].toString().split(" ")[1];
+        Class genericeClass = Class.forName(className);
+        return (T) JSON.parseArray(jsonResult.getBody().get(typeImpl.getRawType().getSimpleName().toLowerCase()).toString(), genericeClass);
     }
 
     public static String resultBody(MvcResult result, String bodyName) throws UnsupportedEncodingException {

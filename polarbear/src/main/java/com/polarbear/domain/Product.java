@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
@@ -14,7 +15,8 @@ import com.polarbear.util.DateUtil;
 @NamedQueries( { 
         @NamedQuery(name = "querySameStyleProductByStyleId", query = "from Product p where p.productStyle.id = ?"),
         @NamedQuery(name = "queryProductByIdAndState", query = "from Product p where p.id = ? and p.state = ?"),
-        @NamedQuery(name = "queryPutOnProductByIds", query = "from Product p where p.id in (:ids) and p.state = 1")
+        @NamedQuery(name = "queryPutOnProductByIds", query = "from Product p where p.id in (:ids) and p.state = 1"),
+        @NamedQuery(name = "queryPutOnProductByCategoryId", query = "from Product p where p.category = ? and p.state = 1 order by p.createTime desc")
 })
 @Entity
 public class Product {
