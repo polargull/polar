@@ -47,6 +47,8 @@ public class Product {
     Integer saleEndTime;
     @Column
     Integer createTime;
+    @ManyToOne
+    Category category;
 
     public Product() {
     }
@@ -168,6 +170,14 @@ public class Product {
             return salePrice;
         }
         return price;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override
