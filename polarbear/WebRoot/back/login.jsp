@@ -23,7 +23,7 @@
 		<style>
 			.center_div {
 				position: absolute;
-				top: 50%;
+				top: 40%;
 				left: 50%;
 				width: 500px;
 				height: 300px;
