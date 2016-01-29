@@ -26,7 +26,7 @@
 		<!--<unwar src="${deploy.destfile}" dest="${deploy.dir}/${project.name}" overwrite="true"/>-->
 		<copy file="${deploy.destfile}" todir="${deploy.dir}" overwrite="true" />
 	</target>
-	<target name="wait" depends="deploy,mysql-drop-table,tomcat.start">
+	<target name="wait" depends="deploy,tomcat.start">
 		<property name="deploy.waittime" value="10" />
 		<sleep seconds="5" />
 		<waitfor maxwait="${deploy.waittime}" maxwaitunit="second" timeoutproperty="server.missing">

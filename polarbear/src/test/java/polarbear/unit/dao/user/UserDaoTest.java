@@ -36,6 +36,7 @@ public class UserDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void shouldHaveUserWhenInputCorrectUnameAndPwd() throws DaoException {
+        jdbcTemplate.update("insert into `user`(`cellphone`,`name`,`pwd`,`createTime`) values(?,?,?,?)", new Object[] { CELLPHONE, UNAME, MD5_PWD, CURRENT_TIME });
         User u = userDao.findByNamedQueryObject("queryUnameAndPwd", UNAME, MD5_PWD);
         assertThat("用户名：" + UNAME + ", 密码：" + PWD + "应该不为空", u, is(notNullValue()));
         assertThat(u.getName(), is(UNAME));
@@ -52,26 +53,8 @@ public class UserDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
                 "select * from user where name = ? and pwd = ?",
                 new Object[] { NEW_REGISTER, MD5_PWD }, BeanPropertyRowMapper
                         .newInstance(User.class));
-        assertThat("用户名：" + UNAME + ", 密码：" + PWD + "应该注册成功", user, notNullValue());        
+        assertThat("用户名：" + UNAME + ", 密码：" + PWD + "应该注册成功", user, notNullValue());
+        assertThat(user.getName(), equalTo(NEW_REGISTER));
     }
 
-    // @Test
-    public void testUpdateUserName() {
-        // User uu = userDao.findById(User.class, 1l);
-        List<User> ulst = jdbcTemplate.query("select * from user where name = 'fuweigood'", BeanPropertyRowMapper.newInstance(User.class));
-        boolean hasValue = false;
-        for (User u : ulst) {
-            if (u.getName().equals("fuweigood")) {
-                hasValue = true;
-            }
-        }
-        assertTrue(hasValue);
-    }
-
-    // @Test
-    // @Rollback(false)
-    public void testUserList() {
-        List<User> u = jdbcTemplate.query("select * from user", BeanPropertyRowMapper.newInstance(User.class));
-        assertEquals(3, u.size());
-    }
 }

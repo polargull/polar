@@ -28,7 +28,7 @@ public class Product {
     @Column
     String name;
     @Column
-    int num;
+    Integer num;
     @Column(name = "p_desc")
     String desc;
     @Column
@@ -79,11 +79,11 @@ public class Product {
         this.name = name;
     }
 
-    public int getNum() {
+    public Integer getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(Integer num) {
         this.num = num;
     }
 

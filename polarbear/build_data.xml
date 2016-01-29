@@ -14,8 +14,9 @@
 			<sql driver="com.mysql.jdbc.Driver" classpathref="sql.classpath" userid="root" password="${mysql.root.pass}" print="true" url="jdbc:mysql://localhost:3306/polarbear?useUnicode\=true&amp;characterEncoding\=utf-8" expandProperties="true" />
 		</presetdef>
 	</target>
+	<!--使用hibernate auto create fr
 	<target name="mysql-drop-table" depends="mysql-init" description="create the database and account">
-		<ext:mysql-admin>
+		<ext:mysql-admin>			
 			SET FOREIGN_KEY_CHECKS = 0;
 			DROP TABLE IF EXISTS `shopcart_detail`;
 			DROP TABLE IF EXISTS `shopcart_log`;
@@ -27,6 +28,7 @@
 			SET FOREIGN_KEY_CHECKS = 1;
 		</ext:mysql-admin>
 	</target>
+	-->
 	<target name="mysql-create-data" depends="mysql-init" description="create the database and account">
 		<ext:mysql-admin> 
 			insert into `user`(`cellphone`,`name`,`pwd`,`createTime`) values('13717686218','极地鸥','e10adc3949ba59abbe56e057f20f883e',unix_timestamp());

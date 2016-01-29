@@ -1,16 +1,20 @@
 package polarbear.unit.dao.product;
 
+import static com.polarbear.util.Constants.PRODUCT_STATE.PULL_OFF;
 import static com.polarbear.util.Constants.PRODUCT_STATE.PUT_ON;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static polarbear.test.util.Constants.PRODUCT_1_ID;
+import static polarbear.test.util.Constants.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,14 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
     @Autowired
     private BaseDao<Product> productDao;
 
+    @Before
+    public void setUp() {
+        jdbcTemplate.update("insert into `category`(`id`,`cg_desc`) values(?, ?)", new Object[] { 1l, CATEGORY_NAME });
+        jdbcTemplate.update("insert into `product`(`id`,`name`,`state`,`category_id`) values(?, ?, ?, ?)", new Object[] { 1l, PRODUCT_NAME + 1, PUT_ON.value(), SHOPCARD_ID });
+        jdbcTemplate.update("insert into `product`(`id`,`name`,`state`,`category_id`) values(?, ?, ?, ?)", new Object[] { 2l, PRODUCT_NAME + 2, PUT_ON.value(), SHOPCARD_ID });
+        jdbcTemplate.update("insert into `product`(`id`,`name`,`state`,`category_id`) values(?, ?, ?, ?)", new Object[] { 3l, PRODUCT_NAME + 3, PULL_OFF.value(), SHOPCARD_ID });
+    }
+
     @Test
     public void shouldHaveProductWhenQueryProductByIdAndState() {
         try {
@@ -42,32 +54,32 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
             fail("挑选商品dao操作失败了,msg:" + e.getMessage());
         }
     }
-    
+
+    @SuppressWarnings( { "serial", "unchecked" })
     @Test
     public void queryProductByIds() throws DaoException {
+
         final List<Long> ids = new ArrayList<Long>();
         ids.add(1l);
         ids.add(2l);
+        ids.add(3l);
         Map<String, List> param = new HashMap<String, List>() {
             {
                 put("ids", ids);
             }
         };
         List<Product> productList = productDao.findByNamedQuery("queryPutOnProductByIds", param);
-        assertThat(productList.size(),equalTo(2));
+        assertThat(productList.size(), equalTo(2));
+        assertThat(productList.get(0).getId(), equalTo(1l));
+        assertThat(productList.get(1).getId(), equalTo(2l));
     }
-    
+
     @Test
     public void queryProductByCategory() throws DaoException {
-        jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 0");
-        jdbcTemplate.update("delete from product");
-        jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 1");
-        jdbcTemplate.update("insert into `product`(`num`,`createTime`,`name`,`price`,`state`,`category_id`) VALUES (6, unix_timestamp(), '羽绒服1', 150, 1, 1)");
-        jdbcTemplate.update("insert into `product`(`num`,`createTime`,`name`,`price`,`state`,`category_id`) VALUES (6, unix_timestamp()+1, '羽绒服2', 150, 1, 1)");
         List<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", new Object[] { new Category(1L) }, "1", null);
-        assertThat(productList.size(),equalTo(2));
-        assertThat(productList.get(0).getName(),equalTo("羽绒服2"));
-        assertThat(productList.get(1).getName(),equalTo("羽绒服1"));
+        assertThat(productList.size(), equalTo(2));
+        assertThat(productList.get(0).getName(), equalTo(PRODUCT_NAME + 1));
+        assertThat(productList.get(1).getName(), equalTo(PRODUCT_NAME + 2));
     }
 
 }

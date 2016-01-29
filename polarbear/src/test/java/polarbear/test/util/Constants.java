@@ -1,5 +1,6 @@
 package polarbear.test.util;
 
+import com.polarbear.util.DateUtil;
 import com.polarbear.util.MD5Util;
 import com.polarbear.util.RandomUtil;
 import com.polarbear.util.date.SystemClock;
@@ -17,6 +18,7 @@ public class Constants {
     public static final long ERR_CELLPHONE = 1717686218l;
     public static final int VERIFY_CODE = 666888;
     public static final int ERR_VERIFY_CODE = 666999;
+    public static final int CURRENT_TIME = DateUtil.getCurrentSeconds();
     public static final String MD5_PWD = MD5Util.encode2hex(PWD);
     public static final String NEW_REGISTER = "Test_"+new SystemClock().now().getMinuteOfDay();
     public static final long NEW_CELLPHONE = RandomUtil.getMockCellPhone();
@@ -26,6 +28,7 @@ public class Constants {
     public static final long PRODUCT_CATEGORY_2_ID = 2L;
     public static final String ERR_PRODUCT_ID = "adf";
     public static final String PRODUCT_NAME = "变形精钢";
+    public static final String CATEGORY_NAME = "服装";
     public static final int PRODUCT_NUM = 1;
     public static final long PRODUCT_STYLE_ID = 1;
     public static final double PRODUCT_1_PRICE = 100D;
