@@ -25,10 +25,8 @@
 				position: absolute;
 				top: 50%;
 				left: 50%;
-				width: 500px;
-				height: 300px;
-				margin-top: -150px;
-				margin-left: -250px;
+				margin-top: -200px;
+				margin-left: -200px;
 			}
 		</style>
 	</head>
