@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../css/easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../css/easyui/custom.css">
+    <script type="text/javascript" src="../js/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+    <title>管理控制台主界面</title>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px">north region</div>
+    <div data-options="region:'west',split:true,collapsed:true,
+                hideExpandTool: true,
+                expandMode: null,
+                hideCollapsedContent: false,
+                collapsedSize: 168,
+                collapsedContent: function(){
+                    return $('#titlebar');
+                }
+                " title="West" style="width:0px;"></div>
+    <div data-options="region:'south',border:false" style="text-align:center;height:50px;background:#A9FACD;padding:10px;">south region</div>
+    <div data-options="region:'center',title:''"></div>
+    <div id="titlebar" style="padding:2px">
+        <a href="javascript:void(0)" class="easyui-linkbutton" style="width:100%" data-options="iconCls:'icon-large-shapes',size:'large',iconAlign:'top'">Shapes</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" style="width:100%" data-options="iconCls:'icon-large-smartart',size:'large',iconAlign:'top'">SmartArt</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" style="width:100%" data-options="iconCls:'icon-large-chart',size:'large',iconAlign:'top'">Chart</a>
+    </div>
+</body>
+</html>
