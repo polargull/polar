@@ -105,7 +105,7 @@ public class FastJsonTest {
         String v = JSON.toJSONString(foo);
         System.out.println(v);
         //parse with TypeReference
-        Foo<?> rst = JSON.parseObject(v,new TypeReference<Foo<List<Integer>>>(){});
+//        Foo<?> rst = JSON.parseObject(v,new TypeReference<Foo<List<Integer>>>(){});
     }
 
 }

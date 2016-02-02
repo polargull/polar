@@ -22,8 +22,10 @@ import com.mysql.jdbc.StringUtils;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Admin;
 import com.polarbear.service.back.login.AdminLoginService;
+import com.polarbear.service.login.LoginData;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.UrlUtil;
+import com.polarbear.util.cookie.CookieHelper;
 
 @Controller("adminLoginController")
 @RequestMapping("/back")
@@ -35,14 +37,14 @@ public class LoginController {
 
     @RequestMapping(value = { "login.json", "login.do" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object login(HttpServletResponse response, HttpServletRequest request, @RequestParam("uname") String uname, @RequestParam("password") String password) throws LoginException, DaoException, MalformedURLException {
+    public Object login(HttpServletResponse response, HttpServletRequest request, @RequestParam("uname") String uname, @RequestParam("password") String password)
+            throws LoginException, DaoException, MalformedURLException {
         log.debug("uname:" + uname + ",password:" + password);
         validate(uname, password);
-        Admin admin = adminLoginService.login(uname, password);
+        LoginData<Admin> adminLoginData = adminLoginService.login(uname, password);
         String domain = UrlUtil.getTopDomainWithoutSubdomain(request.getRequestURL().toString());
-        // CookieHelper.setCookie(response, ADMIN_LOGIN_COOKIE,
-        // cookieValueBase64, domain, 0);
-        return new JsonResult(SUCCESS).put(admin);
+        CookieHelper.setCookie(response, ADMIN_LOGIN_COOKIE, adminLoginData.getAuthEncode(), domain, 0);
+        return new JsonResult(SUCCESS).put(adminLoginData);
     }
 
     private void validate(String uname, String password) throws LoginException {

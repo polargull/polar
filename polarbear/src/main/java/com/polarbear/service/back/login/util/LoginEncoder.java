@@ -12,7 +12,7 @@ public class LoginEncoder {
     private LoginEncoder() {
     }
 
-    public LoginEncoder getInstance() {
+    public static LoginEncoder getInstance() {
         return loginEncoder;
     }
 

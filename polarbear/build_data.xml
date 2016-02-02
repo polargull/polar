@@ -31,6 +31,7 @@
 	-->
 	<target name="mysql-create-data" depends="mysql-init" description="create the database and account">
 		<ext:mysql-admin> 
+			insert into `admin` (`createTime`, `loginTime`, `name`, `pwd`) VALUES (unix_timestamp(), unix_timestamp(), 'admin', 'e10adc3949ba59abbe56e057f20f883e');
 			insert into `user`(`cellphone`,`name`,`pwd`,`createTime`) values('13717686218','极地鸥','e10adc3949ba59abbe56e057f20f883e',unix_timestamp());
 			insert into `category`(`cg_desc`) values('服装');
 			insert into `category`(`cg_desc`) values('化妆品');

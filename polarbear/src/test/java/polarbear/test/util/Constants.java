@@ -10,6 +10,7 @@ import com.polarbear.util.date.SystemClock;
  */
 public class Constants {
     public static final long USER_ID = 1L;
+    public static final String ADMIN_UNAME = "admin";
     public static final String UNAME = "极地鸥";
     public static final String ERROR_UNAME = "test@123.com";
     public static final String PWD = "123456";
@@ -50,6 +51,8 @@ public class Constants {
     public static final String PRODUCT_DETAIL_URL = Loader.getInstance().getProps("product.detail.url");
     public static final String PRODUCT_MULTIPLE_QUERY_URL = Loader.getInstance().getProps("product.multiple.query.url");
     public static final String PRODUCT_CATEGORY_QUERY_URL = Loader.getInstance().getProps("product.category.query.url");
+    
+    public static final String ADMIN_LOGIN_URL = Loader.getInstance().getProps("back.login.url");
     
     public enum ALLOWTYPE {
         FOLLOW(0), ATTEND(1);

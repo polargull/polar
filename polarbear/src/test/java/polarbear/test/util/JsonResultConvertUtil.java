@@ -57,12 +57,9 @@ public class JsonResultConvertUtil {
         return (T) JSON.parseArray(jsonResult.getBody().get(typeImpl.getRawType().getSimpleName().toLowerCase()).toString(), genericeClass);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T resultBody(JsonResult jsonResult, TypeReference<T> type) throws UnsupportedEncodingException, ClassNotFoundException {
         ParameterizedType parameterizedType = (ParameterizedType) type.getClass().getGenericSuperclass();
         ParameterizedTypeImpl typeImpl = (ParameterizedTypeImpl)parameterizedType.getActualTypeArguments()[0];
-        String className = typeImpl.getActualTypeArguments()[0].toString().split(" ")[1];
-        Class genericeClass = Class.forName(className);
         return (T) JSON.parseObject(jsonResult.getBody().get(typeImpl.getRawType().getSimpleName().toLowerCase()).toString(), type);
     }
     
