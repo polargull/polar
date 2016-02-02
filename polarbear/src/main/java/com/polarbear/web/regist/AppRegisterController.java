@@ -1,6 +1,8 @@
 package com.polarbear.web.regist;
 
-import static com.polarbear.util.Constants.ResultState.*;
+import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
+import static com.polarbear.util.Constants.ResultState.SUCCESS;
+import static com.polarbear.util.Constants.ResultState.SYSTEM_ERR;
 
 import java.io.UnsupportedEncodingException;
 
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
+import com.polarbear.domain.User;
 import com.polarbear.service.RemoteInvokeServiceException;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.register.AppRegisterStep1Service;
@@ -58,7 +61,7 @@ public class AppRegisterController {
         try {
             String encodeVerifyCode = CookieHelper.getCookieValue(request, ENCODE_VERIFY_CODE);
             validateParam(verifycode, encodeVerifyCode, pwd);
-            LoginData loginData = appRegisterStep2Service.completeStep2(Integer.valueOf(verifycode), encodeVerifyCode, pwd);
+            LoginData<User> loginData = appRegisterStep2Service.completeStep2(Integer.valueOf(verifycode), encodeVerifyCode, pwd);
             UserCookieUtil.saveUserCookie(loginData.getUser(), request, response, 0);
             return new JsonResult(SUCCESS).put(LoginData.class.getSimpleName(), loginData);
         } catch (DaoException e) {

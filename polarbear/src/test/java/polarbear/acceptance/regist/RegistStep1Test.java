@@ -5,8 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
 import static polarbear.test.util.Constants.*;
-import static polarbear.test.util.JsonResultConvertUtil.resultBody;
-import static polarbear.test.util.JsonResultConvertUtil.resultState;
+import static polarbear.test.util.JsonResultConvertUtil.*;
 
 import java.io.UnsupportedEncodingException;
 import org.junit.Test;

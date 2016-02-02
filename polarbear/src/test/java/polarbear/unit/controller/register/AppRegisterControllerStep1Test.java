@@ -9,8 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static polarbear.test.util.Constants.REGIST_STEP1_URL;
-import static polarbear.test.util.JsonResultConvertUtil.resultBody;
-import static polarbear.test.util.JsonResultConvertUtil.resultState;
+import static polarbear.test.util.JsonResultConvertUtil.*;
 
 import org.jmock.Expectations;
 import org.junit.Before;

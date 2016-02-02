@@ -50,7 +50,7 @@ public class Constants {
         , R_MOBILE_ERR("E00001003", "该号码已经注册")
         , COOKIE_ERR("E00001004", "Cookie中的数据校验错误")
         , LOGIN_NAME_PWD_ERR("E00001005", "用户或密码不正确")
-        , R_14("E00001006", "密码错误")
+        , URL_FORMATE_ERR("E00001006", "url格式错误")
         , UPLOAD_SUCCESS("E00001007", "上传成功")
         , UPLOAD_FAILURE("E00001008", "上传失败")
         , SHOPCART_PARSE_ERR("E00001009", "购物车数据解析错误")

@@ -16,10 +16,10 @@ public class LoginService {
     @Autowired(required = false)
     BaseDao<User> userDao;
 
-    public LoginData login(String uname, String pwd) throws LoginException, DaoException {
+    public LoginData<User> login(String uname, String pwd) throws LoginException, DaoException {
         User user = userDao.findByNamedQueryObject("queryUnameAndPwd", uname, MD5Util.encode2hex(pwd));
         if (user == null)
             throw new LoginException(LOGIN_NAME_PWD_ERR.emsg());
-        return new LoginData(user);
+        return new LoginData<User>(user);
     }
 }

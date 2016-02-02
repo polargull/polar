@@ -9,7 +9,6 @@ import static com.polarbear.util.Constants.ResultState.VERIFY_CODE_INVIDIT;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.lang.math.NumberUtils;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +28,11 @@ public class AppRegisterStep2Service {
     private BaseDao<User> userDao;
     IClock                systemClock = new SystemClock();
 
-    public LoginData completeStep2(int verifyCode, String encodeVerifyCode, String pwd) throws ValidateException, NumberFormatException, DaoException, UnsupportedEncodingException {
+    public LoginData<User> completeStep2(int verifyCode, String encodeVerifyCode, String pwd) throws ValidateException, NumberFormatException, DaoException, UnsupportedEncodingException {
         validateVerifyCode(verifyCode, decodeVerifyCode(encodeVerifyCode), decodeVerifyCodeCreateTime(encodeVerifyCode));
         validateCellphone(decodeCellphone(encodeVerifyCode));
         User user = storeUser(Long.valueOf(decodeCellphone(encodeVerifyCode)), pwd);
-        return new LoginData(user);
+        return new LoginData<User>(user);
     }
 
     private void validateVerifyCode(int verifyCode, String encodeVerifyCode, long decodeVerifyCodeCreateTime) throws ValidateException {

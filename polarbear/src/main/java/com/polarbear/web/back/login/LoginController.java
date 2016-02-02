@@ -1,7 +1,9 @@
-package com.polarbear.web.login;
+package com.polarbear.web.back.login;
 
 import static com.polarbear.util.Constants.ResultState.LOGIN_NAME_PWD_ERR;
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
+
+import java.net.MalformedURLException;
 
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,32 +20,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mysql.jdbc.StringUtils;
 import com.polarbear.dao.DaoException;
-import com.polarbear.domain.User;
-import com.polarbear.service.login.LoginData;
-import com.polarbear.service.login.LoginService;
+import com.polarbear.domain.Admin;
+import com.polarbear.service.back.login.AdminLoginService;
 import com.polarbear.util.JsonResult;
-import com.polarbear.util.cookie.UserCookieUtil;
+import com.polarbear.util.UrlUtil;
 
-@Controller
+@Controller("adminLoginController")
+@RequestMapping("/back")
 public class LoginController {
     private Log log = LogFactory.getLog(LoginController.class);
     @Autowired(required = false)
-    private LoginService loginService;
+    private AdminLoginService adminLoginService;
+    public static final String ADMIN_LOGIN_COOKIE = "admin_login";
 
-    @RequestMapping(value = {"login.json","login.do"}, method = { RequestMethod.POST, RequestMethod.GET })
+    @RequestMapping(value = { "login.json", "login.do" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object login(HttpServletResponse response, HttpServletRequest request, @RequestParam("uname") String uname, @RequestParam("password") String password) {
-        try {
-            log.debug("uname:" + uname + ",password:" + password);
-            validate(uname, password);
-            LoginData<User> loginData = loginService.login(uname, password);
-            UserCookieUtil.saveUserCookie(loginData.getUser(), request, response, 0);
-            return new JsonResult(SUCCESS).put(loginData);
-        } catch (LoginException e) {
-            return new JsonResult(LOGIN_NAME_PWD_ERR);
-        } catch (DaoException e) {
-            return new JsonResult(e.state);
-        }
+    public Object login(HttpServletResponse response, HttpServletRequest request, @RequestParam("uname") String uname, @RequestParam("password") String password) throws LoginException, DaoException, MalformedURLException {
+        log.debug("uname:" + uname + ",password:" + password);
+        validate(uname, password);
+        Admin admin = adminLoginService.login(uname, password);
+        String domain = UrlUtil.getTopDomainWithoutSubdomain(request.getRequestURL().toString());
+        // CookieHelper.setCookie(response, ADMIN_LOGIN_COOKIE,
+        // cookieValueBase64, domain, 0);
+        return new JsonResult(SUCCESS).put(admin);
     }
 
     private void validate(String uname, String password) throws LoginException {

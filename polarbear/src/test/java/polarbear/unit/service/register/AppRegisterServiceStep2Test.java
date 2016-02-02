@@ -49,7 +49,7 @@ public class AppRegisterServiceStep2Test extends AbstractMock {
                 allowing(userDao).store(with(any(User.class)));
             }
         });
-        LoginData loginData = appRegisterStep2Service.completeStep2(VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE, PWD);
+        LoginData<User> loginData = appRegisterStep2Service.completeStep2(VERIFY_CODE, NEED_COMPARE_VERIFY_CODE_ENCODE, PWD);
         assertThat(loginData.getUser().getName(), is(String.valueOf(CELLPHONE)));
     }
     

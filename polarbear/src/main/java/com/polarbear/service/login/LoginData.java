@@ -1,21 +1,21 @@
 package com.polarbear.service.login;
 
-import com.polarbear.domain.User;
+public class LoginData<T> {
+    T user;
 
-public class LoginData {
-    User user = new User();
+    public LoginData() {
+    }
 
-    public LoginData() {}
-    
-    public LoginData(User user) {
+    public LoginData(T user) {
         this.user = user;
     }
 
-    public User getUser() {
+    public T getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(T t) {
+        this.user = t;
     }
+
 }

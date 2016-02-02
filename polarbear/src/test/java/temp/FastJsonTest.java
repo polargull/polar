@@ -10,6 +10,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.polarbear.domain.User;
+import com.polarbear.service.login.LoginData;
 import com.polarbear.service.product.query.bean.ProductStyleProperty;
 
 public class FastJsonTest {
@@ -28,6 +30,14 @@ public class FastJsonTest {
         /** 将JSON字符串转换为JavaBean对象 **/
         ProductStyleProperty property = JSON.parseObject(text, ProductStyleProperty.class);
         System.out.println(property.getName() + " " + property.getValue());
+    }
+    
+    @Test
+    public void testJsonStrToGenericDomainObject() {
+        String text = "{\"user\":{\"id\":1,\"createTime\":1454386542,\"cellphone\":13717686218,\"name\":\"极地鸥\"}}";
+        /** 将JSON字符串转换为JavaBean对象 **/
+        LoginData<User> loginData = JSON.parseObject(text, new TypeReference<LoginData<User>>(){});
+        System.out.println(loginData.getUser().getName());
     }
 
     @Test
@@ -63,8 +73,8 @@ public class FastJsonTest {
         public void setT(T t) {
             this.t = t;
         }
-        
     }
+
     @Test
     public void test_FirstWithClass() {
         Foo<List<Integer>> foo = new Foo<List<Integer>>();
@@ -82,7 +92,8 @@ public class FastJsonTest {
         ParameterizedType parameterizedType = (ParameterizedType) new TypeReference<Foo<List<Integer>>>(){}.getClass().getGenericSuperclass();
         System.out.println(parameterizedType.getActualTypeArguments()[0]);
         rst = JSON.parseObject(v,new TypeReference<Foo<List<Integer>>>(){});
-        System.out.println(rst.getT());
+        List lst = (List)rst.getT();
+        System.out.println(lst.get(1));
     }
     
 //  @Test//此用例跟上边那个不能同时跑，要不然上边跑过之后下边就跑不通了

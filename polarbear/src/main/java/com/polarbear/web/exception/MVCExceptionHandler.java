@@ -1,7 +1,10 @@
 package com.polarbear.web.exception;
 
-import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
+import static com.polarbear.util.Constants.ResultState.*;
 
+import java.net.MalformedURLException;
+
+import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
@@ -55,4 +58,19 @@ public class MVCExceptionHandler {
         log.debug(">>>>>>>>>>>" + e.state.emsg());
         return new JsonResult(e.state);
     }
+    
+    @ExceptionHandler(LoginException.class)
+    public @ResponseBody
+    Object handleLoginException(LoginException e, HttpServletRequest request) {
+        log.debug(">>>>>>>>>>>" + LOGIN_NAME_PWD_ERR);
+        return new JsonResult(LOGIN_NAME_PWD_ERR);
+    }
+    
+    @ExceptionHandler(MalformedURLException.class)
+    public @ResponseBody
+    Object handleMalformedURLException(MalformedURLException e, HttpServletRequest request) {
+        log.debug(">>>>>>>>>>>" + URL_FORMATE_ERR);
+        return new JsonResult(URL_FORMATE_ERR);
+    }
+
 }

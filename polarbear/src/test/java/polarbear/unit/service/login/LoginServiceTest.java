@@ -1,9 +1,13 @@
 package polarbear.unit.service.login;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static com.polarbear.util.Constants.ResultState.LOGIN_NAME_PWD_ERR;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static polarbear.test.util.Constants.MD5_PWD;
+import static polarbear.test.util.Constants.PWD;
+import static polarbear.test.util.Constants.UNAME;
 import static polarbear.testdata.user.UserBuilder.anUser;
-import static com.polarbear.util.Constants.ResultState.*;
 
 import javax.security.auth.login.LoginException;
 
@@ -14,10 +18,10 @@ import org.junit.Test;
 import polarbear.unit.service.AbstractMock;
 
 import com.polarbear.dao.DaoException;
+import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.login.LoginService;
 import com.polarbear.util.MD5Util;
-import static polarbear.test.util.Constants.*;
 public class LoginServiceTest extends AbstractMock {
     private LoginService loginService = new LoginService();   
 
@@ -36,7 +40,7 @@ public class LoginServiceTest extends AbstractMock {
             }
         });
         try {
-            LoginData loginData = loginService.login(UNAME, PWD);
+            LoginData<User> loginData = loginService.login(UNAME, PWD);
             assertThat(loginData.getUser().getName(), is(UNAME));
         } catch (LoginException e) {
             fail("登录应该成功但失败");

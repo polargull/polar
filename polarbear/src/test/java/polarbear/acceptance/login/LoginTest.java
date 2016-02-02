@@ -12,8 +12,7 @@ import static polarbear.test.util.Constants.ERROR_UNAME;
 import static polarbear.test.util.Constants.LOGIN_URL;
 import static polarbear.test.util.Constants.PWD;
 import static polarbear.test.util.Constants.UNAME;
-import static polarbear.test.util.JsonResultConvertUtil.resultBody;
-import static polarbear.test.util.JsonResultConvertUtil.resultState;
+import static polarbear.test.util.JsonResultConvertUtil.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -21,7 +20,9 @@ import org.junit.Test;
 
 import polarbear.acceptance.Request.ResultCallback;
 
+import com.alibaba.fastjson.TypeReference;
 import com.meterware.httpunit.WebResponse;
+import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.UserCookieUtil;
@@ -34,9 +35,9 @@ public class LoginTest {
             .addParams("uname", UNAME)
             .addParams("password", PWD)
             .post(new ResultCallback() {
-                public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
+                public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException, ClassNotFoundException {
                     assertThat(resultState(jsonResult), is(SUCCESS));
-                    assertThat(resultBody(jsonResult,LoginData.class).getUser().getName(), is(UNAME));
+                    assertThat(resultBody(jsonResult, new TypeReference<LoginData<User>>(){}).getUser().getName(), is(UNAME));
                 }
                 public void onResponse(WebResponse response) {
                     assertThat(response.getNewCookieValue(UserCookieUtil.COOKIE_NAME),not(nullValue()));

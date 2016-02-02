@@ -7,7 +7,7 @@ import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
 import static polarbear.test.util.Constants.PRODUCT_CATEGORY_1_ID;
 import static polarbear.test.util.Constants.PRODUCT_CATEGORY_QUERY_URL;
-import static polarbear.test.util.JsonResultConvertUtil.resultBody;
+import static polarbear.test.util.JsonResultConvertUtil.resultBodyArray;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
 
 import java.io.UnsupportedEncodingException;
@@ -35,7 +35,7 @@ public class QueryPutOnProductByCategoryTest {
             .post(new ResultCallback() {
             public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException, ClassNotFoundException {
                 assertThat(resultState(jsonResult), is(SUCCESS));
-                List<Product> productList = resultBody(jsonResult, new TypeReference<ArrayList<Product>>(){});
+                List<Product> productList = resultBodyArray(jsonResult, new TypeReference<ArrayList<Product>>(){});
                 assertThat(productList.size(), equalTo(2));
                 assertThat(productList.get(0).getName(), equalTo(PRODUCT_NAME));
                 assertThat(productList.get(1).getName(), equalTo(PRODUCT_NAME));
