@@ -30,7 +30,7 @@ import com.polarbear.util.cookie.UserCookieUtil;
 public class LoginTest {
     
     @Test
-    public void shouldValidateWhenInputCorrectNameAndPwd() {
+    public void shouldValidateWhenInputCorrectNameAndPwdLogin() {
         anRequest(LOGIN_URL)
             .addParams("uname", UNAME)
             .addParams("password", PWD)
@@ -46,7 +46,7 @@ public class LoginTest {
     }
     
     @Test
-    public void shouldInValidateWhenInputErrNameAndPwd() {
+    public void shouldInValidateWhenInputErrNameAndPwdLogin() {
         anRequest(LOGIN_URL)
             .addParams("uname", ERROR_UNAME)
             .addParams("password", ERROR_PWD)

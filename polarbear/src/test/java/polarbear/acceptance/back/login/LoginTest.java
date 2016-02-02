@@ -23,12 +23,12 @@ import com.polarbear.domain.Admin;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.UserCookieUtil;
-import com.polarbear.web.back.login.LoginController;
+import com.polarbear.web.login.back.LoginController;
 
 public class LoginTest {
     
     @Test
-    public void shouldValidateWhenInputCorrectNameAndPwd() {
+    public void shouldValidateWhenInputCorrectAdminNameAndPwdLogin() {
         anRequest(ADMIN_LOGIN_URL)
             .addParams("uname", ADMIN_UNAME)
             .addParams("password", PWD)
@@ -44,7 +44,7 @@ public class LoginTest {
     }
     
     @Test
-    public void shouldInValidateWhenInputErrNameAndPwd() {
+    public void shouldInValidateWhenInputErrAdminNameAndPwdLogin() {
         anRequest(ADMIN_LOGIN_URL)
             .addParams("uname", ERROR_UNAME)
             .addParams("password", ERROR_PWD)

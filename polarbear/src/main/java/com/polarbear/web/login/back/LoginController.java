@@ -1,4 +1,4 @@
-package com.polarbear.web.back.login;
+package com.polarbear.web.login.back;
 
 import static com.polarbear.util.Constants.ResultState.LOGIN_NAME_PWD_ERR;
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mysql.jdbc.StringUtils;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Admin;
-import com.polarbear.service.back.login.AdminLoginService;
+import com.polarbear.service.login.AdminLoginService;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.UrlUtil;
@@ -42,9 +42,13 @@ public class LoginController {
         log.debug("uname:" + uname + ",password:" + password);
         validate(uname, password);
         LoginData<Admin> adminLoginData = adminLoginService.login(uname, password);
+        setCookie(response, request, adminLoginData);
+        return new JsonResult(SUCCESS).put(adminLoginData);
+    }
+
+    private void setCookie(HttpServletResponse response, HttpServletRequest request, LoginData<Admin> adminLoginData) throws MalformedURLException {
         String domain = UrlUtil.getTopDomainWithoutSubdomain(request.getRequestURL().toString());
         CookieHelper.setCookie(response, ADMIN_LOGIN_COOKIE, adminLoginData.getAuthEncode(), domain, 0);
-        return new JsonResult(SUCCESS).put(adminLoginData);
     }
 
     private void validate(String uname, String password) throws LoginException {

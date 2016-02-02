@@ -15,11 +15,13 @@ import com.polarbear.util.MD5Util;
 public class LoginService {
     @Autowired(required = false)
     BaseDao<User> userDao;
+    LoginEncoder loginEncoder = LoginEncoder.getInstance();
 
     public LoginData<User> login(String uname, String pwd) throws LoginException, DaoException {
         User user = userDao.findByNamedQueryObject("queryUnameAndPwd", uname, MD5Util.encode2hex(pwd));
         if (user == null)
             throw new LoginException(LOGIN_NAME_PWD_ERR.emsg());
-        return new LoginData<User>(user);
+        loginEncoder.encodeLoginUser(user);
+        return new LoginData<User>(user, loginEncoder.encodeLoginUser(user));
     }
 }

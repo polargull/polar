@@ -22,7 +22,7 @@ import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.login.LoginService;
 import com.polarbear.util.cookie.UserCookieUtil;
-import com.polarbear.web.login.LoginController;
+import com.polarbear.web.login.front.LoginController;
 
 public class LoginControllerTest extends AbstractContextControllerTest {
     
