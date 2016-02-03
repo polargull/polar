@@ -1,4 +1,4 @@
-package com.polarbear.service.login;
+package com.polarbear.service.login.bean;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

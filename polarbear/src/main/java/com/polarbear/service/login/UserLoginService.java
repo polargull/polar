@@ -9,10 +9,12 @@ import static com.polarbear.util.Constants.ResultState.*;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
+import com.polarbear.service.login.bean.LoginData;
+import com.polarbear.service.login.util.LoginEncoder;
 import com.polarbear.util.MD5Util;
 
 @Service
-public class LoginService {
+public class UserLoginService {
     @Autowired(required = false)
     BaseDao<User> userDao;
     LoginEncoder loginEncoder = LoginEncoder.getInstance();

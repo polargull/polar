@@ -15,7 +15,7 @@ import polarbear.acceptance.Request.ResultCallback;
 import com.alibaba.fastjson.TypeReference;
 import com.meterware.httpunit.WebResponse;
 import com.polarbear.domain.Admin;
-import com.polarbear.service.login.LoginData;
+import com.polarbear.service.login.bean.LoginData;
 import com.polarbear.util.JsonResult;
 import com.polarbear.web.login.back.LoginController;
 

@@ -32,7 +32,7 @@ import polarbear.unit.controller.AbstractContextControllerTest;
 import com.alibaba.fastjson.TypeReference;
 import com.polarbear.ValidateException;
 import com.polarbear.domain.User;
-import com.polarbear.service.login.LoginData;
+import com.polarbear.service.login.bean.LoginData;
 import com.polarbear.service.register.AppRegisterStep2Service;
 import com.polarbear.service.register.util.VerifyCodeEncoder;
 import com.polarbear.web.login.front.LoginController;

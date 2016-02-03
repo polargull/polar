@@ -22,7 +22,7 @@ import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
 import com.polarbear.service.RemoteInvokeServiceException;
-import com.polarbear.service.login.LoginData;
+import com.polarbear.service.login.bean.LoginData;
 import com.polarbear.service.register.AppRegisterStep1Service;
 import com.polarbear.service.register.AppRegisterStep2Service;
 import com.polarbear.util.JsonResult;

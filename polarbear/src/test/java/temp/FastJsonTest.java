@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.polarbear.domain.User;
-import com.polarbear.service.login.LoginData;
+import com.polarbear.service.login.bean.LoginData;
 import com.polarbear.service.product.query.bean.ProductStyleProperty;
 
 public class FastJsonTest {

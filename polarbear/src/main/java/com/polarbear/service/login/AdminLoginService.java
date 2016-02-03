@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Admin;
+import com.polarbear.service.login.bean.LoginData;
+import com.polarbear.service.login.util.LoginEncoder;
 import com.polarbear.util.MD5Util;
 
 @Service

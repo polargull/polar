@@ -26,14 +26,14 @@ import polarbear.unit.controller.AbstractContextControllerTest;
 
 import com.alibaba.fastjson.TypeReference;
 import com.polarbear.domain.User;
-import com.polarbear.service.login.LoginData;
-import com.polarbear.service.login.LoginService;
+import com.polarbear.service.login.UserLoginService;
+import com.polarbear.service.login.bean.LoginData;
 import com.polarbear.web.login.front.LoginController;
 
 public class LoginControllerTest extends AbstractContextControllerTest {
     
     LoginController loginController = new LoginController();
-    public LoginService loginService;
+    public UserLoginService loginService;
 
     @Before
     public void setup() {

@@ -22,7 +22,7 @@ import com.mysql.jdbc.StringUtils;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Admin;
 import com.polarbear.service.login.AdminLoginService;
-import com.polarbear.service.login.LoginData;
+import com.polarbear.service.login.bean.LoginData;
 import com.polarbear.util.JsonResult;
 
 import com.polarbear.util.cookie.CookieHelper;

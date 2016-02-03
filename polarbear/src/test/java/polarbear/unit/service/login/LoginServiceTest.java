@@ -17,12 +17,12 @@ import polarbear.unit.service.AbstractMock;
 
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
-import com.polarbear.service.login.LoginData;
-import com.polarbear.service.login.LoginEncoder;
-import com.polarbear.service.login.LoginService;
+import com.polarbear.service.login.UserLoginService;
+import com.polarbear.service.login.bean.LoginData;
+import com.polarbear.service.login.util.LoginEncoder;
 import com.polarbear.util.MD5Util;
 public class LoginServiceTest extends AbstractMock {
-    private LoginService loginService = new LoginService();   
+    private UserLoginService loginService = new UserLoginService();   
     public LoginEncoder loginEncoder;
     
     @Before

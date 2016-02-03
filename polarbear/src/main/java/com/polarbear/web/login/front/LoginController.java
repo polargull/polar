@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mysql.jdbc.StringUtils;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
-import com.polarbear.service.login.LoginData;
-import com.polarbear.service.login.LoginService;
+import com.polarbear.service.login.UserLoginService;
+import com.polarbear.service.login.bean.LoginData;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.CookieHelper;
 import com.polarbear.util.cookie.UrlUtil;
@@ -31,7 +31,7 @@ import com.polarbear.util.cookie.UrlUtil;
 public class LoginController {
     private Log log = LogFactory.getLog(LoginController.class);
     @Autowired(required = false)
-    private LoginService loginService;
+    private UserLoginService loginService;
     public static final String USER_LOGIN_COOKIE = "Login_User";
 
     @RequestMapping(value = { "login.json", "login.do" }, method = { RequestMethod.POST, RequestMethod.GET })
