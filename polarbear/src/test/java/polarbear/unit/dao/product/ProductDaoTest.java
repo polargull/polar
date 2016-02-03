@@ -80,7 +80,7 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
 
     @Test
     public void queryProductByCategory() throws DaoException {
-        PageList<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", new Object[] { new Category(1L) }, "1", null);
+        PageList<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", "1", null, new Category(1L));
         assertThat(productList.getList().size(), equalTo(2));
         assertThat(productList.getList().get(0).getName(), equalTo(PRODUCT_NAME + 1));
         assertThat(productList.getList().get(1).getName(), equalTo(PRODUCT_NAME + 2));

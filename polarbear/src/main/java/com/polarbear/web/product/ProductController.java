@@ -64,7 +64,7 @@ public class ProductController {
         log.debug("categoryId=" + categoryId);
         validateId(categoryId);
         validateId(pageNo);
-        PageList<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", new Object[] { new Category(Long.valueOf(categoryId)) }, pageNo, pageSize);
+        PageList<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", pageNo, pageSize, new Category(Long.valueOf(categoryId)));
         log.debug("categoryId=" + categoryId + ", op successful!");
         return new JsonResult(SUCCESS).put(productList.getList());
     }

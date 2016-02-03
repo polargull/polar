@@ -1,5 +1,6 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <table id="dg_product" class="easyui-datagrid" style="width:700px;height:250px" fit="true" fitColumns="true"
-        url="http://localhost:8080/back/productList.json"
+        url="back/productList.json"
         rownumbers="true" pagination="true">
     <thead>
         <tr>

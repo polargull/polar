@@ -94,7 +94,7 @@ public class BaseDao<T> {
         return findByNamedQueryByPage(nameQuery, null, pageNo, pageSize);
     }
 
-    public PageList<T> findByNamedQueryByPage(String nameQuery, final Object[] values, String pageNo, String pageSize) throws DaoException {
+    public PageList<T> findByNamedQueryByPage(String nameQuery, String pageNo, String pageSize, final Object... values) throws DaoException {
         pageSize = !NumberUtils.isDigits(pageSize) ? "10" : pageSize;
         return findByNamedQueryByPage(nameQuery, values, Integer.parseInt(pageNo), Integer.parseInt(pageSize));
     }
