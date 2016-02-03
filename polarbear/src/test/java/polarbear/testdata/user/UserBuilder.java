@@ -1,7 +1,5 @@
 package polarbear.testdata.user;
 
-import polarbear.test.util.ID;
-
 import com.polarbear.domain.User;
 
 public class UserBuilder {

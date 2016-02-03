@@ -55,7 +55,7 @@
                             <table class="easyui-datagrid" style="width:650px;height:auto"
                                     fit="true" border="false"
                                     singleSelect="true"
-                                    idField="itemid" url="datagrid_data.json">
+                                    idField="itemid" url="datagrid_data1.json">
                                 <thead>
                                     <tr>
                                         <th field="itemid" width="60">Item ID</th>

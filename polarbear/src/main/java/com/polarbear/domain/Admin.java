@@ -33,6 +33,13 @@ public class Admin {
         this.loginTime = loginTime;
     }
 
+    public Admin(Long id, String name, String pwd) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.pwd = pwd;
+    }
+
     public Long getId() {
         return id;
     }
