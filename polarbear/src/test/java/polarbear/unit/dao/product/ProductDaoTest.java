@@ -7,7 +7,10 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static polarbear.test.util.Constants.*;
+import static polarbear.test.util.Constants.CATEGORY_NAME;
+import static polarbear.test.util.Constants.PRODUCT_1_ID;
+import static polarbear.test.util.Constants.PRODUCT_NAME;
+import static polarbear.test.util.Constants.SHOPCARD_ID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +28,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
+import com.polarbear.dao.PageList;
 import com.polarbear.domain.Category;
 import com.polarbear.domain.Product;
 
@@ -76,10 +80,12 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
 
     @Test
     public void queryProductByCategory() throws DaoException {
-        List<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", new Object[] { new Category(1L) }, "1", null);
-        assertThat(productList.size(), equalTo(2));
-        assertThat(productList.get(0).getName(), equalTo(PRODUCT_NAME + 1));
-        assertThat(productList.get(1).getName(), equalTo(PRODUCT_NAME + 2));
+        PageList<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", new Object[] { new Category(1L) }, "1", null);
+        assertThat(productList.getList().size(), equalTo(2));
+        assertThat(productList.getList().get(0).getName(), equalTo(PRODUCT_NAME + 1));
+        assertThat(productList.getList().get(1).getName(), equalTo(PRODUCT_NAME + 2));
+        assertThat(productList.getTotal(), equalTo(2l));
+        assertThat(productList.getPageNo(), equalTo(1));
     }
 
 }

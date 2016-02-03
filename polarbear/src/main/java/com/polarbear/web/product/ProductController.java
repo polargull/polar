@@ -3,8 +3,6 @@ package com.polarbear.web.product;
 import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
@@ -20,6 +18,7 @@ import com.polarbear.NullObjectException;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
+import com.polarbear.dao.PageList;
 import com.polarbear.domain.Category;
 import com.polarbear.domain.Product;
 import com.polarbear.service.product.query.MultipleStyleProductQuery;
@@ -65,9 +64,9 @@ public class ProductController {
         log.debug("categoryId=" + categoryId);
         validateId(categoryId);
         validateId(pageNo);
-        List<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", new Object[] { new Category(Long.valueOf(categoryId)) }, pageNo, pageSize);
+        PageList<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", new Object[] { new Category(Long.valueOf(categoryId)) }, pageNo, pageSize);
         log.debug("categoryId=" + categoryId + ", op successful!");
-        return new JsonResult(SUCCESS).put(productList);
+        return new JsonResult(SUCCESS).put(productList.getList());
     }
 
     private void validateId(String digits) throws ValidateException {

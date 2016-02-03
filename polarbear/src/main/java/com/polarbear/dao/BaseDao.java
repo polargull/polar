@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -74,29 +73,48 @@ public class BaseDao<T> {
         }
     }
 
-    public List<T> findByNamedQueryByPage(final String nameQuery, final int pageNo, final int pageSize) throws DaoException {
+    public long countByNamedQuery(final String nameQuery, final Object... values) throws DaoException {
+        try {
+            return (Long) hibernateTemplate.execute(new HibernateCallback<Long>() {
+                public Long doInHibernate(Session session) {
+                    Query queryName = (Query) session.getNamedQuery(nameQuery);
+                    Query query = session.createQuery("select count(*) " + queryName.getQueryString());
+                    for (int i = 0; values != null && i < values.length; i++) {
+                        query.setParameter(i, values[i]);
+                    }
+                    return (Long) query.uniqueResult();
+                }
+            });
+        } catch (DataAccessException e) {
+            throw new DaoException(DB_ERR);
+        }
+    }
+
+    public PageList<T> findByNamedQueryByPage(final String nameQuery, final int pageNo, final int pageSize) throws DaoException {
         return findByNamedQueryByPage(nameQuery, null, pageNo, pageSize);
     }
 
-    public List<T> findByNamedQueryByPage(String nameQuery, final Object[] values, String pageNo, String pageSize) throws DaoException {
+    public PageList<T> findByNamedQueryByPage(String nameQuery, final Object[] values, String pageNo, String pageSize) throws DaoException {
         pageSize = !NumberUtils.isDigits(pageSize) ? "10" : pageSize;
         return findByNamedQueryByPage(nameQuery, values, Integer.parseInt(pageNo), Integer.parseInt(pageSize));
     }
 
     @SuppressWarnings("unchecked")
-    public List<T> findByNamedQueryByPage(final String nameQuery, final Object[] values, final int pageNo, final int pageSize) throws DaoException {
+    public PageList<T> findByNamedQueryByPage(final String nameQuery, final Object[] values, final int pageNo, final int pageSize) throws DaoException {
         try {
-            return hibernateTemplate.executeFind(new HibernateCallback<T>() {
-                public T doInHibernate(Session session) {
+            List list = hibernateTemplate.executeFind(new HibernateCallback<List>() {
+                public List doInHibernate(Session session) {
                     Query query = (Query) session.getNamedQuery(nameQuery);
                     query.setFirstResult((pageNo - 1) * pageSize);
                     query.setMaxResults(pageSize);
                     for (int i = 0; values != null && i < values.length; i++) {
                         query.setParameter(i, values[i]);
                     }
-                    return (T) query.list();
+                    return query.list();
                 }
             });
+            long count = countByNamedQuery(nameQuery, values);
+            return new PageList<T>(count, pageNo, pageSize, list);
         } catch (DataAccessException e) {
             throw new DaoException(DB_ERR);
         }
