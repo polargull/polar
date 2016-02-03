@@ -1,4 +1,4 @@
-package com.polarbear.service.back.login.util;
+package com.polarbear.service.login;
 
 import com.polarbear.domain.Admin;
 import com.polarbear.domain.User;

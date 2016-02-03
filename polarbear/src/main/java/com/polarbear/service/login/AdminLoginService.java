@@ -1,4 +1,4 @@
-package com.polarbear.service.back.login;
+package com.polarbear.service.login;
 
 import static com.polarbear.util.Constants.ResultState.LOGIN_NAME_PWD_ERR;
 
@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Admin;
-import com.polarbear.service.back.login.util.LoginEncoder;
-import com.polarbear.service.login.LoginData;
 import com.polarbear.util.MD5Util;
 
 @Service

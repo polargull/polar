@@ -1,13 +1,20 @@
 package polarbear.unit.controller.login;
 
-import static com.polarbear.util.Constants.ResultState.*;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import static polarbear.test.util.Constants.*;
+import static com.polarbear.util.Constants.ResultState.LOGIN_NAME_PWD_ERR;
+import static com.polarbear.util.Constants.ResultState.SUCCESS;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static polarbear.test.util.Constants.LOGIN_URL;
+import static polarbear.test.util.Constants.PWD;
+import static polarbear.test.util.Constants.UNAME;
+import static polarbear.test.util.JsonResultConvertUtil.resultBody;
+import static polarbear.test.util.JsonResultConvertUtil.resultState;
 import static polarbear.testdata.user.UserBuilder.anUser;
-import static polarbear.test.util.JsonResultConvertUtil.*;
+
 import javax.security.auth.login.LoginException;
 
 import org.jmock.Expectations;
@@ -21,8 +28,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.login.LoginService;
-import com.polarbear.util.cookie.UserCookieUtil;
-import com.polarbear.web.login.LoginController;
+import com.polarbear.web.login.front.LoginController;
 
 public class LoginControllerTest extends AbstractContextControllerTest {
     
@@ -51,7 +57,7 @@ public class LoginControllerTest extends AbstractContextControllerTest {
             .andExpect(status().isOk())
 //            .andDo(print())
             .andReturn();
-        assertThat(result.getResponse().getCookie(UserCookieUtil.COOKIE_NAME).getValue(),not(nullValue()));
+        assertThat(result.getResponse().getCookie(LoginController.USER_LOGIN_COOKIE).getValue(),not(nullValue()));
         assertThat(resultState(result), is(SUCCESS));
         assertThat(resultBody(result, new TypeReference<LoginData<User>>(){}).getUser().getName(), is(UNAME));
     }

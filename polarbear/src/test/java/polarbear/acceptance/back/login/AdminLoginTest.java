@@ -7,7 +7,11 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
-import static polarbear.test.util.Constants.*;
+import static polarbear.test.util.Constants.ADMIN_LOGIN_URL;
+import static polarbear.test.util.Constants.ADMIN_UNAME;
+import static polarbear.test.util.Constants.ERROR_PWD;
+import static polarbear.test.util.Constants.ERROR_UNAME;
+import static polarbear.test.util.Constants.PWD;
 import static polarbear.test.util.JsonResultConvertUtil.resultBody;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
 
@@ -22,13 +26,12 @@ import com.meterware.httpunit.WebResponse;
 import com.polarbear.domain.Admin;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.util.JsonResult;
-import com.polarbear.util.cookie.UserCookieUtil;
-import com.polarbear.web.back.login.LoginController;
+import com.polarbear.web.login.back.LoginController;
 
-public class LoginTest {
+public class AdminLoginTest {
     
     @Test
-    public void shouldValidateWhenInputCorrectNameAndPwd() {
+    public void shouldValidateWhenInputCorrectAdminNameAndPwdLogin() {
         anRequest(ADMIN_LOGIN_URL)
             .addParams("uname", ADMIN_UNAME)
             .addParams("password", PWD)
@@ -44,7 +47,7 @@ public class LoginTest {
     }
     
     @Test
-    public void shouldInValidateWhenInputErrNameAndPwd() {
+    public void shouldInValidateWhenInputErrAdminNameAndPwdLogin() {
         anRequest(ADMIN_LOGIN_URL)
             .addParams("uname", ERROR_UNAME)
             .addParams("password", ERROR_PWD)
@@ -54,7 +57,7 @@ public class LoginTest {
                     assertThat(resultBody(jsonResult,LoginData.class), nullValue());
                 }
                 public void onResponse(WebResponse response) {
-                    assertThat(response.getNewCookieValue(UserCookieUtil.COOKIE_NAME),nullValue());
+                    assertThat(response.getNewCookieValue(LoginController.ADMIN_LOGIN_COOKIE),nullValue());
                 }
             });
     }

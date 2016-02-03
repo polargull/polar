@@ -1,7 +1,9 @@
-package com.polarbear.web.login;
+package com.polarbear.web.login.front;
 
 import static com.polarbear.util.Constants.ResultState.LOGIN_NAME_PWD_ERR;
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
+
+import java.net.MalformedURLException;
 
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,28 +24,30 @@ import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.login.LoginService;
 import com.polarbear.util.JsonResult;
-import com.polarbear.util.cookie.UserCookieUtil;
+import com.polarbear.util.cookie.CookieHelper;
+import com.polarbear.util.cookie.UrlUtil;
 
 @Controller
 public class LoginController {
     private Log log = LogFactory.getLog(LoginController.class);
     @Autowired(required = false)
     private LoginService loginService;
+    public static final String USER_LOGIN_COOKIE = "Login_User";
 
-    @RequestMapping(value = {"login.json","login.do"}, method = { RequestMethod.POST, RequestMethod.GET })
+    @RequestMapping(value = { "login.json", "login.do" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object login(HttpServletResponse response, HttpServletRequest request, @RequestParam("uname") String uname, @RequestParam("password") String password) {
-        try {
-            log.debug("uname:" + uname + ",password:" + password);
-            validate(uname, password);
-            LoginData<User> loginData = loginService.login(uname, password);
-            UserCookieUtil.saveUserCookie(loginData.getUser(), request, response, 0);
-            return new JsonResult(SUCCESS).put(loginData);
-        } catch (LoginException e) {
-            return new JsonResult(LOGIN_NAME_PWD_ERR);
-        } catch (DaoException e) {
-            return new JsonResult(e.state);
-        }
+    public Object login(HttpServletResponse response, HttpServletRequest request, @RequestParam("uname") String uname, @RequestParam("password") String password)
+            throws MalformedURLException, LoginException, DaoException {
+        log.debug("uname:" + uname + ",password:" + password);
+        validate(uname, password);
+        LoginData<User> userLoginData = loginService.login(uname, password);
+        setCookie(response, request, userLoginData);
+        return new JsonResult(SUCCESS).put(userLoginData);
+    }
+
+    private void setCookie(HttpServletResponse response, HttpServletRequest request, LoginData<User> userLoginData) throws MalformedURLException {
+        String domain = UrlUtil.getTopDomainWithoutSubdomain(request.getRequestURL().toString());
+        CookieHelper.setCookie(response, USER_LOGIN_COOKIE, userLoginData.getAuthEncode(), domain, 0);
     }
 
     private void validate(String uname, String password) throws LoginException {

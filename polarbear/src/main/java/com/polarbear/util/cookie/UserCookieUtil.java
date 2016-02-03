@@ -18,7 +18,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class UserCookieUtil {
 
-    public final static String COOKIE_NAME = "Login_User";
+//    public final static String COOKIE_NAME = "Login_User";
     private final static int ONE_DAY_SECONDS = 24 * 60 * 60;
 
     private UserCookieUtil() {
@@ -48,7 +48,7 @@ public class UserCookieUtil {
         } catch (MalformedURLException e) {
         }
         // 保存Cookie
-        CookieHelper.setCookie(response, COOKIE_NAME, cookieValueBase64, domain, days * ONE_DAY_SECONDS);
+//        CookieHelper.setCookie(response, COOKIE_NAME, cookieValueBase64, domain, days * ONE_DAY_SECONDS);
     }
 
     /**
@@ -56,7 +56,7 @@ public class UserCookieUtil {
      * @param response
      */
     public static void removeUserCookie(HttpServletResponse response) {
-        CookieHelper.removeCookie(response, COOKIE_NAME);
+//        CookieHelper.removeCookie(response, COOKIE_NAME);
     }
     
     /**
@@ -70,48 +70,10 @@ public class UserCookieUtil {
             domain = getTopDomainWithoutSubdomain(request.getRequestURL().toString());
         } catch (MalformedURLException e) {
         }
-        CookieHelper.removeCookie(response, COOKIE_NAME, domain);
+//        CookieHelper.removeCookie(response, COOKIE_NAME, domain);
         
     }
 
-    /**
-     * 从Cookie中获取用户信息
-     * 
-     * @param request
-     * @param response
-     * @return
-     */
-    public static User getUserFromCookie(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException {
-        // 查找Cookie值
-        String cookieValue = CookieHelper.getCookieValue(request, COOKIE_NAME);
-        if (cookieValue == null) {
-            throw new ServletException("没有找到用户信息的Cookie");
-        }
-        // BASE64解码
-        String cookieValueDecode = new String(Base64.decode(cookieValue));
-        // 切分并判断是否是3段格式
-        String cookieValues[] = cookieValueDecode.split(":");
-        if (cookieValues.length != 3) {
-            // 删除错误的cookie值
-            CookieHelper.removeCookie(response, COOKIE_NAME);
-            throw new ServletException("Cookie中的数据格式错误");
-        }
-        // 校验内容是否正确
-        String uid = cookieValues[0];
-        String validTime = cookieValues[1];
-        String verifyCode = cookieValues[2];
-        String verifyCodeTemp = getMD5(uid + ":" + validTime + ":" + Constants.WEB_KEY);
-        if (!verifyCodeTemp.equals(verifyCode)) {
-            // 删除错误的cookie值
-            CookieHelper.removeCookie(response, COOKIE_NAME);
-            throw new ServletException("Cookie中的数据校验错误");
-        }
-        // 返回带ID的User对象
-        User user = new User();
-        user.setId(Long.valueOf(cookieValues[0]));
-        return user;
-    }
 
     /**
      * 获取url中的顶级域名

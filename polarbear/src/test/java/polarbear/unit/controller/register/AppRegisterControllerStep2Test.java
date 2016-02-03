@@ -13,7 +13,8 @@ import static polarbear.test.util.Constants.PWD;
 import static polarbear.test.util.Constants.REGIST_STEP2_URL;
 import static polarbear.test.util.Constants.UNAME;
 import static polarbear.test.util.Constants.VERIFY_CODE;
-import static polarbear.test.util.JsonResultConvertUtil.*;
+import static polarbear.test.util.JsonResultConvertUtil.resultBody;
+import static polarbear.test.util.JsonResultConvertUtil.resultState;
 import static polarbear.testdata.user.UserBuilder.anUser;
 
 import java.io.UnsupportedEncodingException;
@@ -34,7 +35,7 @@ import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.service.register.AppRegisterStep2Service;
 import com.polarbear.service.register.util.VerifyCodeEncoder;
-import com.polarbear.util.cookie.UserCookieUtil;
+import com.polarbear.web.login.front.LoginController;
 import com.polarbear.web.regist.AppRegisterController;
 
 public class AppRegisterControllerStep2Test extends AbstractContextControllerTest {
@@ -66,7 +67,7 @@ public class AppRegisterControllerStep2Test extends AbstractContextControllerTes
         // .andDo(print())
                 .andReturn();
         assertThat(resultState(result), is(SUCCESS));
-        assertThat(result.getResponse().getCookie(UserCookieUtil.COOKIE_NAME).getValue(), not(nullValue()));
+        assertThat(result.getResponse().getCookie(LoginController.USER_LOGIN_COOKIE).getValue(), not(nullValue()));
         assertThat(resultBody(result, new TypeReference<LoginData<User>>(){}).getUser().getName(), is(UNAME));
     }
 

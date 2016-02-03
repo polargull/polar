@@ -16,12 +16,13 @@ import polarbear.acceptance.Request.ResultCallback;
 import com.polarbear.service.shopcart.MyShopcart;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.UserCookieUtil;
+import com.polarbear.web.login.front.LoginController;
 
 public class ModifyProductNumTest {
     public static final int PRODUCT_2_ALREADY_BUY_NUM = 1;
     @Test
     public void shouldReturnMyShopcartDataWhenModifyProductNumAndUserLogined() {
-        anRequest(SHOPCART_MODIFY_PRODUCT_NUM_URL).withCookie(UserCookieUtil.COOKIE_NAME, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
+        anRequest(SHOPCART_MODIFY_PRODUCT_NUM_URL).withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
         .addParams("pid", String.valueOf(PRODUCT_1_ID))
         .addParams("num", String.valueOf(PRODUCT_BUY_NUM))
         .post(new ResultCallback() {

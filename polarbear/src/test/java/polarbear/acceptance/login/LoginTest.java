@@ -26,11 +26,12 @@ import com.polarbear.domain.User;
 import com.polarbear.service.login.LoginData;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.UserCookieUtil;
+import com.polarbear.web.login.front.LoginController;
 
 public class LoginTest {
     
     @Test
-    public void shouldValidateWhenInputCorrectNameAndPwd() {
+    public void shouldValidateWhenInputCorrectNameAndPwdLogin() {
         anRequest(LOGIN_URL)
             .addParams("uname", UNAME)
             .addParams("password", PWD)
@@ -40,13 +41,13 @@ public class LoginTest {
                     assertThat(resultBody(jsonResult, new TypeReference<LoginData<User>>(){}).getUser().getName(), is(UNAME));
                 }
                 public void onResponse(WebResponse response) {
-                    assertThat(response.getNewCookieValue(UserCookieUtil.COOKIE_NAME),not(nullValue()));
+                    assertThat(response.getNewCookieValue(LoginController.USER_LOGIN_COOKIE),not(nullValue()));
                 }
             });
     }
     
     @Test
-    public void shouldInValidateWhenInputErrNameAndPwd() {
+    public void shouldInValidateWhenInputErrNameAndPwdLogin() {
         anRequest(LOGIN_URL)
             .addParams("uname", ERROR_UNAME)
             .addParams("password", ERROR_PWD)
@@ -56,7 +57,7 @@ public class LoginTest {
                     assertThat(resultBody(jsonResult,LoginData.class), nullValue());
                 }
                 public void onResponse(WebResponse response) {
-                    assertThat(response.getNewCookieValue(UserCookieUtil.COOKIE_NAME),nullValue());
+                    assertThat(response.getNewCookieValue(LoginController.USER_LOGIN_COOKIE),nullValue());
                 }
             });
     }

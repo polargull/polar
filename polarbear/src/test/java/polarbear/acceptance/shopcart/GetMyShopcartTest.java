@@ -16,13 +16,14 @@ import polarbear.acceptance.Request.ResultCallback;
 import com.polarbear.service.shopcart.MyShopcart;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.UserCookieUtil;
+import com.polarbear.web.login.front.LoginController;
 import com.polarbear.web.shopcart.ShopcartController;
 
 public class GetMyShopcartTest {
 
     @Test
     public void shouldReturnMyShopcartDataWhenQueryShopcartAndUserLogined() {
-        anRequest(SHOPCART_GET_URL).withCookie(UserCookieUtil.COOKIE_NAME, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3").post(new ResultCallback() {
+        anRequest(SHOPCART_GET_URL).withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3").post(new ResultCallback() {
             public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                 assertThat(resultState(jsonResult), is(SUCCESS));
                 MyShopcart shopcart = resultBody(jsonResult, MyShopcart.class);

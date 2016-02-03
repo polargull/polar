@@ -1,4 +1,4 @@
-package com.polarbear.util;
+package com.polarbear.util.cookie;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -23,6 +23,7 @@ import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.CookieHelper;
 import com.polarbear.util.cookie.UserCookieUtil;
 import com.polarbear.util.factory.CurrentThreadUserFactory;
+import com.polarbear.web.login.front.LoginController;
 
 public class LoginUserInterceptor extends HandlerInterceptorAdapter {
     private Log log = LogFactory.getLog(LoginUserInterceptor.class);
@@ -62,7 +63,7 @@ public class LoginUserInterceptor extends HandlerInterceptorAdapter {
     }
 
     private long decodeUserId(HttpServletRequest request) throws ValidateException {
-        String loginUserEncoder = CookieHelper.getCookieValue(request, UserCookieUtil.COOKIE_NAME);
+        String loginUserEncoder = CookieHelper.getCookieValue(request, LoginController.USER_LOGIN_COOKIE);
         long uid;
         try {
             uid = LoginUserDecoder.decodeUserId(loginUserEncoder);
