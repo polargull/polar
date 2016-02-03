@@ -46,6 +46,7 @@ public class Constants {
         , SERVICE_NOT_IMPLEMNET("E00000007", "服务未实现")
         , VERIFY_CODE_INVIDIT("E00001002", "验证码失效,请重新获得验证码")
         , DB_ERR("E00001000", "数据库错误")
+        , DB_DATA_NOT_UNIQUE_ERR("E00001000", "数据库数据不唯一错误")   
         , SYSTEM_ERR("E00001001", "系统错误，请稍后重试")
         , R_MOBILE_ERR("E00001003", "该号码已经注册")
         , COOKIE_ERR("E00001004", "Cookie中的数据校验错误")

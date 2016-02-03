@@ -1,7 +1,7 @@
 package com.polarbear.dao;
 
 import static com.polarbear.util.Constants.ResultState.DB_ERR;
-
+import static com.polarbear.util.Constants.ResultState.DB_DATA_NOT_UNIQUE_ERR;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,9 +58,9 @@ public class BaseDao<T> {
 
     public T findByNamedQueryObject(String nameQuery, Object... values) throws DaoException {
         List<T> list = findByNamedQuery(nameQuery, values);
-        if (list.size() == 0) {
-            return null;
-        }
+        int size = list.size();
+        if (size == 0) return null;
+        if (size > 1) throw new DaoException(DB_DATA_NOT_UNIQUE_ERR);
         return list.get(0);
     }
 
