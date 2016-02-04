@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
-import com.polarbear.domain.Category;
 import com.polarbear.domain.Product;
 import com.polarbear.service.PageList;
 import com.polarbear.service.product.ProductManagerService;
@@ -26,8 +25,9 @@ public class ProductManagerController {
 
     @RequestMapping(value = { "/productList.do", "/productList.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object productList(@RequestParam("name") String name, @RequestParam("page") int pageNo, @RequestParam("rows") int pageSize) throws ValidateException, DaoException {
-        PageList<Product> pageList = productManagerDao.productList(name, pageNo, pageSize);        
+    public Object productList(@RequestParam(value = "name", required = false) String name, @RequestParam("page") int pageNo, @RequestParam("rows") int pageSize)
+            throws ValidateException, DaoException {
+        PageList<Product> pageList = productManagerDao.productList(name, pageNo, pageSize);
         return new JsonEasyUiResult<Product>(pageList);
     }
 }

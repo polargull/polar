@@ -36,43 +36,33 @@ public class ProductController {
 
     @RequestMapping(value = { "/productDetail.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object getProduct(@RequestParam("pid") String pid) throws ValidateException, DaoException {
+    public Object getProduct(@RequestParam("pid") long pid) throws ValidateException, DaoException {
         log.debug("pid=" + pid);
-        validateId(pid);
-        Product product = productDao.findById(Product.class, Long.parseLong(pid));
+        Product product = productDao.findById(Product.class, pid);
         log.debug("pid = " + pid + ", op successful!");
         return new JsonResult(SUCCESS).put(product);
     }
 
     @RequestMapping(value = { "/queryMultiplyStyleProduct.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object queryMultiplyStyleProduct(@RequestParam("styleId") String styleId, @RequestParam("property") String property) throws ValidateException, DaoException,
+    public Object queryMultiplyStyleProduct(@RequestParam("styleId") long styleId, @RequestParam("property") String property) throws ValidateException, DaoException,
             NullObjectException {
         log.debug("styleId=" + styleId);
-        validateId(styleId);
         validateProductProperty(property);
-        Product product = multipleStyleProductQuery.querySameStyleProductByNeedStyle(new NeedStyle(Long.parseLong(styleId), property));
+        Product product = multipleStyleProductQuery.querySameStyleProductByNeedStyle(new NeedStyle(styleId, property));
         log.debug("styleId = " + styleId + ", op successful!");
         return new JsonResult(SUCCESS).put(product);
     }
 
     @RequestMapping(value = { "/queryProductByCategory.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object queryProductByCategory(@RequestParam("categoryId") String categoryId, @RequestParam("pageNo") String pageNo,
-            @RequestParam(required = false, value = "pageSize") String pageSize)
+    public Object queryProductByCategory(@RequestParam("categoryId") long categoryId, @RequestParam("pageNo") int pageNo,
+            @RequestParam(required = false, value = "pageSize", defaultValue= "10") int pageSize)
             throws ValidateException, DaoException {
         log.debug("categoryId=" + categoryId);
-        validateId(categoryId);
-        validateId(pageNo);
-        PageList<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", pageNo, pageSize, new Category(Long.valueOf(categoryId)));
+        PageList<Product> productList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", pageNo, pageSize, new Category(categoryId));
         log.debug("categoryId=" + categoryId + ", op successful!");
         return new JsonResult(SUCCESS).put(productList.getList());
-    }
-
-    private void validateId(String digits) throws ValidateException {
-        if (!NumberUtils.isDigits(digits)) {
-            throw new ValidateException(PARAM_ERR);
-        }
     }
 
     private void validateProductProperty(String property) throws ValidateException {

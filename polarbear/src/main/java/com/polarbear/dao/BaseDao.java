@@ -1,10 +1,8 @@
 package com.polarbear.dao;
 
-import static com.polarbear.util.Constants.ResultState.DB_ERR;
 import static com.polarbear.util.Constants.ResultState.DB_DATA_NOT_UNIQUE_ERR;
+import static com.polarbear.util.Constants.ResultState.DB_ERR;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -125,17 +123,8 @@ public class BaseDao<T> {
         }
     }
 
-    public PageList<T> findByNamedQueryByPage(final String nameQuery, final int pageNo, final int pageSize) throws DaoException {
-        return findByNamedQueryByPage(nameQuery, null, pageNo, pageSize);
-    }
-
-    public PageList<T> findByNamedQueryByPage(String nameQuery, String pageNo, String pageSize, final Object... values) throws DaoException {
-        pageSize = !NumberUtils.isDigits(pageSize) ? "10" : pageSize;
-        return findByNamedQueryByPage(nameQuery, values, Integer.parseInt(pageNo), Integer.parseInt(pageSize));
-    }
-
     @SuppressWarnings("unchecked")
-    public PageList<T> findByNamedQueryByPage(final String nameQuery, final Object[] values, final int pageNo, final int pageSize) throws DaoException {
+    public PageList<T> findByNamedQueryByPage(final String nameQuery, final int pageNo, final int pageSize, final Object... values) throws DaoException {
         try {
             List list = hibernateTemplate.executeFind(new HibernateCallback<List>() {
                 public List doInHibernate(Session session) {

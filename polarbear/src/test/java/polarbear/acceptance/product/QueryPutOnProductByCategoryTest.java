@@ -31,7 +31,7 @@ public class QueryPutOnProductByCategoryTest {
     public void shouldReturnProductListWhenInputCategoryIdAndPageNo() {        
         anRequest(PRODUCT_CATEGORY_QUERY_URL)
             .addParams("categoryId", String.valueOf(PRODUCT_CATEGORY_1_ID))
-            .addParams("pageNo", String.valueOf("1"))
+            .addParams("pageNo", "1")
             .post(new ResultCallback() {
             public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException, ClassNotFoundException {
                 assertThat(resultState(jsonResult), is(SUCCESS));

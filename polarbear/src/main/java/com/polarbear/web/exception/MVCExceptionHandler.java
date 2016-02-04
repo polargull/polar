@@ -1,6 +1,8 @@
 package com.polarbear.web.exception;
 
-import static com.polarbear.util.Constants.ResultState.*;
+import static com.polarbear.util.Constants.ResultState.LOGIN_NAME_PWD_ERR;
+import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
+import static com.polarbear.util.Constants.ResultState.URL_FORMATE_ERR;
 
 import java.net.MalformedURLException;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -73,4 +76,10 @@ public class MVCExceptionHandler {
         return new JsonResult(URL_FORMATE_ERR);
     }
 
+    @ExceptionHandler(TypeMismatchException.class)
+    public @ResponseBody
+    Object handleException(TypeMismatchException e, HttpServletRequest request) {
+        log.debug(">>>>>>>>>>>" + PARAM_ERR.emsg());
+        return new JsonResult(PARAM_ERR);
+    }
 }
