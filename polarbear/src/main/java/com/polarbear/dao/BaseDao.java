@@ -50,9 +50,43 @@ public class BaseDao<T> {
 
     @SuppressWarnings("unchecked")
     public List<T> findAll(Class clazz) throws DaoException {
-        StringBuilder sb = new StringBuilder("from ");
+        StringBuilder hqlSb = new StringBuilder("from ").append(clazz.getSimpleName());
         try {
-            return hibernateTemplate.find(sb.append(clazz.getSimpleName()).toString());
+            return hibernateTemplate.find(hqlSb.toString());
+        } catch (DataAccessException e) {
+            throw new DaoException(DB_ERR);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public PageList<T> findPageListByDynamicCondition(final Class clazz, final String hqlCondition, final int pageNo, final int pageSize) throws DaoException {
+        final StringBuilder hqlSb = new StringBuilder("from ").append(clazz.getSimpleName()).append(" where 1=1 and ").append(hqlCondition);
+        try {
+            List<T> list = hibernateTemplate.execute(new HibernateCallback<List<T>>() {
+                public List<T> doInHibernate(Session session) {
+                    Query query = (Query) session.createQuery(hqlSb.toString());
+                    query.setFirstResult((pageNo - 1) * pageSize);
+                    query.setMaxResults(pageSize);
+                    return query.list();
+                }
+            });
+            long count = countByDynamicCondition(clazz, hqlCondition);
+            return new PageList<T>(count, pageNo, pageSize, list);
+        } catch (DataAccessException e) {
+            throw new DaoException(DB_ERR);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public long countByDynamicCondition(Class clazz, String hqlCondition) throws DaoException {
+        final StringBuilder hqlSb = new StringBuilder("select count(*) from ").append(clazz.getSimpleName()).append(" where 1=1 and ").append(hqlCondition);
+        try {
+            return (Long) hibernateTemplate.execute(new HibernateCallback<Long>() {
+                public Long doInHibernate(Session session) {
+                    Query query = (Query) session.createQuery(hqlSb.toString());
+                    return (Long) query.uniqueResult();
+                }
+            });
         } catch (DataAccessException e) {
             throw new DaoException(DB_ERR);
         }
@@ -61,8 +95,10 @@ public class BaseDao<T> {
     public T findByNamedQueryObject(String nameQuery, Object... values) throws DaoException {
         List<T> list = findByNamedQuery(nameQuery, values);
         int size = list.size();
-        if (size == 0) return null;
-        if (size > 1) throw new DaoException(DB_DATA_NOT_UNIQUE_ERR);
+        if (size == 0)
+            return null;
+        if (size > 1)
+            throw new DaoException(DB_DATA_NOT_UNIQUE_ERR);
         return list.get(0);
     }
 
@@ -70,23 +106,6 @@ public class BaseDao<T> {
     public List<T> findByNamedQuery(String nameQuery, Object... values) throws DaoException {
         try {
             return hibernateTemplate.findByNamedQuery(nameQuery, values);
-        } catch (DataAccessException e) {
-            throw new DaoException(DB_ERR);
-        }
-    }
-
-    public long countByNamedQuery(final String nameQuery, final Object... values) throws DaoException {
-        try {
-            return (Long) hibernateTemplate.execute(new HibernateCallback<Long>() {
-                public Long doInHibernate(Session session) {
-                    Query queryName = (Query) session.getNamedQuery(nameQuery);
-                    Query query = session.createQuery("select count(*) " + queryName.getQueryString());
-                    for (int i = 0; values != null && i < values.length; i++) {
-                        query.setParameter(i, values[i]);
-                    }
-                    return (Long) query.uniqueResult();
-                }
-            });
         } catch (DataAccessException e) {
             throw new DaoException(DB_ERR);
         }
@@ -117,6 +136,23 @@ public class BaseDao<T> {
             });
             long count = countByNamedQuery(nameQuery, values);
             return new PageList<T>(count, pageNo, pageSize, list);
+        } catch (DataAccessException e) {
+            throw new DaoException(DB_ERR);
+        }
+    }
+
+    public long countByNamedQuery(final String nameQuery, final Object... values) throws DaoException {
+        try {
+            return (Long) hibernateTemplate.execute(new HibernateCallback<Long>() {
+                public Long doInHibernate(Session session) {
+                    Query queryName = (Query) session.getNamedQuery(nameQuery);
+                    Query query = session.createQuery("select count(*) " + queryName.getQueryString());
+                    for (int i = 0; values != null && i < values.length; i++) {
+                        query.setParameter(i, values[i]);
+                    }
+                    return (Long) query.uniqueResult();
+                }
+            });
         } catch (DataAccessException e) {
             throw new DaoException(DB_ERR);
         }
