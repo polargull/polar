@@ -22,6 +22,6 @@ public class DateUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(getCurrentSeconds() * 1000l);
+        System.out.println(secondsToDateString(11111));
     }
 }

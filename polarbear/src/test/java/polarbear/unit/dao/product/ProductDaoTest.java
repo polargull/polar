@@ -88,14 +88,15 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
         assertThat(productList.getPageNo(), equalTo(1));
     }
 
-//    @Test
+    @Test
     public void queryProductManagerList() throws DaoException {
-        String hqlCondition = "id = 1 and name = 'name'";
-        PageList<Product> productList = productDao.findPageListByDynamicCondition(Product.class, hqlCondition, 1, 1);
-        assertThat(productList.getList().size(), equalTo(2));
-        assertThat(productList.getList().get(0).getName(), equalTo(PRODUCT_NAME + 1));
-        assertThat(productList.getList().get(1).getName(), equalTo(PRODUCT_NAME + 2));
-        assertThat(productList.getTotal(), equalTo(2l));
-        assertThat(productList.getPageNo(), equalTo(1));
+        String hqlCondition = "name like '%" + PRODUCT_NAME + "%'";
+        PageList<Product> pageList = productDao.findPageListByDynamicCondition(Product.class, 1, 10, hqlCondition);
+        assertThat(pageList.getList().size(), equalTo(3));
+        assertThat(pageList.getList().get(0).getName(), equalTo(PRODUCT_NAME + 3));
+        assertThat(pageList.getList().get(1).getName(), equalTo(PRODUCT_NAME + 2));
+        assertThat(pageList.getList().get(2).getName(), equalTo(PRODUCT_NAME + 1));
+        assertThat(pageList.getTotal(), equalTo(3l));
+        assertThat(pageList.getPageNo(), equalTo(1));
     }
 }

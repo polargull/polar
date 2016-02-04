@@ -2,10 +2,14 @@ package com.polarbear.dao;
 
 import static com.polarbear.util.Constants.ResultState.DB_ERR;
 import static com.polarbear.util.Constants.ResultState.DB_DATA_NOT_UNIQUE_ERR;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -58,13 +62,16 @@ public class BaseDao<T> {
         }
     }
 
+    public PageList<T> findPageListByDynamicCondition(final Class clazz, final String pageNo, final String pageSize, final String hqlCondition) throws DaoException {
+        return findPageListByDynamicCondition(clazz, Integer.parseInt(pageNo), Integer.parseInt(pageSize), hqlCondition);
+    }
+    
     @SuppressWarnings("unchecked")
-    public PageList<T> findPageListByDynamicCondition(final Class clazz, final String hqlCondition, final int pageNo, final int pageSize) throws DaoException {
-        final StringBuilder hqlSb = new StringBuilder("from ").append(clazz.getSimpleName()).append(" where 1=1 and ").append(hqlCondition);
+    public PageList<T> findPageListByDynamicCondition(final Class clazz, final int pageNo, final int pageSize, final String hqlCondition) throws DaoException {
         try {
             List<T> list = hibernateTemplate.execute(new HibernateCallback<List<T>>() {
                 public List<T> doInHibernate(Session session) {
-                    Query query = (Query) session.createQuery(hqlSb.toString());
+                    Query query = (Query) session.createQuery(generateHql(clazz, hqlCondition));
                     query.setFirstResult((pageNo - 1) * pageSize);
                     query.setMaxResults(pageSize);
                     return query.list();
@@ -77,13 +84,20 @@ public class BaseDao<T> {
         }
     }
 
+    private String generateHql(Class clazz, String hqlCondition) {
+        StringBuilder hqlSb = new StringBuilder("from ").append(clazz.getSimpleName()).append(" where 1=1");
+        if (StringUtils.isEmpty(hqlCondition)) {
+            return hqlSb.toString();
+        }
+        return hqlSb.append(" and ").append(hqlCondition).append(" order by id desc").toString();
+    }
+
     @SuppressWarnings("unchecked")
-    public long countByDynamicCondition(Class clazz, String hqlCondition) throws DaoException {
-        final StringBuilder hqlSb = new StringBuilder("select count(*) from ").append(clazz.getSimpleName()).append(" where 1=1 and ").append(hqlCondition);
+    public long countByDynamicCondition(final Class clazz, final String hqlCondition) throws DaoException {
         try {
             return (Long) hibernateTemplate.execute(new HibernateCallback<Long>() {
                 public Long doInHibernate(Session session) {
-                    Query query = (Query) session.createQuery(hqlSb.toString());
+                    Query query = (Query) session.createQuery("select count(*) " + generateHql(clazz, hqlCondition));
                     return (Long) query.uniqueResult();
                 }
             });
