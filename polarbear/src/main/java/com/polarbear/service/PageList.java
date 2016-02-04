@@ -1,4 +1,4 @@
-package com.polarbear.dao;
+package com.polarbear.service;
 
 import java.util.List;
 

@@ -2,13 +2,13 @@ package com.polarbear.util;
 
 import java.util.List;
 
-import com.polarbear.dao.PageList;
+import com.polarbear.service.PageList;
 
-public class JsonParseEasyUiFormatter<T> {
+public class JsonEasyUiResult<T> {
     private String total;
     private List<T> rows;
 
-    public JsonParseEasyUiFormatter(PageList<T> pageList) {
+    public JsonEasyUiResult(PageList<T> pageList) {
         super();
         this.total = String.valueOf(pageList.getTotal());
         this.rows = pageList.getList();

@@ -28,9 +28,9 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
-import com.polarbear.dao.PageList;
 import com.polarbear.domain.Category;
 import com.polarbear.domain.Product;
+import com.polarbear.service.PageList;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/test-beans.xml", "/spring/spring-dao.xml" })

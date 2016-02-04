@@ -15,6 +15,8 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.polarbear.service.PageList;
+
 @Repository
 public class BaseDao<T> {
 

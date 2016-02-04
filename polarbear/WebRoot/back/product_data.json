@@ -1,0 +1,43 @@
+{
+    "rows": [
+        {
+            "category": {
+                "desc": "服装",
+                "id": 1
+            },
+            "createTime": 1454492160,
+            "desc": "多款式",
+            "extProperty": "颜色:红色,大小:M",
+            "id": 3,
+            "image": "http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;",
+            "name": "羽绒服",
+            "num": 6,
+            "price": 150,
+            "productStyle": {
+                "id": 1,
+                "styleProperties": "[{\"name\":\"颜色\",\"values\":[\"红色\",\"黄色\"]},{\"name\":\"大小\",\"values\":[\"M\",\"L\",\"XL\"]}]"
+            },
+            "realPrice": 150,
+            "state": 1
+        },
+        {
+            "category": {
+                "$ref": "$.rows[0].category"
+            },
+            "createTime": 1454492160,
+            "desc": "多款式",
+            "extProperty": "颜色:黄色,大小:L",
+            "id": 6,
+            "image": "http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;",
+            "name": "羽绒服",
+            "num": 6,
+            "price": 150,
+            "productStyle": {
+                "$ref": "$.rows[0].productStyle"
+            },
+            "realPrice": 150,
+            "state": 1
+        }
+    ],
+    "total": 2
+}

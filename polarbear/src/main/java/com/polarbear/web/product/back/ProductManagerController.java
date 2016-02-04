@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
-import com.polarbear.dao.PageList;
 import com.polarbear.domain.Category;
 import com.polarbear.domain.Product;
-import com.polarbear.util.JsonParseEasyUiFormatter;
+import com.polarbear.service.PageList;
+import com.polarbear.util.JsonEasyUiResult;
 
 @Controller
 @RequestMapping("/back")
@@ -23,10 +23,10 @@ public class ProductManagerController {
     @Autowired(required = false)
     private BaseDao<Product> productDao;
 
-    @RequestMapping(value = { "/productList.json" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @RequestMapping(value = { "/productList.do", "/productList.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public Object productList() throws ValidateException, DaoException {
         PageList<Product> pageList = productDao.findByNamedQueryByPage("queryPutOnProductByCategoryId", "1", null, new Category(1L));        
-        return new JsonParseEasyUiFormatter<Product>(pageList);
+        return new JsonEasyUiResult<Product>(pageList);
     }
 }
