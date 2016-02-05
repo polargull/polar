@@ -40,7 +40,7 @@ public class MultipleStyleProductQueryTest {
     }
 
     @Test
-    public void shouldReturnProductNotExistFailTipWhenInputProductId() {
+    public void shouldReturnProductNotExistFailTipWhenInputNotExistStyle() {
         anRequest(PRODUCT_MULTIPLE_QUERY_URL)
             .addParams("styleId", String.valueOf(PRODUCT_STYLE_ID))
             .addParams("property", "颜色:白色,大小:XX")
@@ -49,5 +49,23 @@ public class MultipleStyleProductQueryTest {
                 assertThat(resultState(jsonResult), is(PRODUCT_NOT_EXIST));
             }
         });
+    }
+    
+    @Test
+    public void shouldReturnParamErrTipWhenNoInputStyleIdOrPropertyParam() {
+        anRequest(PRODUCT_MULTIPLE_QUERY_URL)
+            .addParams("styleId", String.valueOf(PRODUCT_STYLE_ID))
+            .post(new ResultCallback() {
+            public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
+                assertThat(resultState(jsonResult), is(PARAM_ERR));
+            }
+        });
+        anRequest(PRODUCT_MULTIPLE_QUERY_URL)
+        .addParams("property", "颜色:白色,大小:XX")
+        .post(new ResultCallback() {
+        public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
+            assertThat(resultState(jsonResult), is(PARAM_ERR));
+        }
+    });
     }
 }

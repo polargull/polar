@@ -1,10 +1,7 @@
 package com.polarbear.web.product;
 
-import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +45,6 @@ public class ProductController {
     public Object queryMultiplyStyleProduct(@RequestParam("styleId") long styleId, @RequestParam("property") String property) throws ValidateException, DaoException,
             NullObjectException {
         log.debug("styleId=" + styleId);
-        validateProductProperty(property);
         Product product = multipleStyleProductQuery.querySameStyleProductByNeedStyle(new NeedStyle(styleId, property));
         log.debug("styleId = " + styleId + ", op successful!");
         return new JsonResult(SUCCESS).put(product);
@@ -64,10 +60,5 @@ public class ProductController {
         log.debug("categoryId=" + categoryId + ", op successful!");
         return new JsonResult(SUCCESS).put(productList.getList());
     }
-
-    private void validateProductProperty(String property) throws ValidateException {
-        if (StringUtils.isEmpty(property)) {
-            throw new ValidateException(PARAM_ERR);
-        }
-    }
+    
 }
