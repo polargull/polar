@@ -1,16 +1,10 @@
 package polarbear.unit.dao.product;
 
-import static com.polarbear.util.Constants.PRODUCT_STATE.PULL_OFF;
-import static com.polarbear.util.Constants.PRODUCT_STATE.PUT_ON;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static com.polarbear.util.Constants.PRODUCT_STATE.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static polarbear.test.util.Constants.CATEGORY_NAME;
-import static polarbear.test.util.Constants.PRODUCT_1_ID;
-import static polarbear.test.util.Constants.PRODUCT_NAME;
-import static polarbear.test.util.Constants.SHOPCARD_ID;
+import static polarbear.test.util.Constants.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,10 +35,12 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
 
     @Before
     public void setUp() {
-        jdbcTemplate.update("insert into `category`(`id`,`cg_desc`) values(?, ?)", new Object[] { 1l, CATEGORY_NAME });
+        jdbcTemplate.update("insert into `category`(`id`,`cg_desc`) values(?, ?)", new Object[] { SHOPCARD_ID, CATEGORY_NAME });
+        jdbcTemplate.update("insert into `product_style`(`id`,`styleProperties`) values(?, ?)", new Object[] { PRODUCT_STYLE_ID, PRODUCT_STYLE });
         jdbcTemplate.update("insert into `product`(`id`,`name`,`state`,`category_id`) values(?, ?, ?, ?)", new Object[] { 1l, PRODUCT_NAME + 1, PUT_ON.value(), SHOPCARD_ID });
         jdbcTemplate.update("insert into `product`(`id`,`name`,`state`,`category_id`) values(?, ?, ?, ?)", new Object[] { 2l, PRODUCT_NAME + 2, PUT_ON.value(), SHOPCARD_ID });
         jdbcTemplate.update("insert into `product`(`id`,`name`,`state`,`category_id`) values(?, ?, ?, ?)", new Object[] { 3l, PRODUCT_NAME + 3, PULL_OFF.value(), SHOPCARD_ID });
+        jdbcTemplate.update("insert into `product`(`id`,`name`,`state`,`productStyle_id`) values(?, ?, ?, ?)", new Object[] { 4l, PRODUCT_NAME + 4, PULL_OFF.value(), PRODUCT_STYLE_ID });
     }
 
     @Test
@@ -89,14 +85,33 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
     }
 
     @Test
-    public void queryProductManagerList() throws DaoException {
+    public void queryProductManagerListByProductName() throws DaoException {
         String hqlCondition = "name like '%" + PRODUCT_NAME + "%'";
         PageList<Product> pageList = productDao.findPageListByDynamicCondition(Product.class, 1, 10, hqlCondition);
+        assertThat(pageList.getList().size(), equalTo(4));
+        assertThat(pageList.getList().get(0).getName(), equalTo(PRODUCT_NAME + 4));
+        assertThat(pageList.getList().get(1).getName(), equalTo(PRODUCT_NAME + 3));
+        assertThat(pageList.getList().get(2).getName(), equalTo(PRODUCT_NAME + 2));
+        assertThat(pageList.getList().get(3).getName(), equalTo(PRODUCT_NAME + 1));
+        assertThat(pageList.getTotal(), equalTo(4l));
+        assertThat(pageList.getPageNo(), equalTo(1));
+    }
+    
+    @Test
+    public void queryProductManagerListByStyle() throws DaoException {
+        String hqlCondition = "productStyle != null";
+        PageList<Product> pageList = productDao.findPageListByDynamicCondition(Product.class, 1, 10, hqlCondition);
+        assertThat(pageList.getList().size(), equalTo(1));
+        assertThat(pageList.getList().get(0).getName(), equalTo(PRODUCT_NAME + 4));
+        assertThat(pageList.getTotal(), equalTo(1l));
+        assertThat(pageList.getPageNo(), equalTo(1));
+        hqlCondition = "productStyle = null";
+        pageList = productDao.findPageListByDynamicCondition(Product.class, 1, 10, hqlCondition);
         assertThat(pageList.getList().size(), equalTo(3));
         assertThat(pageList.getList().get(0).getName(), equalTo(PRODUCT_NAME + 3));
         assertThat(pageList.getList().get(1).getName(), equalTo(PRODUCT_NAME + 2));
         assertThat(pageList.getList().get(2).getName(), equalTo(PRODUCT_NAME + 1));
         assertThat(pageList.getTotal(), equalTo(3l));
-        assertThat(pageList.getPageNo(), equalTo(1));
+        assertThat(pageList.getPageNo(), equalTo(1));;
     }
 }

@@ -37,8 +37,16 @@ function addTab(title) {
         tools:[{
             iconCls:'icon-mini-refresh',
             handler:function(){
-                alert('refresh');
+              convertTitleToDataGrid(title).datagrid('reload');
             }
         }]
     });
+}
+function convertTitleToDataGrid (title) {
+  if (title == '订单管理') 
+    return $('#dg_order');
+  if (title == '商品管理')
+    return $('#db_product');
+  if (title == '用户管理')
+    return $('#db_user');
 }

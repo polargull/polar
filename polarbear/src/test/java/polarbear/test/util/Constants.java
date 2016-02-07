@@ -32,6 +32,7 @@ public class Constants {
     public static final String CATEGORY_NAME = "服装";
     public static final int PRODUCT_NUM = 1;
     public static final long PRODUCT_STYLE_ID = 1;
+    public static final String PRODUCT_STYLE = "[{\"name\":\"颜色\",\"values\":[\"红色\",\"黄色\"]},{\"name\":\"大小\",\"values\":[\"M\",\"L\",\"XL\"]}]";
     public static final double PRODUCT_1_PRICE = 100D;
     public static final double PRODUCT_2_PRICE = 101D;
     public static final double PRODUCT_SALE_PRICE = 60D;
