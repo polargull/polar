@@ -25,7 +25,7 @@ public class ProductManagerController {
 
     @RequestMapping(value = { "/productList.do", "/productList.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object productList(@RequestParam(value = "param", required = false) String params, @RequestParam("page") int pageNo, @RequestParam("rows") int pageSize)
+    public Object productList(@RequestParam(value = "param", required = false, defaultValue = "") String params, @RequestParam("page") int pageNo, @RequestParam("rows") int pageSize)
             throws ValidateException, DaoException {
         PageList<Product> pageList = productManagerDao.productList(params, pageNo, pageSize);
         return new JsonEasyUiResult<Product>(pageList);
