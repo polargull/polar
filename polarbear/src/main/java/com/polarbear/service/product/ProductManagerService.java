@@ -14,20 +14,21 @@ import com.polarbear.service.PageList;
 public class ProductManagerService {
     @Autowired(required = false)
     BaseDao<Product> productDao;
-
+    private static final String HQL_AND_CONTACT = " and ";
     @Transactional
     public PageList<Product> productList(String params, int pageNo, int pageSize) throws DaoException {
-        StringBuilder hqlCondition = new StringBuilder();
+        StringBuilder hqlConditionSb = new StringBuilder();
         String[] paramStrs = params.split(";");
         for (int i = 0; i < paramStrs.length; i++) {
-            hqlCondition.append(buildProductName(paramStrs[i]));
-            hqlCondition.append(buildSaleTimeRang(paramStrs[i]));
-            hqlCondition.append(buildStyle(paramStrs[i]));
-            if (i != paramStrs.length - 1 && !StringUtils.isEmpty(hqlCondition.toString())) {
-                hqlCondition.append(" and ");
+            hqlConditionSb.append(buildProductName(paramStrs[i]));
+            hqlConditionSb.append(buildSaleTimeRang(paramStrs[i]));
+            hqlConditionSb.append(buildStyle(paramStrs[i]));
+            if (i != paramStrs.length - 1 && !StringUtils.isEmpty(hqlConditionSb.toString())) {
+                hqlConditionSb.append(HQL_AND_CONTACT);
             }
         }
-        return productDao.findPageListByDynamicCondition(Product.class, pageNo, pageSize, hqlCondition.toString());
+        String hqlCondition = hqlConditionSb.toString().endsWith(HQL_AND_CONTACT) ? hqlConditionSb.toString().substring(0, hqlConditionSb.toString().length() - HQL_AND_CONTACT.length()) : hqlConditionSb.toString();
+        return productDao.findPageListByDynamicCondition(Product.class, pageNo, pageSize, hqlCondition);
     }
 
     private String buildProductName(String paramStr) {
@@ -44,7 +45,7 @@ public class ProductManagerService {
         String[] param = paramStr.split(":");
         if (param[0].equals("saleTimeRrang") && !StringUtils.isEmpty(param[1])) {
             String timeRang[] = param[1].split("-");
-            return new StringBuilder("(saleBeginTime >= ").append(timeRang[0]).append(" and ").append("saleEndTime =< ").append(timeRang[1]).append(")").toString();
+            return new StringBuilder("(saleBeginTime >= ").append(timeRang[0]).append(" and ").append("saleEndTime <= ").append(timeRang[1]).append(")").toString();
         }
         return "";
     }
