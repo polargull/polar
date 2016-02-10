@@ -1,30 +1,72 @@
 {
     "rows": [
         {
-            "itemid": 1,
-            "productid": "FI-SW-01",
-            "listprice": "16.50",
-            "unitcost": "10.00",
-            "status": "P",
-            "attr1": "Large"
+            "category": {
+                "desc": "玩具",
+                "id": 3
+            },
+            "createTime": 1455009337,
+            "desc": "儿童玩具1",
+            "id": 1,
+            "image": "http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;",
+            "name": "变形精钢1",
+            "num": 2,
+            "price": 100,
+            "realPrice": 100,
+            "state": 2
         },
         {
-            "itemid": 2,
-            "productid": "K9-DL-01",
-            "listprice": "18.50",
-            "unitcost": "12.00",
-            "status": "P",
-            "attr1": "Spotted Adult Female"
+            "category": {
+                "$ref": "$.rows[0].category"
+            },
+            "createTime": 1455009337,
+            "desc": "儿童玩具2",
+            "id": 2,
+            "image": "http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;",
+            "name": "变形精钢2",
+            "num": 3,
+            "price": 101,
+            "realPrice": 101,
+            "state": 1
         },
         {
-            "itemid": 3,
-            "productid": "RP-SN-01",
-            "listprice": "18.50",
-            "unitcost": "12.00",
-            "status": "P",
-            "attr1": "Venomless"
+            "category": {
+                "desc": "服装",
+                "id": 1
+            },
+            "createTime": 1455009337,
+            "desc": "多款式",
+            "extProperty": "颜色:红色,大小:M",
+            "id": 3,
+            "image": "http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;",
+            "name": "羽绒服",
+            "num": 6,
+            "price": 150,
+            "productStyle": {
+                "id": 1,
+                "styleProperties": "[{\"name\":\"颜色\",\"values\":[\"红色\",\"黄色\"]},{\"name\":\"大小\",\"values\":[\"M\",\"L\",\"XL\"]}]"
+            },
+            "realPrice": 150,
+            "state": 1
+        },
+        {
+            "category": {
+                "$ref": "$.rows[2].category"
+            },
+            "createTime": 1455009337,
+            "desc": "多款式",
+            "extProperty": "颜色:黄色,大小:L",
+            "id": 4,
+            "image": "http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;",
+            "name": "羽绒服",
+            "num": 6,
+            "price": 150,
+            "productStyle": {
+                "$ref": "$.rows[2].productStyle"
+            },
+            "realPrice": 150,
+            "state": 1
         }
     ],
-    "total": 28
-    
+    "total": "4"
 }

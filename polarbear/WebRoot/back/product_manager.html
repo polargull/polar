@@ -1,15 +1,17 @@
 <div class="easyui-layout" data-options="fit:true">
     <table id="dg_product" class="easyui-datagrid" style="width:700px;height:250px" fit="true" fitColumns="true" singleSelect="true" toolbar="#tb"
-        url="productList.do"
+        url="datagrid_data1.json"
         rownumbers="true" pagination="true">
         <thead>
             <tr>
                 <th field="id" width="80">ID</th>
                 <th field="name" width="120">名称</th>
-                <th field="num" width="80" align="right">数量</th>
-                <th field="price" width="80" align="right">原价格</th>
+                <th field="category" width="120" formatter="categoryformate">类型</th>
+                <th field="num" width="80">数量</th>
+                <th field="price" width="80">原价格</th>
+                <th field="productStyle" width="80" formatter="styleformate">款式</th>
                 <th field="desc" width="200">描述</th>
-                <th field="state" width="60" align="center">状态</th>
+                <th field="state" width="60" align="center" formatter="stateformate">状态</th>
             </tr>
         </thead>
     </table>
@@ -40,11 +42,17 @@
                     label: '无',
                     value: '无'
                 }]" />
-        <input class="easyui-textbox" id="pName" data-options="prompt:'商品名称'" style="width:100px"/>        
+        <input class="easyui-textbox" id="pName" data-options="prompt:'商品名称'" style="width:100px"/>
         <a href="#" id="searchBtn" class="easyui-linkbutton" iconCls="icon-search">查询</a>
     </div>
 </div>
 <script type="text/javascript">
+    $('#dg_product').datagrid({
+        loadFilter: function(data){
+            FastJson.format(data);//重点！！
+            return data;
+        }
+    });
     $.fn.datebox.defaults.formatter = function(date) {
         var y = date.getFullYear();  
         var m = date.getMonth() + 1;  
@@ -54,6 +62,21 @@
     $.fn.datebox.defaults.parser = function(s) {
         return parseTime (s);
     };
+    function stateformate (value,rowData,rowIndex) {
+        if (value == 1)
+            return '<font style=\'color:green\'>上架</font>';
+        if (value == 2)
+            return '<font style=\'color:red\'>下架</font>';  
+    }
+    function styleformate (value,rowData,rowIndex) {
+        if (value == null)
+            return '单款';
+        return '多款';
+    }
+    function categoryformate (value,rowData,rowIndex) {
+        if (value != null) 
+            return value.desc;
+    }
     function parseTime (s) {
         if (s) {  
             var a = s.split('-');  

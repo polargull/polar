@@ -12,6 +12,7 @@
     <script type="text/javascript" src="../js/easyui/locale/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript" src="../js/biz/main.portal.js"></script>
     <script type="text/javascript" src="../js/biz/main.tab.js"></script>
+     <script type="text/javascript" src="../js/fastjson.js"></script>
     <title>管理控制台主界面</title>
     <style type="text/css">
         .t-list{
