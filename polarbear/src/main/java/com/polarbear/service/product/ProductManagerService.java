@@ -54,9 +54,9 @@ public class ProductManagerService {
         // saleTimeRrang:int-int;style:全部;name:羽绒服
         String[] param = paramStr.split(":");
         if (param[0].equals("style") && !StringUtils.isEmpty(param[1]) && !param[1].equals("全部")) {
-            if (param[1].equals("有"))
+            if (param[1].equals("多款"))
                 return new StringBuilder("productStyle != null").toString();
-            if (param[1].equals("无"))
+            if (param[1].equals("单款"))
                 return new StringBuilder("productStyle = null").toString();
         }
         return "";

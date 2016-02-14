@@ -1,10 +1,11 @@
 package polarbear.integration.service.product;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static polarbear.testdata.product.StyleBuilder.anStyle;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static polarbear.testdata.product.StyleBuilder.anStyle;
-import static polarbear.testdata.product.ProductBuilder.anProduct;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -12,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Product;
