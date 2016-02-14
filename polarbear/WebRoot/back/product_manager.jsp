@@ -37,11 +37,11 @@
                     value: '全部',
                     selected:true
                 },{
-                    label: '有',
-                    value: '有'
+                    label: '多款',
+                    value: '多款'
                 },{
-                    label: '无',
-                    value: '无'
+                    label: '单款',
+                    value: '单款'
                 }]" />
         <input class="easyui-textbox" id="pName" data-options="prompt:'商品名称'" style="width:100px"/>
         <a href="#" id="searchBtn" class="easyui-linkbutton" iconCls="icon-search">查询</a>
