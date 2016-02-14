@@ -21,13 +21,13 @@ import com.polarbear.util.JsonEasyUiResult;
 public class ProductManagerController {
     private Log log = LogFactory.getLog(ProductManagerController.class);
     @Autowired(required = false)
-    private ProductManagerService productManagerDao;
+    private ProductManagerService productManagerSvc;
 
     @RequestMapping(value = { "/productList.do", "/productList.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public Object productList(@RequestParam(value = "param", required = false, defaultValue = "") String params, @RequestParam("page") int pageNo, @RequestParam("rows") int pageSize)
             throws ValidateException, DaoException {
-        PageList<Product> pageList = productManagerDao.productList(params, pageNo, pageSize);
+        PageList<Product> pageList = productManagerSvc.productList(params, pageNo, pageSize);
         return new JsonEasyUiResult<Product>(pageList);
     }
 }
