@@ -24,7 +24,7 @@ function nav (title) {
   if (title == '用户管理') {
       return 'user_manager.html';
   } else if (title == '商品管理') {
-      return 'product_manager.html';
+      return 'product_manager.jsp';
   } else if (title == '订单管理') {
     return 'order_manager.html';
   }
