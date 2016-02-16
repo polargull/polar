@@ -11,6 +11,9 @@ import org.hibernate.annotations.Index;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
+import com.polarbear.domain.product.Product;
+
+
 @NamedQueries( { 
 @NamedQuery(name = "queryByShopcartAndProduct", query = "from ShopcartDetail sd where sd.shopCart = ? and sd.product = ?"),
 @NamedQuery(name = "queryByShopcart", query = "from ShopcartDetail sd where sd.shopCart = ?")

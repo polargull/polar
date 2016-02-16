@@ -15,9 +15,9 @@ import com.polarbear.ParseException;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
-import com.polarbear.domain.Product;
 import com.polarbear.domain.Shopcart;
 import com.polarbear.domain.ShopcartDetail;
+import com.polarbear.domain.product.Product;
 import com.polarbear.util.factory.CurrentThreadUserFactory;
 
 @Service

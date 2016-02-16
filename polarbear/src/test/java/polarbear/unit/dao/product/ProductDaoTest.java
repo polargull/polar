@@ -23,7 +23,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Category;
-import com.polarbear.domain.Product;
+import com.polarbear.domain.product.Product;
 import com.polarbear.service.PageList;
 
 @RunWith(SpringJUnit4ClassRunner.class)

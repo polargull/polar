@@ -1,7 +1,7 @@
 package com.polarbear.service.product.create;
 
 import com.polarbear.dao.DaoException;
-import com.polarbear.domain.Product;
+import com.polarbear.domain.product.Product;
 
 public interface IProductCreater {
 

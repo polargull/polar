@@ -16,7 +16,7 @@ import com.polarbear.ValidateException;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Category;
-import com.polarbear.domain.Product;
+import com.polarbear.domain.product.Product;
 import com.polarbear.service.PageList;
 import com.polarbear.service.product.query.MultipleStyleProductQuery;
 import com.polarbear.service.product.query.bean.NeedStyle;

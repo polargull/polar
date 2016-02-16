@@ -1,7 +1,7 @@
 package com.polarbear.service.shopcart;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.polarbear.domain.Product;
+import com.polarbear.domain.product.Product;
 
 public class ShopcartProduct {
     private Product product;

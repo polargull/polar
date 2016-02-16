@@ -5,8 +5,8 @@ import static com.polarbear.util.Constants.PRODUCT_STATE.*;
 import org.joda.time.DateTime;
 
 import com.polarbear.domain.Category;
-import com.polarbear.domain.Product;
 import com.polarbear.domain.ProductStyle;
+import com.polarbear.domain.product.Product;
 import com.polarbear.util.DateUtil;
 
 public class ProductBuilder {
@@ -114,9 +114,9 @@ public class ProductBuilder {
         p.setState(state);
         p.setDesc(desc);
         p.setTag(tag);
-        p.setSalePrice(salePrice);
-        p.setSaleBeginTime(saleBeginTime);
-        p.setSaleEndTime(saleEndTime);
+//        p.setSalePrice(salePrice);
+//        p.setSaleBeginTime(saleBeginTime);
+//        p.setSaleEndTime(saleEndTime);
         return p;
     }
 }
