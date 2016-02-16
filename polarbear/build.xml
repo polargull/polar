@@ -94,6 +94,7 @@
 			<formatter type="xml" />
 			<batchtest todir="${test.data.dir}">
 				<fileset dir="${test.classes.dir}" includes="**/unit/**/*Suite.class" />
+				<fileset dir="${test.classes.dir}" includes="**/integration/*Suite.class" />
 			</batchtest>
 		</junit>
 		<junitreport todir="${test.data.dir}">

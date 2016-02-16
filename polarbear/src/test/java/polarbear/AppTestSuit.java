@@ -3,7 +3,7 @@ package polarbear;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import polarbear.integration.service.product.IntegrationTestSuite;
+import polarbear.integration.IntegrationTestSuite;
 import polarbear.unit.controller.ControllerTestSuite;
 import polarbear.unit.dao.DaoTestSuite;
 import polarbear.unit.service.ServiceTestSuite;
