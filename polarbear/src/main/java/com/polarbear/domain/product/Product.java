@@ -1,6 +1,7 @@
-package com.polarbear.domain;
+package com.polarbear.domain.product;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,14 +10,14 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
+import com.polarbear.domain.Category;
+import com.polarbear.domain.ProductStyle;
 import com.polarbear.util.DateUtil;
 
-@NamedQueries( { 
-        @NamedQuery(name = "querySameStyleProductByStyleId", query = "from Product p where p.productStyle.id = ?"),
+@NamedQueries( { @NamedQuery(name = "querySameStyleProductByStyleId", query = "from Product p where p.productStyle.id = ?"),
         @NamedQuery(name = "queryProductByIdAndState", query = "from Product p where p.id = ? and p.state = ?"),
         @NamedQuery(name = "queryPutOnProductByIds", query = "from Product p where p.id in (:ids) and p.state = 1"),
-        @NamedQuery(name = "queryPutOnProductByCategoryId", query = "from Product p where p.category = ? and p.state = 1 order by p.createTime desc")
-})
+        @NamedQuery(name = "queryPutOnProductByCategoryId", query = "from Product p where p.category = ? and p.state = 1 order by p.createTime desc") })
 @Entity
 public class Product {
     @Id
@@ -40,12 +41,8 @@ public class Product {
     Integer state;
     @Column
     String extProperty;
-    @Column
-    Double salePrice;
-    @Column
-    Integer saleBeginTime;
-    @Column
-    Integer saleEndTime;
+    @Embedded
+    Sale sale;
     @Column
     Integer createTime;
     @ManyToOne
@@ -134,28 +131,12 @@ public class Product {
         this.extProperty = extProperty;
     }
 
-    public Double getSalePrice() {
-        return salePrice;
+    public Sale getSale() {
+        return sale;
     }
 
-    public void setSalePrice(Double salePrice) {
-        this.salePrice = salePrice;
-    }
-
-    public Integer getSaleBeginTime() {
-        return saleBeginTime;
-    }
-
-    public void setSaleBeginTime(Integer saleBeginTime) {
-        this.saleBeginTime = saleBeginTime;
-    }
-
-    public Integer getSaleEndTime() {
-        return saleEndTime;
-    }
-
-    public void setSaleEndTime(Integer saleEndTime) {
-        this.saleEndTime = saleEndTime;
+    public void setSale(Sale sale) {
+        this.sale = sale;
     }
 
     public Integer getCreateTime() {
@@ -167,9 +148,11 @@ public class Product {
     }
 
     public double getRealPrice() {
-        if ((salePrice != null && salePrice >= 0) && (saleBeginTime != null && saleBeginTime <= DateUtil.getCurrentSeconds())
-                && (saleEndTime != null && saleEndTime >= DateUtil.getCurrentSeconds())) {
-            return salePrice;
+        if (sale == null)
+            return price;
+        if ((sale.salePrice != null && sale.salePrice >= 0) && (sale.saleBeginTime != null && sale.saleBeginTime <= DateUtil.getCurrentSeconds())
+                && (sale.saleEndTime != null && sale.saleEndTime >= DateUtil.getCurrentSeconds())) {
+            return sale.salePrice;
         }
         return price;
     }
@@ -184,9 +167,8 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product [createTime=" + createTime + ", desc=" + desc + ", extProperty=" + extProperty + ", id=" + id + ", image=" + image + ", name=" + name + ", num=" + num
-                + ", price=" + price + ", productStyle=" + productStyle + ", saleBeginTime=" + saleBeginTime + ", saleEndTime=" + saleEndTime + ", salePrice=" + salePrice
-                + ", state=" + state + ", tag=" + tag + "]";
+        return "Product [category=" + category + ", createTime=" + createTime + ", desc=" + desc + ", extProperty=" + extProperty + ", id=" + id + ", image=" + image + ", name="
+                + name + ", num=" + num + ", price=" + price + ", productStyle=" + productStyle + ", sale=" + sale + ", state=" + state + ", tag=" + tag + "]";
     }
 
 }

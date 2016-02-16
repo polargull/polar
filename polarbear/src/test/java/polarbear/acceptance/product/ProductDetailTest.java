@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import polarbear.acceptance.Request.ResultCallback;
 
-import com.polarbear.domain.Product;
+import com.polarbear.domain.product.Product;
 import com.polarbear.util.JsonResult;
 
 public class ProductDetailTest {

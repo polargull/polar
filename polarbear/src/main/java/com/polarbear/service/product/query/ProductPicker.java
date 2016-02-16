@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
-import com.polarbear.domain.Product;
+import com.polarbear.domain.product.Product;
 
 @Component
 public class ProductPicker {

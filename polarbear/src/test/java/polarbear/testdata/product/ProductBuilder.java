@@ -1,12 +1,14 @@
 package polarbear.testdata.product;
 
-import static com.polarbear.util.Constants.PRODUCT_STATE.*;
+import static com.polarbear.util.Constants.PRODUCT_STATE.PULL_OFF;
+import static com.polarbear.util.Constants.PRODUCT_STATE.PUT_ON;
 
 import org.joda.time.DateTime;
 
 import com.polarbear.domain.Category;
-import com.polarbear.domain.Product;
 import com.polarbear.domain.ProductStyle;
+import com.polarbear.domain.product.Product;
+import com.polarbear.domain.product.Sale;
 import com.polarbear.util.DateUtil;
 
 public class ProductBuilder {
@@ -20,9 +22,7 @@ public class ProductBuilder {
     private String img;
     private String desc;
     private String tag;
-    private Double salePrice;
-    private Integer saleBeginTime;
-    private Integer saleEndTime;
+    private Sale sale;
     private Integer num;
 
     public static ProductBuilder anProduct() {
@@ -64,34 +64,26 @@ public class ProductBuilder {
         return this;
     }
 
-    public ProductBuilder withSalePrice(double price) {
-        this.salePrice = price;
-        return this;
-    }
-
     public ProductBuilder withCategory(Category category) {
         this.category = category;
         return this;
     }
 
-    private ProductBuilder withSaleBeginTime(int saleBeginTime) {
-        this.saleBeginTime = saleBeginTime;
-        return this;
-    }
-
-    private ProductBuilder withSaleEndTime(int saleEndTime) {
-        this.saleEndTime = saleEndTime;
-        return this;
-    }
-
     public ProductBuilder isSaleExpire() {
-        return withSaleBeginTime((int) (new DateTime().plusMinutes(-1).getMillis() / 1000L)).withSaleEndTime((int) (new DateTime().plusDays(1).getMillis() / 1000L));
+        this.sale = new Sale((int) (new DateTime().plusDays(-1).getMillis() / 1000L), (int) (new DateTime().plusMinutes(-1).getMillis() / 1000L));        
+        return this;
     }
 
-    public ProductBuilder isSale() {
-        return withSaleBeginTime((int) (new DateTime().plusDays(-1).getMillis() / 1000L)).withSaleEndTime((int) (new DateTime().plusMinutes(-1).getMillis() / 1000L));
+    public ProductBuilder sale(int saleDay) {
+        this.sale = new Sale((int) (new DateTime().plusMinutes(-1).getMillis() / 1000L), (int) (new DateTime().plusDays(saleDay).getMillis() / 1000L));
+        return this;
     }
-
+    
+    public ProductBuilder withSalePrice(double salePrice) {
+        this.sale.setSalePrice(salePrice);
+        return this;
+    }
+    
     public ProductBuilder withNum(int num) {
         this.num = num;
         return this;
@@ -114,9 +106,7 @@ public class ProductBuilder {
         p.setState(state);
         p.setDesc(desc);
         p.setTag(tag);
-        p.setSalePrice(salePrice);
-        p.setSaleBeginTime(saleBeginTime);
-        p.setSaleEndTime(saleEndTime);
+        p.setSale(sale);
         return p;
     }
 }

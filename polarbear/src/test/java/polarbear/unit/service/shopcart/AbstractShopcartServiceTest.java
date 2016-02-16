@@ -11,9 +11,9 @@ import polarbear.unit.service.AbstractMock;
 
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
-import com.polarbear.domain.Product;
 import com.polarbear.domain.Shopcart;
 import com.polarbear.domain.ShopcartDetail;
+import com.polarbear.domain.product.Product;
 import com.polarbear.service.product.query.ProductPicker;
 import com.polarbear.service.shopcart.ModifyShopcartService;
 import com.polarbear.service.shopcart.RemoveShopcartProductComponent;

@@ -16,8 +16,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
-import com.polarbear.domain.Product;
 import com.polarbear.domain.ProductStyle;
+import com.polarbear.domain.product.Product;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/test-beans.xml", "/spring/spring-dao.xml" })
@@ -47,9 +47,9 @@ public class HaveStyleProductTest extends
 		testProduct.setState(1);
 		testProduct.setDesc(null);
 		testProduct.setTag("衣服");
-		testProduct.setSalePrice(1d);
-		testProduct.setSaleBeginTime(11);
-		testProduct.setSaleEndTime(11);
+//		testProduct.setSalePrice(1d);
+//		testProduct.setSaleBeginTime(11);
+//		testProduct.setSaleEndTime(11);
 		productDao.store(testProduct);
 	}
 
@@ -61,15 +61,6 @@ public class HaveStyleProductTest extends
 						.newInstance(ProductStyle.class));
 		assertTrue("style property isEquals:", style.toString().equals(
 				testStyle.toString()));
-	}
-
-	@Test
-	public void testProduct() {
-		Product p = jdbcTemplate.queryForObject(
-				"select * from product where id = ? ",
-				new Object[] { testProduct.getId() }, BeanPropertyRowMapper
-						.newInstance(Product.class));
-		assertTrue(p.toString().equals(testProduct.toString()));
 	}
 
 	@Test

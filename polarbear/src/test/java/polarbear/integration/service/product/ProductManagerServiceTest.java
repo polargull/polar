@@ -13,6 +13,7 @@ import static polarbear.testdata.product.StyleBuilder.anStyle;
 
 import java.sql.SQLException;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,7 @@ import polarbear.testdata.product.StyleBuilder;
 
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Category;
-import com.polarbear.domain.Product;
+import com.polarbear.domain.product.Product;
 import com.polarbear.service.PageList;
 import com.polarbear.service.product.ProductManagerService;
 
@@ -43,9 +44,9 @@ public class ProductManagerServiceTest extends AbstractTransactionalJUnit4Spring
         StyleBuilder style = anStyle().withId(PRODUCT_STYLE_ID).withProperty(PRODUCT_STYLE);
         jdbcTemplate.update(createInsertSql(category));
         jdbcTemplate.update(createInsertSql(style.build()));
-        jdbcTemplate.update(createInsertSql(anProduct().withID(1l).withName(PRODUCT_NAME + 1).putOn().withCategory(category).build()));
+        jdbcTemplate.update(createInsertSql(anProduct().withID(1l).withName(PRODUCT_NAME + 1).putOn().withPrice(60d).sale(1).withSalePrice(50d).withCategory(category).build()));
         jdbcTemplate.update(createInsertSql(anProduct().withID(2l).withName(PRODUCT_NAME + 2).putOn().withCategory(category).build()));
-        jdbcTemplate.update(createInsertSql(anProduct().withID(3l).withName(PRODUCT_NAME + 3).pullOff().withCategory(category).build()));
+        jdbcTemplate.update(createInsertSql(anProduct().withID(3l).withName(PRODUCT_NAME + 3).pullOff().withPrice(66d).sale(1).withSalePrice(55d).withCategory(category).build()));
         jdbcTemplate.update(createInsertSql(anProduct().withID(4l).withName(PRODUCT_NAME + 4).pullOff().withStyle(style).build()));
     }
 
@@ -67,5 +68,18 @@ public class ProductManagerServiceTest extends AbstractTransactionalJUnit4Spring
         assertThat(pageLst2.getTotal(), equalTo(1l));
         PageList<Product> pageLst3 = productManagerSvc.productList("style:单款", 1, 10);
         assertThat(pageLst3.getTotal(), equalTo(3l));
+    }
+
+    @Test
+    public void testProductManagerQueryByTimeRang() throws DaoException {
+        int yesterday = (int) (new DateTime().plusDays(-1).getMillis() / 1000l);
+        int futureThreeday = (int) (new DateTime().plusDays(3).getMillis() / 1000l);
+        int yesterday_1 = (int) (new DateTime().plusDays(-2).getMillis() / 1000l);
+        String includeSaleTime = "saleTimeRrang:" + yesterday + "-" + futureThreeday + "";
+        String notIncludeSaleTime = "saleTimeRrang:" + yesterday_1 + "-" + yesterday + "";
+        PageList<Product> pageLst1 = productManagerSvc.productList(includeSaleTime, 1, 10);
+        assertThat(pageLst1.getTotal(), equalTo(2l));
+        PageList<Product> pageLst2 = productManagerSvc.productList(notIncludeSaleTime, 1, 10);
+        assertThat(pageLst2.getTotal(), equalTo(0l));
     }
 }

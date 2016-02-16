@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
-import com.polarbear.domain.Product;
+import com.polarbear.domain.product.Product;
 import com.polarbear.service.PageList;
 
 @Service
