@@ -31,7 +31,20 @@ public class Constants {
             return this.value;
         }
     }
-   
+
+    public enum PAY_CODE {
+        ZHI_FU_BAO(1), WEI_XIN(2);
+        private int value;
+
+        PAY_CODE(int value) {
+            this.value = value;
+        }
+
+        public int value() {
+            return this.value;
+        }
+    }
+        
     /**
      * 操作结果,不够了
      */
