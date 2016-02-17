@@ -10,7 +10,6 @@ public class BalanceDataTO {
     private ProductDistrict productDistrict;
     private PayDistrict payDistrict;
     private double logisticPrice;
-    private double totalPrice;
 
     public BalanceDataTO(Address address, List<BuyProduct> productLst) {
         this.address = address;
@@ -34,7 +33,7 @@ public class BalanceDataTO {
     }
 
     public double getTotalPrice() {
-        return Arith.add(totalPrice, logisticPrice);
+        return Arith.add(productDistrict.getTotalProductPrice(), logisticPrice);
     }
 
 }

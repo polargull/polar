@@ -9,8 +9,8 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 @NamedQueries( {
-    @NamedQuery(name = "queryDefaultAddress", query = "from Address a order by a.defaultSelected desc"),
-    @NamedQuery(name = "setNotDefaultByUser", query = "update Address a set a.defaultSelected= 0 where a.user.id = ?"),
+    @NamedQuery(name = "queryDefaultAddress", query = "from Address a where a.user = ? order by a.defaultSelected desc"),
+    @NamedQuery(name = "setNotDefaultByUser", query = "update Address a set a.defaultSelected= 0 where a.user = ?"),
     @NamedQuery(name = "setDefaultSelect", query = "update Address a set a.defaultSelected= 1 where a.id = ?")
 })
 @Entity

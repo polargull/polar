@@ -57,7 +57,7 @@
 	<target name="acceptanceTest" depends="wait,mysql-create-data">
 		<junit printsummary="false" errorProperty="test.failed" failureProperty="test.failed" fork="true">
 			<classpath refid="test.classpath" />
-			<sysproperty key="server.url" value="${server.url}" />
+			<!--<sysproperty key="server.url" value="${server.url}" />-->
 			<formatter type="brief" usefile="false" />
 			<formatter type="xml" />
 			<batchtest todir="${test.data.dir}">

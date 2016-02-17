@@ -15,12 +15,13 @@ import com.polarbear.domain.Address;
 import com.polarbear.domain.product.Product;
 import com.polarbear.service.balance.to.BalanceDataTO;
 import com.polarbear.service.balance.to.BuyProduct;
+import com.polarbear.util.factory.CurrentThreadUserFactory;
 
 @Service
 public class BalanceService {
-    @Autowired
+    @Autowired(required = false)
     BaseDao<Product> productDao;
-    @Autowired
+    @Autowired(required = false)
     BaseDao<Address> addressDao;
 
     @SuppressWarnings( { "serial", "unchecked" })
@@ -42,7 +43,7 @@ public class BalanceService {
             BuyProduct buyProduct = new BuyProduct(p, pid_num.get(p.getId()));
             buyProductLst.add(buyProduct);
         }
-        Address receiveAddress = addressDao.findByNamedQueryObject("queryDefaultAddress");
+        Address receiveAddress = addressDao.findByNamedQueryObject("queryDefaultAddress", CurrentThreadUserFactory.getUser());
         return new BalanceDataTO(receiveAddress, buyProductLst);
     }
 }

@@ -19,7 +19,7 @@ import com.polarbear.util.JsonResult;
 @RequestMapping("/balance")
 public class BalanceController {
     private Log log = LogFactory.getLog(BalanceController.class);
-    @Autowired
+    @Autowired(required = false)
     BalanceService balanceSvc;
 
     @RequestMapping(value = { "/balance.json" }, method = { RequestMethod.POST, RequestMethod.GET })
