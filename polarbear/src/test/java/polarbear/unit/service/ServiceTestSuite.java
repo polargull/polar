@@ -3,6 +3,7 @@ package polarbear.unit.service;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import polarbear.unit.service.balance.BalanceServiceTestSuite;
 import polarbear.unit.service.login.FrontLoginServiceTest;
 import polarbear.unit.service.product.MultipleStyleProductQueryTest;
 import polarbear.unit.service.register.AppRegisterServiceStep1Test;
@@ -23,6 +24,7 @@ import polarbear.unit.service.user.validate.UnameUniqueValidatorTest;
     ,AddProductToShopcartServiceTest.class
     ,ModifyProductNumFromShopcartServiceTest.class
     ,RemoveShopcartProductServiceTest.class
+    ,BalanceServiceTestSuite.class
     })
 public class ServiceTestSuite {
     // the class remains empty,
