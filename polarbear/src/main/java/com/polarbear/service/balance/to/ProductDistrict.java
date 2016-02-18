@@ -1,18 +1,27 @@
 package com.polarbear.service.balance.to;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.polarbear.util.money.Arith;
 
 public class ProductDistrict {
-    private List<BuyProduct> productList = new ArrayList<BuyProduct>();
     private int totalNum;
     private double totalProductPrice;
+    private BuyProduct onlyOneProductInfo;
+    private String[] productsImg;
 
     public ProductDistrict(List<BuyProduct> productList) {
-        this.productList = productList;
         calcProductTotalPrice(productList);
+        this.totalNum = productList.size();
+        setMultiplyProductImgs(productList);
+        onlyOneProductInfo = productList.get(0);
+    }
+
+    private void setMultiplyProductImgs(List<BuyProduct> productList) {
+        productsImg = new String[productList.size()];
+        for (int i = 0; i < productList.size(); i++) {
+            productsImg[i] = productList.get(i).getProductImg();
+        }
     }
 
     private void calcProductTotalPrice(List<BuyProduct> productList) {
@@ -22,19 +31,14 @@ public class ProductDistrict {
     }
 
     public BuyProduct getOnlyOneProductInfo() {
-        return productList.get(0);
+        return onlyOneProductInfo;
     }
 
     public String[] getProductsImg() {
-        String[] imgs = new String[productList.size()];
-        for (int i = 0; i < productList.size(); i++) {
-            imgs[i] = productList.get(i).getProductImg();
-        }
-        return imgs;
+        return productsImg;
     }
 
     public int getTotalNum() {
-        this.totalNum = productList.size();
         return totalNum;
     }
 

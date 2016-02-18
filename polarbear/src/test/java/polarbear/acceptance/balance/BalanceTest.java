@@ -1,12 +1,11 @@
 package polarbear.acceptance.balance;
 
-import static com.polarbear.util.Constants.ResultState.SUCCESS;
+import static com.polarbear.util.Constants.ResultState.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
-import static polarbear.test.util.Constants.BALANCE_URL;
-import static polarbear.test.util.JsonResultConvertUtil.resultBody;
-import static polarbear.test.util.JsonResultConvertUtil.resultState;
+import static polarbear.test.util.Constants.*;
+import static polarbear.test.util.JsonResultConvertUtil.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -15,14 +14,16 @@ import org.junit.Test;
 import polarbear.acceptance.Request.ResultCallback;
 import polarbear.testdata.acceptance.testdata.product.ProductTestDataFactory;
 
-import com.polarbear.service.balance.to.BalanceDataTO;
+import com.polarbear.domain.product.Product;
 import com.polarbear.util.JsonResult;
 import com.polarbear.web.login.front.LoginController;
 
 public class BalanceTest {
     @Test
-    public void shouldValidateWhenInputCorrectNameAndPwdLogin() {
-        String pids = ProductTestDataFactory.createProduct1().getId() + "," + ProductTestDataFactory.createProduct2().getId();
+    public void shouldReturnCorrectBalanceDataWhenInputPidsAndNums() {
+        final Product p1 = ProductTestDataFactory.createProduct1();
+        final Product p2 = ProductTestDataFactory.createProduct2();
+        String pids = p1.getId() + "," + p2.getId();
         String nums = "1,1";
         anRequest(BALANCE_URL)
                 .withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
@@ -34,7 +35,10 @@ public class BalanceTest {
                         BalanceDataTO balanceData = resultBody(jsonResult, BalanceDataTO.class);
                         assertThat(balanceData.getAddress(), nullValue());
                         assertThat(balanceData.getLogisticPrice(), equalTo(0d));
+                        assertThat(balanceData.getProductDistrict().getTotalNum(), equalTo(2));
+                        assertThat(balanceData.getProductDistrict().getTotalProductPrice(), equalTo(p1.getRealPrice() * 1 + p2.getRealPrice() * 1));
+                        assertThat(balanceData.getProductDistrict().getProductsImg()[0], equalTo(p1.getImage().split(";")[0]));
                     }
-        });
+                });
     }
 }
