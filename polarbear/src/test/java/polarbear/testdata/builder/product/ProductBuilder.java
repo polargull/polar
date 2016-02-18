@@ -1,4 +1,4 @@
-package polarbear.testdata.product;
+package polarbear.testdata.builder.product;
 
 import static com.polarbear.util.Constants.PRODUCT_STATE.PULL_OFF;
 import static com.polarbear.util.Constants.PRODUCT_STATE.PUT_ON;
@@ -48,6 +48,16 @@ public class ProductBuilder {
         this.name = name;
         return this;
     }    
+    
+    public ProductBuilder withDesc(String desc) {
+        this.desc = desc;
+        return this;
+    }
+    
+    public ProductBuilder withImg(String img) {
+        this.img = img;
+        return this;
+    }
     
     public ProductBuilder putOn() {
         this.state = PUT_ON.value();

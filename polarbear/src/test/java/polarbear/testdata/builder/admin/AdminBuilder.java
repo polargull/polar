@@ -1,4 +1,4 @@
-package polarbear.testdata.admin;
+package polarbear.testdata.builder.admin;
 
 import com.polarbear.domain.Admin;
 

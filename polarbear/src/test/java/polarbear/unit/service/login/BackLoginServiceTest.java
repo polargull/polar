@@ -8,7 +8,7 @@ import static polarbear.test.util.Constants.ADMIN_UNAME;
 import static polarbear.test.util.Constants.MD5_PWD;
 import static polarbear.test.util.Constants.PWD;
 import static polarbear.test.util.Constants.UNAME;
-import static polarbear.testdata.admin.AdminBuilder.anAdmin;
+import static polarbear.testdata.builder.admin.AdminBuilder.anAdmin;
 
 import javax.security.auth.login.LoginException;
 

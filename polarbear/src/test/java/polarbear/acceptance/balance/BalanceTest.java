@@ -1,8 +1,7 @@
 package polarbear.acceptance.balance;
 
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
 import static polarbear.test.util.Constants.BALANCE_URL;
@@ -29,7 +28,7 @@ public class BalanceTest {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException, ClassNotFoundException {
                     assertThat(resultState(jsonResult), is(SUCCESS));
                     BalanceDataTO balanceData = resultBody(jsonResult, BalanceDataTO.class);
-                    System.out.println(balanceData.getAddress());;
+                    System.out.println(balanceData.getAddress());
                 }
             });
     }

@@ -15,7 +15,7 @@ import static polarbear.test.util.Constants.UNAME;
 import static polarbear.test.util.Constants.VERIFY_CODE;
 import static polarbear.test.util.JsonResultConvertUtil.resultBody;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
-import static polarbear.testdata.user.UserBuilder.anUser;
+import static polarbear.testdata.builder.user.UserBuilder.anUser;
 
 import java.io.UnsupportedEncodingException;
 

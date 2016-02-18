@@ -2,7 +2,7 @@ package polarbear.integration.service.product;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static polarbear.testdata.product.StyleBuilder.anStyle;
+import static polarbear.testdata.builder.product.StyleBuilder.anStyle;
 
 import org.junit.Before;
 import org.junit.Test;

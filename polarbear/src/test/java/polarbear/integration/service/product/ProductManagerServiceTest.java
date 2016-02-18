@@ -8,8 +8,8 @@ import static polarbear.test.util.Constants.PRODUCT_STYLE;
 import static polarbear.test.util.Constants.PRODUCT_STYLE_ID;
 import static polarbear.test.util.Constants.SHOPCARD_ID;
 import static polarbear.testdata.DomainEntityConvertSqlUtil.createInsertSql;
-import static polarbear.testdata.product.ProductBuilder.anProduct;
-import static polarbear.testdata.product.StyleBuilder.anStyle;
+import static polarbear.testdata.builder.product.ProductBuilder.anProduct;
+import static polarbear.testdata.builder.product.StyleBuilder.anStyle;
 
 import java.sql.SQLException;
 
@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import polarbear.testdata.product.StyleBuilder;
+import polarbear.testdata.builder.product.StyleBuilder;
 
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Category;

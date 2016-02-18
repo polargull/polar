@@ -29,8 +29,10 @@ public class Constants {
     public static final long PRODUCT_CATEGORY_2_ID = 2L;
     public static final String ERR_PRODUCT_ID = "adf";
     public static final String PRODUCT_NAME = "变形精钢";
+    public static final String PRODUCT_DESC = "儿童玩具";
+    public static final String PRODUCT_IMG = "http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg";
     public static final String CATEGORY_NAME = "服装";
-    public static final int PRODUCT_NUM = 1;
+    public static final int PRODUCT_NUM = 10;
     public static final long PRODUCT_STYLE_ID = 1;
     public static final String PRODUCT_STYLE = "[{\"name\":\"颜色\",\"values\":[\"红色\",\"黄色\"]},{\"name\":\"大小\",\"values\":[\"M\",\"L\",\"XL\"]}]";
     public static final double PRODUCT_1_PRICE = 100D;

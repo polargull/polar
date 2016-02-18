@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static polarbear.test.util.Constants.*;
-import static polarbear.testdata.user.UserBuilder.anUser;
+import static polarbear.testdata.builder.user.UserBuilder.anUser;
 
 import javax.security.auth.login.LoginException;
 
