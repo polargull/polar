@@ -1,6 +1,6 @@
-package polarbear.testdata.shopcart;
+package polarbear.testdata.builder.shopcart;
 
-import polarbear.testdata.product.ProductBuilder;
+import polarbear.testdata.builder.product.ProductBuilder;
 
 import com.polarbear.domain.ShopcartDetail;
 import com.polarbear.util.DateUtil;

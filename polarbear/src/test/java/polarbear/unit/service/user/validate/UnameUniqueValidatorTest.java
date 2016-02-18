@@ -1,7 +1,7 @@
 package polarbear.unit.service.user.validate;
 
 import static org.junit.Assert.assertTrue;
-import static polarbear.testdata.user.UserBuilder.anUser;
+import static polarbear.testdata.builder.user.UserBuilder.anUser;
 
 import java.util.ArrayList;
 import java.util.List;

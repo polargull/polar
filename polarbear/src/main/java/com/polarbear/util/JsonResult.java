@@ -25,6 +25,12 @@ public class JsonResult {
         setEmsg(state.emsg());
     }
 
+    public JsonResult(String exceptionMsg) {
+        this.head = new MsgHead();
+        setEcode(exceptionMsg);
+        setEmsg(exceptionMsg);
+    }
+    
     public void setEcode(String ecode) {
         this.head.setEcode(ecode);
     }

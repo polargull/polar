@@ -1,4 +1,4 @@
-package polarbear.testdata.user;
+package polarbear.testdata.builder.user;
 
 import com.polarbear.domain.User;
 

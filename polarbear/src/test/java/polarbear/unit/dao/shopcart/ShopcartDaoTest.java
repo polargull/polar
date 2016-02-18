@@ -5,9 +5,9 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static polarbear.test.util.Constants.*;
-import static polarbear.testdata.product.ProductBuilder.anProduct;
-import static polarbear.testdata.shopcart.ShopcartBuilder.anShopcart;
-import static polarbear.testdata.shopcart.ShopcartDetailBuilder.anShopcartDetail;
+import static polarbear.testdata.builder.product.ProductBuilder.anProduct;
+import static polarbear.testdata.builder.shopcart.ShopcartBuilder.anShopcart;
+import static polarbear.testdata.builder.shopcart.ShopcartDetailBuilder.anShopcartDetail;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

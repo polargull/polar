@@ -4,7 +4,9 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.util.List;
-import static polarbear.testdata.user.UserBuilder.*;
+
+import static polarbear.testdata.builder.user.UserBuilder.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

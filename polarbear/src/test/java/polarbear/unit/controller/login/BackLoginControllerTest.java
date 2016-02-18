@@ -6,7 +6,7 @@ import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static polarbear.test.util.Constants.*;
 import static polarbear.test.util.JsonResultConvertUtil.*;
-import static polarbear.testdata.user.UserBuilder.anUser;
+import static polarbear.testdata.builder.user.UserBuilder.anUser;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import javax.security.auth.login.LoginException;

@@ -43,6 +43,7 @@ public class Constants {
         public int value() {
             return this.value;
         }
+
     }
         
     /**
@@ -74,6 +75,7 @@ public class Constants {
         , PRODUCT_NUM_IS_0("E0000100A", "抱歉,您挑选该商品已被别人抢购完,不能购买了")
         , PRODUCT_PULL_OFF("E0000100F", "抱歉,您挑选该商品刚下架,不能购买了")
         , SERVER_ERR("E0000100D", "服务器错误")
+        , NULLPOINTER("E0000100D", "空指针")
         , RESOURCE_NOT_EXIST("E0000100D", "未发现资源")
         , NON_IMPLEMENT("E99999999", "还未实现");
         private String ecode;

@@ -3,8 +3,8 @@ package polarbear.unit.service.product;
 import static com.polarbear.util.Constants.ResultState.PRODUCT_NOT_EXIST;
 import static org.junit.Assert.assertNotNull;
 import static polarbear.test.util.Constants.PRODUCT_STYLE_ID;
-import static polarbear.testdata.product.NeedStyleBuilder.anNeedStyle;
-import static polarbear.testdata.product.ProductBuilder.anProduct;
+import static polarbear.testdata.builder.product.NeedStyleBuilder.anNeedStyle;
+import static polarbear.testdata.builder.product.ProductBuilder.anProduct;
 
 import java.util.ArrayList;
 import java.util.List;

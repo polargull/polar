@@ -1,4 +1,4 @@
-package polarbear.testdata.product;
+package polarbear.testdata.builder.product;
 
 import com.polarbear.service.product.query.bean.NeedStyle;
 

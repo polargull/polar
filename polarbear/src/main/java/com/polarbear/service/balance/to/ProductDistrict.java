@@ -12,6 +12,13 @@ public class ProductDistrict {
 
     public ProductDistrict(List<BuyProduct> productList) {
         this.productList = productList;
+        calcProductTotalPrice(productList);
+    }
+
+    private void calcProductTotalPrice(List<BuyProduct> productList) {
+        for (BuyProduct p : productList) {
+            totalProductPrice = Arith.add(totalProductPrice, Arith.multiply(p.getProductRealPrice(), p.getBuyNum()));
+        }
     }
 
     public BuyProduct getOnlyOneProductInfo() {
@@ -32,9 +39,6 @@ public class ProductDistrict {
     }
 
     public double getTotalProductPrice() {
-        for (BuyProduct p : productList) {
-            totalProductPrice = Arith.multiply(Arith.add(totalProductPrice, p.getProductRealPrice()), p.getBuyNum());
-        }
         return totalProductPrice;
     }
 }

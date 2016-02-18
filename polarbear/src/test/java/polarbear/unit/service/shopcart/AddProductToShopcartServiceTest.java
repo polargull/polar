@@ -3,9 +3,9 @@ package polarbear.unit.service.shopcart;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static polarbear.test.util.Constants.*;
-import static polarbear.testdata.product.ProductBuilder.anProduct;
-import static polarbear.testdata.shopcart.ShopcartBuilder.anShopcart;
-import static polarbear.testdata.shopcart.ShopcartDetailBuilder.anShopcartDetail;
+import static polarbear.testdata.builder.product.ProductBuilder.anProduct;
+import static polarbear.testdata.builder.shopcart.ShopcartBuilder.anShopcart;
+import static polarbear.testdata.builder.shopcart.ShopcartDetailBuilder.anShopcartDetail;
 
 import org.jmock.Expectations;
 import org.junit.Before;
