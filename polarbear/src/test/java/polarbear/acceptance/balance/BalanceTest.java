@@ -23,7 +23,9 @@ public class BalanceTest {
     public void shouldReturnCorrectBalanceDataWhenInputPidsAndNums() {
         final Product p1 = ProductTestDataFactory.createProduct1();
         final Product p2 = ProductTestDataFactory.createProduct2();
-        String pids = p1.getId() + "," + p2.getId();
+        final Product salePriceIs6P3 = ProductTestDataFactory.createSalePrice6Product3();
+
+        String pids = p1.getId() + "," + p2.getId() + "," + salePriceIs6P3.getId();
         String nums = "1,1";
         anRequest(BALANCE_URL)
                 .withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
