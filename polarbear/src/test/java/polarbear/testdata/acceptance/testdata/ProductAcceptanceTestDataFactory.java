@@ -47,7 +47,7 @@ public class ProductAcceptanceTestDataFactory {
                 .build();
     }
     
-    public static Product createMutiplyStyleProduct4() {
+    public static Product createMutiplyStyle1Product4() {
         Product p = anProduct()
                 .withName(PRODUCT_NAME + 4)
                 .withID(4)
@@ -57,12 +57,13 @@ public class ProductAcceptanceTestDataFactory {
                 .withPrice(PRODUCT_1_PRICE)
                 .putOn()
                 .withCategory(createCategory3())
+                .withExtProperty(PRODUCT_STYLE1_PROPERTY1)
                 .build();
         p.setProductStyle(createProductStyle1());
         return p;
     }
     
-    public static Product createMutiplyStyleProduct5() {
+    public static Product createMutiplyStyle1Product5() {
         Product p = anProduct()
                 .withID(5)
                 .withName(PRODUCT_NAME + 5)
@@ -71,26 +72,11 @@ public class ProductAcceptanceTestDataFactory {
                 .withImg(PRODUCT_IMG)
                 .withPrice(PRODUCT_1_PRICE)
                 .putOn()
-                .withExtProperty("颜色:红色,大小:M")
+                .withExtProperty(PRODUCT_STYLE1_PROPERTY2)
                 .withCategory(createCategory3())
                 .build();
         p.setProductStyle(createProductStyle1());
         return p;
     }
     
-    public static Product createMutiplyStyleProduct6() {
-        Product p = anProduct()
-                .withID(6)
-                .withName(PRODUCT_NAME + 6)
-                .withNum(PRODUCT_NUM)
-                .withDesc(PRODUCT_DESC)
-                .withImg(PRODUCT_IMG)
-                .withPrice(PRODUCT_1_PRICE)
-                .putOn()
-                .withExtProperty("颜色:黄色,大小:L")
-                .withCategory(createCategory3())
-                .build();
-        p.setProductStyle(createProductStyle1());
-        return p;
-    }
 }

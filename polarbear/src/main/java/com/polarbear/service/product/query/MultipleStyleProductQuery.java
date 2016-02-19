@@ -22,6 +22,8 @@ public class MultipleStyleProductQuery {
     public Product querySameStyleProductByNeedStyle(NeedStyle needStyle) throws DaoException, NullObjectException {
         List<Product> sameStyleAllProducts = productDao.findByNamedQuery("querySameStyleProductByStyleId", needStyle.getStyleId());
         for (Product p : sameStyleAllProducts) {
+            if (p.getExtProperty() == null)
+                continue;
             if (StylePropertyTransferUtil.propertyStrToJson(needStyle.getProperty()).equals(StylePropertyTransferUtil.propertyStrToJson(p.getExtProperty()))) {
                 return p;
             }
