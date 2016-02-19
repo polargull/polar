@@ -44,9 +44,9 @@ public class ProductManagerServiceTest extends AbstractTransactionalJUnit4Spring
         StyleBuilder style = anStyle().withId(PRODUCT_STYLE_ID).withProperty(PRODUCT_STYLE);
         jdbcTemplate.update(createInsertSql(category));
         jdbcTemplate.update(createInsertSql(style.build()));
-        jdbcTemplate.update(createInsertSql(anProduct().withID(1l).withName(PRODUCT_NAME + 1).putOn().withPrice(60d).sale(1).withSalePrice(50d).withCategory(category).build()));
+        jdbcTemplate.update(createInsertSql(anProduct().withID(1l).withName(PRODUCT_NAME + 1).putOn().withPrice(60d).saleDay(1).salePrice(50d).withCategory(category).build()));
         jdbcTemplate.update(createInsertSql(anProduct().withID(2l).withName(PRODUCT_NAME + 2).putOn().withCategory(category).build()));
-        jdbcTemplate.update(createInsertSql(anProduct().withID(3l).withName(PRODUCT_NAME + 3).pullOff().withPrice(66d).sale(1).withSalePrice(55d).withCategory(category).build()));
+        jdbcTemplate.update(createInsertSql(anProduct().withID(3l).withName(PRODUCT_NAME + 3).pullOff().withPrice(66d).saleDay(1).salePrice(55d).withCategory(category).build()));
         jdbcTemplate.update(createInsertSql(anProduct().withID(4l).withName(PRODUCT_NAME + 4).pullOff().withStyle(style).build()));
     }
 

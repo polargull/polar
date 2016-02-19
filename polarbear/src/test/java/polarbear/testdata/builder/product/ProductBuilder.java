@@ -84,12 +84,12 @@ public class ProductBuilder {
         return this;
     }
 
-    public ProductBuilder sale(int saleDay) {
+    public ProductBuilder saleDay(int saleDay) {
         this.sale = new Sale((int) (new DateTime().plusMinutes(-1).getMillis() / 1000L), (int) (new DateTime().plusDays(saleDay).getMillis() / 1000L));
         return this;
     }
     
-    public ProductBuilder withSalePrice(double salePrice) {
+    public ProductBuilder salePrice(double salePrice) {
         this.sale.setSalePrice(salePrice);
         return this;
     }

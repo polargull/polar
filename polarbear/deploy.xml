@@ -54,7 +54,7 @@
 		</exec>
 	</target>
 	<!-- 启动和关闭tomcat -->
-	<target name="acceptanceTest" depends="wait,mysql-create-data">
+	<target name="acceptanceTest" depends="wait,mysql-init">
 		<junit printsummary="false" errorProperty="test.failed" failureProperty="test.failed" fork="true">
 			<classpath refid="test.classpath" />
 			<!--<sysproperty key="server.url" value="${server.url}" />-->

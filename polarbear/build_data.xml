@@ -1,34 +1,28 @@
 <?xml version="1.0"?>
-<project name="build-data" basedir="." default="mysql-create-data" xmlns:ext="http://www.polarbear.com/d1/ext">
+<project name="build-data" basedir="." default="mysql-init" xmlns:ext="http://www.polarbear.com/d1/ext">
 	<target name="displayInfo" description="显示一些提示信息">
 		<echo message="根目录:${basedir}" />
 		<echo message="开始在DB中构建数据" />
 	</target>
 	<import file="build.xml" />
-	<property name="sqlfile" value="deploy/user_data.sql" />
+	<property name="testDataSqlfile" value="${basedir}/schemes_insert_testdata.sql" />
 	<target name="mysql-init" depends="ivy-resolve,displayInfo" xmlns:ivy="antlib:fr.jayasoft.ivy.ant">
 		<ivy:cachepath pathid="sql.classpath" conf="sql" />
 		<property name="mysql.root.pass" value="123" />
-		<property name="mysql.diary.pass" value="secret" />
+		<java classname="task.CreateAcceptanceTestDataTask" fork="true" failonerror="true" classpathref="test.classpath">
+			<arg value="${testDataSqlfile}" />
+		</java>
+		<sql encoding="UTF-8" autocommit="true" driver="com.mysql.jdbc.Driver" classpathref="sql.classpath" userid="root" password="${mysql.root.pass}" url="jdbc:mysql://localhost:3306/polarbear?useUnicode\=true&amp;characterEncoding\=utf-8" expandProperties="true">
+			<transaction src="${testDataSqlfile}" />
+		</sql>
+		<!--
 		<presetdef name="mysql-admin" uri="http://www.polarbear.com/d1/ext">
-			<sql driver="com.mysql.jdbc.Driver" classpathref="sql.classpath" userid="root" password="${mysql.root.pass}" print="true" url="jdbc:mysql://localhost:3306/polarbear?useUnicode\=true&amp;characterEncoding\=utf-8" expandProperties="true" />
+		<sql autocommit="true" driver="com.mysql.jdbc.Driver" classpathref="sql.classpath" userid="root" password="${mysql.root.pass}" url="jdbc:mysql://localhost:3306/polarbear?useUnicode\=true&amp;characterEncoding\=utf-8" expandProperties="true">
+			</sql>
 		</presetdef>
+		-->
 	</target>
-	<!--使用hibernate auto create fr
-	<target name="mysql-drop-table" depends="mysql-init" description="create the database and account">
-		<ext:mysql-admin>			
-			SET FOREIGN_KEY_CHECKS = 0;
-			DROP TABLE IF EXISTS `shopcart_detail`;
-			DROP TABLE IF EXISTS `shopcart_log`;
-			DROP TABLE IF EXISTS `product_style`;
-			DROP TABLE IF EXISTS `product`;
-			DROP TABLE IF EXISTS `shopcart`;
-			DROP TABLE IF EXISTS `user`;
-			DROP TABLE IF EXISTS `category`;
-			SET FOREIGN_KEY_CHECKS = 1;
-		</ext:mysql-admin>
-	</target>
-	-->
+	<!--
 	<target name="mysql-create-data" depends="mysql-init" description="create the database and account">
 		<ext:mysql-admin> 
 			insert into `admin` (`createTime`, `loginTime`, `name`, `pwd`) VALUES (unix_timestamp(), unix_timestamp(), 'admin', 'e10adc3949ba59abbe56e057f20f883e');
@@ -43,4 +37,5 @@
 			insert into `product`(`id`, `num`,`createTime`,`p_desc`,`extProperty`,`productStyle_id`,`image`,`name`,`price`,`state`,`category_id`) VALUES (4, 6, unix_timestamp(), '多款式', '颜色:黄色,大小:L', 1, 'http://img30.360buyimg.com/popWaterMark/jfs/t1282/302/670265371/341800/bdbb2785/5598ba4fN2cb4fa3f.jpg;', '羽绒服', 150, 2, 1);
 		</ext:mysql-admin>
 	</target>
+	-->
 </project>

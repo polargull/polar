@@ -34,7 +34,7 @@ public class DomainEntityConvertSqlUtil {
         StyleBuilder style = anStyle().withId(PRODUCT_STYLE_ID).withProperty(PRODUCT_STYLE);
         Category category = new Category(SHOPCARD_ID, CATEGORY_NAME);
         System.out.println(createInsertSql(anProduct().withID(4l).withName(PRODUCT_NAME + 4).pullOff().withStyle(style).build()));
-        System.out.println(createInsertSql(anProduct().withID(1l).withName(PRODUCT_NAME + 1).putOn().withPrice(60d).sale(1).withSalePrice(50d).withCategory(category).build()));
+        System.out.println(createInsertSql(anProduct().withID(1l).withName(PRODUCT_NAME + 1).putOn().withPrice(60d).saleDay(1).salePrice(50d).withCategory(category).build()));
     }
 
     public static String createInsertSql(Object obj) throws SQLException {
@@ -59,7 +59,6 @@ public class DomainEntityConvertSqlUtil {
         StringBuilder insertSqlSb = new StringBuilder("insert into ");
         insertSqlSb.append(getTableName(obj)).append("(").append(columNameSb.toString()).append(") ");
         insertSqlSb.append("values(").append(columValSb.toString()).append(")");
-        System.out.println(insertSqlSb.toString());
         return insertSqlSb.toString();
     }
 

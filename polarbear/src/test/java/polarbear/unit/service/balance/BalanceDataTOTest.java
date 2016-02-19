@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
-import polarbear.testdata.acceptance.testdata.product.ProductTestDataFactory;
+import polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory;
 
 import com.polarbear.service.balance.to.BalanceDataTO;
 import com.polarbear.service.balance.to.BuyProduct;
@@ -17,8 +17,8 @@ public class BalanceDataTOTest {
     @Test
     public void shouldReturnLogsticsIs10BalanceDataWhenPriceTotalPriceGreaterThan49() {
         List<BuyProduct> buyProductList = new ArrayList<BuyProduct>();
-        buyProductList.add(new BuyProduct(ProductTestDataFactory.createProduct1(), 1));
-        buyProductList.add(new BuyProduct(ProductTestDataFactory.createProduct2(), 1));
+        buyProductList.add(new BuyProduct(ProductAcceptanceTestDataFactory.createProduct1(), 1));
+        buyProductList.add(new BuyProduct(ProductAcceptanceTestDataFactory.createProduct2(), 1));
         BalanceDataTO to = new BalanceDataTO(null, buyProductList);
         
         assertThat(to.getAddress(), nullValue());
@@ -31,7 +31,7 @@ public class BalanceDataTOTest {
     @Test
     public void shouldReturnLogsticsIs0BalanceDataWhenPriceTotalPriceLessThan49() {
         List<BuyProduct> buyProductList = new ArrayList<BuyProduct>();
-        buyProductList.add(new BuyProduct(ProductTestDataFactory.createSalePrice6Product(), 1));
+        buyProductList.add(new BuyProduct(ProductAcceptanceTestDataFactory.createSalePrice6Product3(), 1));
         BalanceDataTO to = new BalanceDataTO(null, buyProductList);
         
         assertThat(to.getAddress(), nullValue());
