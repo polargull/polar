@@ -1,11 +1,12 @@
 package com.polarbear.service.balance.to;
 
+import static com.polarbear.util.Constants.PAY_CODE.WEI_XIN;
+import static com.polarbear.util.Constants.PAY_CODE.ZHI_FU_BAO;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.polarbear.domain.Address;
-import static com.polarbear.util.Constants.PAY_CODE.ZHI_FU_BAO;
-import static com.polarbear.util.Constants.PAY_CODE.WEI_XIN;
 import com.polarbear.util.money.Arith;
 
 public class BalanceDataTO {
@@ -26,7 +27,16 @@ public class BalanceDataTO {
     public BalanceDataTO(Address address, List<BuyProduct> productLst) {
         this.address = address;
         this.productDistrict = new ProductDistrict(productLst);
+        calcLogisticPrice();
         calcTotalPrice();
+    }
+
+    private void calcLogisticPrice() {
+        if (productDistrict.getTotalProductPrice() >= 49d) {
+            logisticPrice = 0d;
+            return;
+        }
+        logisticPrice = 10d;
     }
 
     private void calcTotalPrice() {

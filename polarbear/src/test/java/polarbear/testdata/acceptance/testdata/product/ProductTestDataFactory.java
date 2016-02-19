@@ -32,18 +32,19 @@ public class ProductTestDataFactory {
                 .build();
     }
     
-    public static Product createSalePrice6Product3() {
+    public static Product createSalePrice6Product() {
         return anProduct()
-                .withName(PRODUCT_NAME + "2")
-                .withID(PRODUCT_2_ID)
+                .withName(PRODUCT_NAME)
+                .withID(PRODUCT_1_ID)
                 .withNum(PRODUCT_NUM)
-                .withDesc(PRODUCT_DESC + "2")
+                .withDesc(PRODUCT_DESC)
                 .withImg(PRODUCT_IMG)
-                .withPrice(PRODUCT_1_PRICE + 1)
+                .withPrice(PRODUCT_1_PRICE)
                 .putOn()
                 .sale(1)
                 .withSalePrice(6d)
                 .withCategory(new Category(3l, "玩具"))
                 .build();
     }
+    
 }

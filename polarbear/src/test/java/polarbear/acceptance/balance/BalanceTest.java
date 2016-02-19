@@ -23,7 +23,7 @@ public class BalanceTest {
     public void shouldReturnCorrectBalanceDataWhenInputPidsAndNums() {
         final Product p1 = ProductTestDataFactory.createProduct1();
         final Product p2 = ProductTestDataFactory.createProduct2();
-        final Product salePriceIs6P3 = ProductTestDataFactory.createSalePrice6Product3();
+        final Product salePriceIs6P3 = ProductTestDataFactory.createSalePrice6Product();
 
         String pids = p1.getId() + "," + p2.getId() + "," + salePriceIs6P3.getId();
         String nums = "1,1";
