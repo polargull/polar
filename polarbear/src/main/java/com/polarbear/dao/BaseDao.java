@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,15 @@ public class BaseDao<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public T findByIdLock(Class clazz, long id) throws DaoException {
+        try {
+            return (T) hibernateTemplate.get(clazz, id, LockMode.UPGRADE_NOWAIT);
+        } catch (DataAccessException e) {
+            throw new DaoException(DB_ERR);
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     public T findById(Class clazz, long id) throws DaoException {
         try {
