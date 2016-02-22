@@ -33,7 +33,7 @@ public class ShopcartService {
 
     @Transactional
     public int addProductToShopcart(long pid) throws DaoException, ValidateException {
-        return modifyShopcartService.addShopcart(pid);
+        return modifyShopcartService.addShopcart(pid, 1);
     }
 
     @Transactional
@@ -57,20 +57,10 @@ public class ShopcartService {
         return new MyShopcart(shopcart, addShopcartProductList(shopcart));
     }
 
-    private List<ShopcartProduct> addShopcartProductList(Shopcart shopcart) throws DaoException {
-        List<ShopcartProduct> productList = new ArrayList<ShopcartProduct>();
-        List<ShopcartDetail> sdLst = shopcartDetailDao.findByNamedQuery("queryByShopcart", shopcart);
-        for (ShopcartDetail sd : sdLst) {
-            productList.add(new ShopcartProduct(sd.getProduct(), sd.getNum()));
-        }
-        return productList;
-    }
-
     /**
      * 未登录时,返回购物车数据
-     * 
      * @param shopcartCookieData
-     *            pid_num@pid_num@
+     *            pid_num|pid_num|
      * @return
      * @throws DaoException
      * @throws ParseException
@@ -80,6 +70,30 @@ public class ShopcartService {
         final List<Long> pidList = parseShopcartCookieDataReturnPidList(shopcartCookieData);
         List<ShopcartProduct> shopcartProductList = wrapShopcartProductList(shopcartCookieData, pidList);
         return new MyShopcart(shopcartProductList);
+    }
+    
+    /**
+     * 登录同步客户端购物车数据
+     * @param shopcartCookieData
+     *            pid_num|pid_num|
+     * @throws DaoException
+     * @throws ParseException
+     * @throws ValidateException 
+     * @throws ValidateException
+     */
+    @Transactional
+    public void synchClientShopcartData(String shopcartCookieData) throws DaoException, ParseException, ValidateException {
+        Map<Long, Integer> clientShopcartData = parseShopcartCookieDataReturnMap(shopcartCookieData);
+        modifyShopcartService.synchClientShopcartDataToServer(clientShopcartData);
+    }
+
+    private List<ShopcartProduct> addShopcartProductList(Shopcart shopcart) throws DaoException {
+        List<ShopcartProduct> productList = new ArrayList<ShopcartProduct>();
+        List<ShopcartDetail> sdLst = shopcartDetailDao.findByNamedQuery("queryByShopcart", shopcart);
+        for (ShopcartDetail sd : sdLst) {
+            productList.add(new ShopcartProduct(sd.getProduct(), sd.getNum()));
+        }
+        return productList;
     }
 
     @SuppressWarnings( { "unchecked", "serial" })

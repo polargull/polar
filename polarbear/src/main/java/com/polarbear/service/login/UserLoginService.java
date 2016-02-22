@@ -1,10 +1,11 @@
 package com.polarbear.service.login;
 
+import static com.polarbear.util.Constants.ResultState.LOGIN_NAME_PWD_ERR;
+
 import javax.security.auth.login.LoginException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import static com.polarbear.util.Constants.ResultState.*;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
@@ -25,4 +26,5 @@ public class UserLoginService {
             throw new LoginException(LOGIN_NAME_PWD_ERR.emsg());
         return new LoginData<User>(user, loginEncoder.encodeLoginUser(user));
     }
+    
 }

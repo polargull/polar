@@ -1,5 +1,9 @@
 package polarbear.test.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.polarbear.service.shopcart.ShopcartProduct;
 import com.polarbear.util.DateUtil;
 import com.polarbear.util.MD5Util;
 import com.polarbear.util.RandomUtil;
@@ -9,6 +13,7 @@ import com.polarbear.util.date.SystemClock;
  * 应用的全局常量
  */
 public class Constants {
+    public static final List<ShopcartProduct> SHOPCART_DATA_USER1_LIST = new ArrayList<ShopcartProduct>();
     public static final long USER_ID = 1L;
     public static final String ADMIN_UNAME = "admin";
     public static final String UNAME = "极地鸥";

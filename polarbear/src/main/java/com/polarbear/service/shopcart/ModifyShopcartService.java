@@ -1,5 +1,8 @@
 package com.polarbear.service.shopcart;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +37,9 @@ public class ModifyShopcartService {
     private final String MODIYF_SHOPCART = "modifyShopcart";
 
     @Transactional
-    public int addShopcart(long pid) throws DaoException, ValidateException {
+    public int addShopcart(long pid, int nums) throws DaoException, ValidateException {
         Product p = productPicker.pickoutTheProduct(pid);
-        Shopcart shopcart = addOrRemoveShopCartNum(1);
+        Shopcart shopcart = addOrRemoveShopCartNum(nums);
         return updateShopCartDetail(shopcart, p, 1, ADD_SHOPCART).getProductNum();
     }
 
@@ -47,18 +50,33 @@ public class ModifyShopcartService {
         return addOrRemoveShopCartNum(-removeNum);
     }
 
-    private Shopcart addOrRemoveShopCartNum(int num) throws DaoException {
-        Shopcart shopcart = getShopcart();
-        shopcart.setProductNum(shopcart.getProductNum() + num);
-        shopcartDao.store(shopcart);
-        return shopcart;
-    }
-
     @Transactional
     public Shopcart updateProductNumFromShopCart(long pid, int num) throws DaoException, ValidateException {
         Product p = productPicker.pickoutTheProduct(pid);
         Shopcart shopcart = updateShopCartNum(p, num);
         return updateShopCartDetail(shopcart, p, num, MODIYF_SHOPCART);
+    }
+
+    @Transactional
+    public void synchClientShopcartDataToServer(Map<Long, Integer> clientShopcartData) throws DaoException, ValidateException {
+        Iterator iter = clientShopcartData.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            Long pid = (Long) entry.getKey();
+            Integer nums = (Integer) entry.getValue();
+            if (getShopcart().getId() == null) {
+                addShopcart(pid, nums);
+                continue;
+            }
+            updateProductNumFromShopCart(pid, nums);
+        }
+    }
+
+    private Shopcart addOrRemoveShopCartNum(int num) throws DaoException {
+        Shopcart shopcart = getShopcart();
+        shopcart.setProductNum(shopcart.getProductNum() + num);
+        shopcartDao.store(shopcart);
+        return shopcart;
     }
 
     private Shopcart updateShopCartNum(Product p, int num) throws DaoException {
