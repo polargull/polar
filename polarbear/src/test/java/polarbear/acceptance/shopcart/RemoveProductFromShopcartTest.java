@@ -4,7 +4,7 @@ import static com.polarbear.util.Constants.ResultState.SUCCESS;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
-import static polarbear.acceptance.shopcart.TestMyShopcartUtil.*;
+import static polarbear.acceptance.shopcart.util.TestMyShopcartUtil.*;
 import static polarbear.test.util.Constants.SHOPCART_REMOVE_PRODUCT_URL;
 import static polarbear.test.util.JsonResultConvertUtil.resultBody;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;

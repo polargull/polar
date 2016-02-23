@@ -6,7 +6,6 @@ import static com.polarbear.util.Constants.ResultState.SUCCESS;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
-import static polarbear.acceptance.shopcart.TestMyShopcartUtil.getShopcartTotalNum;
 import static polarbear.test.util.Constants.ERR_PRODUCT_ID;
 import static polarbear.test.util.Constants.PRODUCT_1_ID;
 import static polarbear.test.util.Constants.SHOPCART_ADD_URL;
@@ -26,7 +25,8 @@ import com.polarbear.domain.product.Product;
 import com.polarbear.util.JsonResult;
 import com.polarbear.web.login.front.LoginController;
 import com.polarbear.web.shopcart.ShopcartController;
-import static polarbear.acceptance.shopcart.TestMyShopcartUtil.*;
+
+import static polarbear.acceptance.shopcart.util.TestMyShopcartUtil.*;
 public class AddShopcartTest {
 
     public List<ShopcartProduct> shouldSuccessReturnCookieShopcartNumJsonDataWhenSelectProductAddShopcartAndUserLogined(final List<ShopcartProduct> currentShopcartDataList,

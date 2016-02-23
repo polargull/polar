@@ -4,7 +4,6 @@ import static com.polarbear.util.Constants.ResultState.SUCCESS;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
-import static polarbear.acceptance.shopcart.TestMyShopcartUtil.assertThatMyShopcart;
 import static polarbear.test.util.Constants.SHOPCART_MODIFY_PRODUCT_NUM_URL;
 import static polarbear.test.util.JsonResultConvertUtil.*;
 
@@ -17,7 +16,8 @@ import polarbear.acceptance.shopcart.bean.ShopcartProduct;
 
 import com.polarbear.util.JsonResult;
 import com.polarbear.web.login.front.LoginController;
-import static polarbear.acceptance.shopcart.TestMyShopcartUtil.*;
+
+import static polarbear.acceptance.shopcart.util.TestMyShopcartUtil.*;
 public class ModifyProductNumTest {
 
     public List<ShopcartProduct> shouldReturnMyShopcartDataWhenModifyProductNumAndUserLogined(final List<ShopcartProduct> shopcartDataList,

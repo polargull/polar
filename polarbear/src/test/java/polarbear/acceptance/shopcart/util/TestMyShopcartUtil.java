@@ -1,4 +1,4 @@
-package polarbear.acceptance.shopcart;
+package polarbear.acceptance.shopcart.util;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
