@@ -11,8 +11,7 @@ import polarbear.acceptance.regist.RegistTestSuite;
 import polarbear.acceptance.shopcart.ShopcartTestSuite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses( { LoginTest.class, RegistTestSuite.class, ProductTestSuite.class, AcceptanceBackTestSuite.class,
-        BalanceTest.class })
-public class AcceptanceTestSuite {
+@Suite.SuiteClasses( { ShopcartTestSuite.class })
+public class ShopcartAcceptanceTestSuite {
 
 }
