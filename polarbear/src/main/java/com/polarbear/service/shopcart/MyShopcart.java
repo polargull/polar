@@ -43,24 +43,12 @@ public class MyShopcart {
         return productList;
     }
 
-    public void setProductList(List<ShopcartProduct> productList) {
-        this.productList = productList;
-    }
-
     public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public int getProductNum() {
         return productNum;
-    }
-
-    public void setProductNum(int productNum) {
-        this.productNum = productNum;
     }
 
 }

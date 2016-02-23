@@ -89,6 +89,8 @@ public class ShopcartService {
 
     private List<ShopcartProduct> addShopcartProductList(Shopcart shopcart) throws DaoException {
         List<ShopcartProduct> productList = new ArrayList<ShopcartProduct>();
+        if (shopcart.getId() == null)
+            return productList;
         List<ShopcartDetail> sdLst = shopcartDetailDao.findByNamedQuery("queryByShopcart", shopcart);
         for (ShopcartDetail sd : sdLst) {
             productList.add(new ShopcartProduct(sd.getProduct(), sd.getNum()));

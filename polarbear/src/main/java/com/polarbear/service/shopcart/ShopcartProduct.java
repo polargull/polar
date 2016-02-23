@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.polarbear.domain.product.Product;
 
 public class ShopcartProduct {
+    @JSONField(serialize = false)
     private Product product;
     private Integer num;
 
@@ -15,9 +16,8 @@ public class ShopcartProduct {
         this.num = num;
     }
 
-    @JSONField(serialize = false)
-    public Product getProduct() {
-        return product;
+    public Long getPid() {
+        return product.getId();
     }
 
     public String getName() {
@@ -30,10 +30,6 @@ public class ShopcartProduct {
 
     public Integer getNum() {
         return num;
-    }
-
-    public void setNum(Integer num) {
-        this.num = num;
     }
 
     public double getPrice() {

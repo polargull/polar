@@ -3,6 +3,8 @@ package com.polarbear.web.shopcart;
 import static com.polarbear.util.Constants.ResultState.PARAM_ERR;
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
 
+import java.net.MalformedURLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +25,7 @@ import com.polarbear.service.shopcart.MyShopcart;
 import com.polarbear.service.shopcart.ShopcartService;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.cookie.CookieHelper;
+import com.polarbear.util.cookie.UrlUtil;
 
 @Controller
 @RequestMapping("/shopcart")
@@ -36,11 +39,12 @@ public class ShopcartController {
 
     @RequestMapping(value = { "/addShopcart.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object addShopcart(HttpServletResponse response, @RequestParam("pid") String pid) throws ValidateException, DaoException {
+    public Object addShopcart(HttpServletResponse response, HttpServletRequest request, @RequestParam("pid") String pid) throws ValidateException, DaoException, MalformedURLException {
         log.debug("pid=" + pid);
         validate(pid);
         int count = shopcartService.addProductToShopcart(Long.valueOf(pid));
-        CookieHelper.setCookie(response, SHOPCART_PRODUCT_NUM, String.valueOf(count));
+        String domain = UrlUtil.getTopDomainWithoutSubdomain(request.getRequestURL().toString());
+        CookieHelper.setCookie(response, SHOPCART_PRODUCT_NUM, String.valueOf(count), domain, 0);
         log.debug("pid = " + pid + ", op successful!");
         return new JsonResult(SUCCESS);
     }

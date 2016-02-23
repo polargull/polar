@@ -1,42 +1,44 @@
 package polarbear.acceptance.shopcart;
 
-import static com.polarbear.util.Constants.ResultState.*;
-import static org.hamcrest.CoreMatchers.*;
+import static com.polarbear.util.Constants.ResultState.SUCCESS;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
-import static polarbear.test.util.Constants.*;
+import static polarbear.acceptance.shopcart.TestMyShopcartUtil.assertThatMyShopcart;
+import static polarbear.test.util.Constants.SHOPCART_MODIFY_PRODUCT_NUM_URL;
 import static polarbear.test.util.JsonResultConvertUtil.*;
-import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createProduct1;
-import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createProduct2;
-import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createSalePrice6Product3;
 
 import java.io.UnsupportedEncodingException;
-
-import org.junit.Test;
+import java.util.List;
 
 import polarbear.acceptance.Request.ResultCallback;
+import polarbear.acceptance.shopcart.bean.MyShopcart;
+import polarbear.acceptance.shopcart.bean.ShopcartProduct;
 
-import com.polarbear.service.shopcart.MyShopcart;
 import com.polarbear.util.JsonResult;
-import com.polarbear.util.cookie.UserCookieUtil;
 import com.polarbear.web.login.front.LoginController;
-
+import static polarbear.acceptance.shopcart.TestMyShopcartUtil.*;
 public class ModifyProductNumTest {
-    public static final int PRODUCT_2_ALREADY_BUY_NUM = 1;
-    @Test
-    public void shouldReturnMyShopcartDataWhenModifyProductNumAndUserLogined() {
-        anRequest(SHOPCART_MODIFY_PRODUCT_NUM_URL)
-        .withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
-        .addParams("pid", String.valueOf(PRODUCT_1_ID))
-        .addParams("num", String.valueOf(PRODUCT_BUY_NUM))
-        .post(new ResultCallback() {
-            public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
-                assertThat(resultState(jsonResult), is(SUCCESS));
-                MyShopcart shopcart = resultBody(jsonResult, MyShopcart.class);
-                assertThat(shopcart.getProductNum(), equalTo(PRODUCT_BUY_NUM + 8));
-                assertThat(shopcart.getTotalPrice(), equalTo(PRODUCT_1_PRICE * PRODUCT_BUY_NUM + (createProduct1().getRealPrice() * 2 + createProduct2().getRealPrice() * 3 + createSalePrice6Product3().getRealPrice() * 3)));
-                assertThat(shopcart.getProductList().size(), equalTo(3));
-            }
-        });
+
+    public List<ShopcartProduct> shouldReturnMyShopcartDataWhenModifyProductNumAndUserLogined(final List<ShopcartProduct> shopcartDataList,
+            ShopcartProduct... pickBuyProduct) {
+        for (final ShopcartProduct sp:pickBuyProduct) {
+            anRequest(SHOPCART_MODIFY_PRODUCT_NUM_URL)
+                .withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
+                .addParams("pid", String.valueOf(sp.getPid()))
+                .addParams("num", String.valueOf(sp.getNum()))
+                .post(new ResultCallback() {
+                    public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
+                        assertThat(resultState(jsonResult), is(SUCCESS));
+                        MyShopcart shopcart = resultBody(jsonResult, MyShopcart.class);
+                        updateShopcartDataList(shopcartDataList, sp);
+                        assertThatMyShopcart(shopcart, shopcartDataList);
+                    }
+                });
+        }
+        return shopcartDataList;
     }
+    
+        
+
 }
