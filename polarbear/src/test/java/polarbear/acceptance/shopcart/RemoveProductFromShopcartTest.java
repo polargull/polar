@@ -30,7 +30,8 @@ public class RemoveProductFromShopcartTest {
 
     @Test
     public void shouldSuccessReturnShopcartDataWhenSelectProductAddShopcartAndUserLogined() {
-        anRequest(SHOPCART_REMOVE_PRODUCT_URL).withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
+        anRequest(SHOPCART_REMOVE_PRODUCT_URL)
+        .withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
         .addParams("pid",String.valueOf(PRODUCT_1_ID))
         .post(new ResultCallback() {
             public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {

@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses( { AddShopcartTest.class, GetMyShopcartTest.class, ModifyProductNumTest.class, RemoveProductFromShopcartTest.class })
+@Suite.SuiteClasses( { ShopcartProcessTest.class, AddShopcartTest.class})
 public class ShopcartTestSuite {
 
 }
