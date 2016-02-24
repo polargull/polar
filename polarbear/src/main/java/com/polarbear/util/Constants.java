@@ -1,12 +1,11 @@
 package com.polarbear.util;
 
-import com.polarbear.util.Loader;
 
 public class Constants {
     public final static String WEB_KEY = "polargull@polarbear.com";
-    
+
     public static final boolean isReleaseVersion = Boolean.valueOf(Loader.getInstance().getProps("isReleaseVersion"));
-    
+
     /**
      * 普通request请求后缀
      */
@@ -32,8 +31,22 @@ public class Constants {
         }
     }
 
+    public enum BUY_MODE {
+        IMMEDIDATE(1), SHOPCART(2);
+        private int value;
+
+        BUY_MODE(int value) {
+            this.value = value;
+        }
+
+        public int value() {
+            return this.value;
+        }
+
+    }
+
     public enum PAY_CODE {
-        ZHI_FU_BAO(1), WEI_XIN(2);
+        HOU_DAO_FU_KUAN(1), ZHI_FU_BAO(2), WEI_XIN(3);
         private int value;
 
         PAY_CODE(int value) {
@@ -45,7 +58,26 @@ public class Constants {
         }
 
     }
-        
+
+    public enum ORDER_STATE {
+        UNPAY(1, "创建"), PAYED(2, "支付"), DELIVERY(3, "发货"), SUCCESS(4, "成交"), CANCLE(5, "取消");
+        private int value;
+        private String op;
+
+        ORDER_STATE(int value, String op) {
+            this.value = value;
+            this.op = op;
+        }
+
+        public int value() {
+            return this.value;
+        }
+
+        public String op() {
+            return this.op;
+        }
+    }
+
     /**
      * 操作结果,不够了
      */
@@ -94,5 +126,5 @@ public class Constants {
             return this.emsg;
         }
     }
-    
+
 }

@@ -1,32 +1,32 @@
 package com.polarbear.service.balance.to;
 
 import java.util.List;
-
-import com.polarbear.util.money.Arith;
+import static com.polarbear.util.money.PriceCalc.*;
+import static com.polarbear.util.ProductBuyNumCalc.*;
 
 public class ProductDistrict {
     private int totalNum;
     private double totalProductPrice;
     private BuyProduct onlyOneProductInfo;
     private String[] productsImg;
+    private Long[] productIds;
+    private Integer[] productNums;
 
     public ProductDistrict(List<BuyProduct> productList) {
-        calcProductTotalPrice(productList);
-        this.totalNum = productList.size();
-        setMultiplyProductImgs(productList);
-        onlyOneProductInfo = productList.get(0);
+        this.totalProductPrice = calcProductTotalPrice(productList);
+        this.totalNum = calcProductTotalBuyNum(productList);
+        this.onlyOneProductInfo = productList.get(0);
+        setProductData(productList);
     }
 
-    private void setMultiplyProductImgs(List<BuyProduct> productList) {
-        productsImg = new String[productList.size()];
+    private void setProductData(List<BuyProduct> productList) {
+        this.productsImg = new String[productList.size()];
+        this.productIds = new Long[productList.size()];
+        this.productNums = new Integer[productList.size()];
         for (int i = 0; i < productList.size(); i++) {
-            productsImg[i] = productList.get(i).getProductImg();
-        }
-    }
-
-    private void calcProductTotalPrice(List<BuyProduct> productList) {
-        for (BuyProduct p : productList) {
-            totalProductPrice = Arith.add(totalProductPrice, Arith.multiply(p.getProductRealPrice(), p.getBuyNum()));
+            this.productsImg[i] = productList.get(i).getProductImg();
+            this.productIds[i] = productList.get(i).getPid();
+            this.productNums[i] = productList.get(i).getBuyNum();
         }
     }
 

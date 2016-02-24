@@ -7,11 +7,16 @@ public class BuyProduct {
     @JSONField(serialize = false)
     Product product;
     int buyNum;
+    long pid;
 
     public BuyProduct(Product product, int buyNum) {
         super();
         this.product = product;
         this.buyNum = buyNum;
+    }
+
+    public long getPid() {
+        return pid;
     }
 
     public double getProductRealPrice() {
