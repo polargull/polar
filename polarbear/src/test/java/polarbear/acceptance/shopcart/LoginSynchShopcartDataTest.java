@@ -1,17 +1,12 @@
 package polarbear.acceptance.shopcart;
 
-
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
 import static polarbear.acceptance.shopcart.util.TestMyShopcartUtil.*;
-import static polarbear.test.util.Constants.LOGIN_URL;
-import static polarbear.test.util.Constants.PWD;
-import static polarbear.test.util.Constants.SHOPCART_GET_URL;
-import static polarbear.test.util.Constants.UNAME;
-import static polarbear.test.util.JsonResultConvertUtil.resultBody;
-import static polarbear.test.util.JsonResultConvertUtil.resultState;
+import static polarbear.test.util.Constants.*;
+import static polarbear.test.util.JsonResultConvertUtil.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -30,11 +25,10 @@ import com.polarbear.web.login.front.LoginController;
 
 public class LoginSynchShopcartDataTest {
     private String USER_LOGIN_COOKIE = "";
-    final List<ShopcartProduct> shopcartDataList = new ArrayList<ShopcartProduct>();
 
-    public List<ShopcartProduct> shouldSynchValidateWhenLoginHaveCorrectSynchData(ShopcartProduct... shopcartProducts) {
+    public List<ShopcartProduct> shouldSynchValidateWhenLoginHaveCorrectSynchData(final List<ShopcartProduct> shopcartDataList, ShopcartProduct... shopcartProducts) {
         for (ShopcartProduct shopcartProduct : shopcartProducts) {
-            shopcartDataList.add(shopcartProduct);
+            addNewOrUpdateOldShopcartDataList(shopcartDataList, shopcartProduct);
         }
         String shopcartCookieData = convertRequestParamByShopcartProductArray(shopcartProducts);
         anRequest(LOGIN_URL)

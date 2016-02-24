@@ -34,6 +34,18 @@ public class TestMyShopcartUtil {
         return totalPrice;
     }
 
+    public static List<ShopcartProduct> addNewOrUpdateOldShopcartDataList(final List<ShopcartProduct> currentShopcartDataList, final ShopcartProduct sp) {
+        Set<Long> pidSet = new HashSet<Long>();
+        for (ShopcartProduct shopcartProduct : currentShopcartDataList) {
+            pidSet.add(shopcartProduct.getPid());
+        }
+        if (!pidSet.contains(sp.getPid())) {
+            currentShopcartDataList.add(sp);
+            return currentShopcartDataList;
+        }
+        return updateShopcartDataList(currentShopcartDataList,sp);
+    }
+
     public static List<ShopcartProduct> addShopcartDataList(final List<ShopcartProduct> currentShopcartDataList, final ShopcartProduct sp) {
         Set<Long> pidSet = new HashSet<Long>();
         for (ShopcartProduct shopcartProduct : currentShopcartDataList) {

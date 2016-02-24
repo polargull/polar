@@ -1,9 +1,6 @@
 package polarbear.acceptance.shopcart;
 
-import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createProduct1;
-import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createProduct2;
-import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createSalePrice6Product3;
-
+import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +17,11 @@ public class ShopcartProcessTest {
     Product pickProduct1 = createProduct1();
     Product pickProduct2 = createProduct2();
     Product pickProduct3 = createSalePrice6Product3();
+    Product pickProduct4 = createMutiplyStyle1Product4();
     ShopcartProduct buyProduct1 = new ShopcartProduct(pickProduct1, 1);
     ShopcartProduct buyProduct2 = new ShopcartProduct(pickProduct2, 2);
     ShopcartProduct buyProduct3 = new ShopcartProduct(pickProduct3, 3);
+    ShopcartProduct buyProduct4 = new ShopcartProduct(pickProduct4, 4);
     static List<ShopcartProduct> shopcartDataList = new ArrayList<ShopcartProduct>();
     
     @Test
@@ -32,7 +31,7 @@ public class ShopcartProcessTest {
     
     @Test
     public void test2ShouldSynchValidateWhenLoginHaveCorrectSynchData() {
-        shopcartDataList = new LoginSynchShopcartDataTest().shouldSynchValidateWhenLoginHaveCorrectSynchData(buyProduct1, buyProduct2);
+        shopcartDataList = new LoginSynchShopcartDataTest().shouldSynchValidateWhenLoginHaveCorrectSynchData(shopcartDataList, buyProduct1, buyProduct2);
     }
 
     @Test
@@ -51,12 +50,17 @@ public class ShopcartProcessTest {
     }
     
     @Test
-    public void test6ShouldSuccessReturnShopcartDataWhenRemoveProductInShopcartAndUserLogined() {
-        shopcartDataList = new RemoveProductFromShopcartTest().shouldSuccessReturnShopcartDataWhenRemoveProductInShopcartAndUserLogined(shopcartDataList, pickProduct1, pickProduct2, pickProduct3);
+    public void test6ShouldSynchValidateWhenLoginHaveNewProductAndOldProductSynchData() {
+        shopcartDataList = new LoginSynchShopcartDataTest().shouldSynchValidateWhenLoginHaveCorrectSynchData(shopcartDataList, buyProduct2, buyProduct4);
     }
     
     @Test
-    public void test7ShouldReturnMyShopcartDataWhenQueryShopcartAndUserLogined() {
+    public void test7ShouldSuccessReturnShopcartDataWhenRemoveProductInShopcartAndUserLogined() {
+        shopcartDataList = new RemoveProductFromShopcartTest().shouldSuccessReturnShopcartDataWhenRemoveProductInShopcartAndUserLogined(shopcartDataList, pickProduct1, pickProduct2, pickProduct3, pickProduct4);
+    }
+    
+    @Test
+    public void test8ShouldReturnMyShopcartDataWhenQueryShopcartAndUserLogined() {
         new GetMyShopcartTest().shouldReturnMyShopcartDataWhenQueryShopcartAndUserLogined(shopcartDataList);
     }
 }

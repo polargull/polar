@@ -61,7 +61,7 @@
 			<formatter type="brief" usefile="false" />
 			<formatter type="xml" />
 			<batchtest todir="${test.data.dir}">
-				<fileset dir="${test.classes.dir}" includes="**/acceptance/AcceptanceTestSuite.class" />
+				<fileset dir="${test.classes.dir}" includes="**/acceptance/*AcceptanceTestSuite.class" />
 			</batchtest>
 		</junit>
 		<junitreport todir="${test.data.dir}">
