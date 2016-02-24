@@ -28,6 +28,7 @@ public class Order {
     @Column
     Integer updateTime;
 
+    public Order() {}
     public Order(Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Integer state, Integer createTime, Integer updateTime) {
         this.productTotalNums = productTotalNums;
         this.productTotalPrice = productTotalPrice;
