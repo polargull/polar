@@ -11,6 +11,15 @@ public class OrderParam {
 
     public OrderParam(){}
 
+    public OrderParam(long[] pids, int[] nums, Integer buyMode, Integer payCode, Long addressId) {
+        super();
+        this.pids = pids;
+        this.nums = nums;
+        this.buyMode = buyMode;
+        this.payCode = payCode;
+        this.addressId = addressId;
+    }
+
     public long[] getPids() {
         return pids;
     }

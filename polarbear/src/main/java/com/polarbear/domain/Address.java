@@ -44,8 +44,9 @@ public class Address {
         this.defaultSelected = defaultSelected;
     }
     
-    public Address(String receiverName, Long cellphone, Long phone, String district, String address, User user) {
+    public Address(Long id, String receiverName, Long cellphone, Long phone, String district, String address, User user) {
         super();
+        this.id = id;
         this.receiverName = receiverName;
         this.cellphone = cellphone;
         this.phone = phone;

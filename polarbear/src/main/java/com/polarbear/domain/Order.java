@@ -4,9 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue
@@ -27,16 +30,33 @@ public class Order {
     Integer createTime;
     @Column
     Integer updateTime;
-
+    @ManyToOne
+    User buyer;
+    
     public Order() {}
-    public Order(Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Integer state, Integer createTime, Integer updateTime) {
+
+    public Order(User buyer, Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Logistic logistic, Integer state, Integer createTime,
+            Integer updateTime) {
+        this.buyer = buyer;
         this.productTotalNums = productTotalNums;
         this.productTotalPrice = productTotalPrice;
         this.contact = contact;
         this.logisticPrice = logisticPrice;
+        this.logistic = logistic;
         this.state = state;
         this.createTime = createTime;
         this.updateTime = updateTime;
+    }
+
+    public Order(User buyer, Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Logistic logistic, Integer state) {
+        super();
+        this.buyer = buyer;
+        this.productTotalNums = productTotalNums;
+        this.productTotalPrice = productTotalPrice;
+        this.contact = contact;
+        this.logisticPrice = logisticPrice;
+        this.logistic = logistic;
+        this.state = state;
     }
 
     public Long getId() {
@@ -109,6 +129,14 @@ public class Order {
 
     public void setLogistic(Logistic logistic) {
         this.logistic = logistic;
+    }
+
+    public User getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(User buyer) {
+        this.buyer = buyer;
     }
 
 }

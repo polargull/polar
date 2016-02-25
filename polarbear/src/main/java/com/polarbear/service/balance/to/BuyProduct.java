@@ -13,6 +13,7 @@ public class BuyProduct {
         super();
         this.product = product;
         this.buyNum = buyNum;
+        this.pid = product.getId();
     }
 
     public long getPid() {

@@ -35,7 +35,7 @@ public class BalanceTest {
                     public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException, ClassNotFoundException {
                         assertThat(resultState(jsonResult), is(SUCCESS));
                         BalanceDataTO balanceData = resultBody(jsonResult, BalanceDataTO.class);
-                        assertThat(balanceData.getAddress(), nullValue());
+                        assertThat(balanceData.getAddress(), not(nullValue()));
                         assertThat(balanceData.getLogisticPrice(), equalTo(LOGISTIC_PRICE_0));
                         assertThat(balanceData.getProductDistrict().getTotalNum(), equalTo(2));
                         assertThat(balanceData.getTotalPrice(), equalTo(p1.getRealPrice() * 1 + p2.getRealPrice() * 1 + LOGISTIC_PRICE_0));
@@ -58,7 +58,7 @@ public class BalanceTest {
                     public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException, ClassNotFoundException {
                         assertThat(resultState(jsonResult), is(SUCCESS));
                         BalanceDataTO balanceData = resultBody(jsonResult, BalanceDataTO.class);
-                        assertThat(balanceData.getAddress(), nullValue());
+                        assertThat(balanceData.getAddress(), not(nullValue()));
                         assertThat(balanceData.getLogisticPrice(), equalTo(LOGISTIC_PRICE_10));
                         assertThat(balanceData.getProductDistrict().getTotalNum(), equalTo(1));
                         assertThat(balanceData.getTotalPrice(), equalTo(salePriceIs6P3.getRealPrice() * 1 + LOGISTIC_PRICE_10));

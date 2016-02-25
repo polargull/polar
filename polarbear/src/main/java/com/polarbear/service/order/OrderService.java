@@ -19,6 +19,7 @@ import com.polarbear.domain.Order;
 import com.polarbear.domain.OrderList;
 import com.polarbear.domain.OrderListLog;
 import com.polarbear.domain.OrderLog;
+import com.polarbear.domain.User;
 import com.polarbear.domain.product.Product;
 import com.polarbear.service.balance.to.BuyProduct;
 import com.polarbear.service.order.bean.OrderParam;
@@ -27,6 +28,7 @@ import com.polarbear.service.shopcart.ModifyShopcartService;
 import com.polarbear.util.DateUtil;
 import com.polarbear.util.Constants.BUY_MODE;
 import com.polarbear.util.Constants.ORDER_STATE;
+import com.polarbear.util.factory.CurrentThreadUserFactory;
 
 @Service
 public class OrderService {
@@ -73,13 +75,13 @@ public class OrderService {
 
     private Order createOrderData(List<BuyProduct> buyProducts, OrderParam orderParam) throws DaoException {
         Address address = addressDao.findById(Address.class, orderParam.getAddressId());
-        StringBuilder contact = new StringBuilder(address.getReceiverName()).append("|").append(address.getCellphone()).append("|").append(address.getDistrict()).append("|")
+        StringBuilder contact = new StringBuilder(address.getReceiverName()).append("|").append(address.getCellphone()).append("|").append(address.getPhone()).append("|").append(address.getDistrict()).append("|")
                 .append(address.getAddress());
         int curTime = DateUtil.getCurrentSeconds();
         int state = ORDER_STATE.UNPAY.value();
         String op = ORDER_STATE.UNPAY.op();
-
-        Order order = new Order(calcProductTotalBuyNum(buyProducts), calcProductTotalPrice(buyProducts), contact.toString(), calcLogisticPrice(buyProducts), state, curTime,
+        User buyer = CurrentThreadUserFactory.getUser();
+        Order order = new Order(buyer, calcProductTotalBuyNum(buyProducts), calcProductTotalPrice(buyProducts), contact.toString(), calcLogisticPrice(buyProducts), null, state, curTime,
                 curTime);
         orderDao.store(order);
         OrderLog orderLog = new OrderLog(order, op, state, curTime);
