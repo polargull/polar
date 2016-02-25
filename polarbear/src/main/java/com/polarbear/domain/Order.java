@@ -59,6 +59,16 @@ public class Order {
         this.state = state;
     }
 
+    public Order(Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Logistic logistic, Integer state) {
+        super();
+        this.productTotalNums = productTotalNums;
+        this.productTotalPrice = productTotalPrice;
+        this.contact = contact;
+        this.logisticPrice = logisticPrice;
+        this.logistic = logistic;
+        this.state = state;
+    }
+
     public Long getId() {
         return id;
     }
