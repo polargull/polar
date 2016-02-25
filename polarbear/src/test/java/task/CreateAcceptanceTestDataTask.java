@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 
+import polarbear.testdata.acceptance.testdata.AddressAcceptanceTestDataFactory;
 import polarbear.testdata.acceptance.testdata.AdminAcceptanceTestDataFactory;
 import polarbear.testdata.acceptance.testdata.CategoryAcceptanceTestDataFactory;
 import polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory;
@@ -31,6 +32,7 @@ public class CreateAcceptanceTestDataTask {
         try {
             domainsSql.append(createDomainSql(AdminAcceptanceTestDataFactory.class));
             domainsSql.append(createDomainSql(UserAcceptanceTestDataFactory.class));
+            domainsSql.append(createDomainSql(AddressAcceptanceTestDataFactory.class));
             domainsSql.append(createDomainSql(CategoryAcceptanceTestDataFactory.class));
             domainsSql.append(createDomainSql(ProductStyleAcceptanceTestDataFactory.class));
             domainsSql.append(createDomainSql(ProductAcceptanceTestDataFactory.class));

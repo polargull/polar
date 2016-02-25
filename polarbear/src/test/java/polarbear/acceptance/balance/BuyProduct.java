@@ -2,6 +2,7 @@ package polarbear.acceptance.balance;
 
 
 public class BuyProduct {
+    long productId;
     double ProductRealPrice;
     String productImg;
     String productName;
@@ -9,6 +10,20 @@ public class BuyProduct {
     int buyNum;
 
     public BuyProduct() {
+    }
+
+    public BuyProduct(long productId, int buyNum) {
+        super();
+        this.productId = productId;
+        this.buyNum = buyNum;
+    }
+
+    public long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
     }
 
     public void setProductRealPrice(double productRealPrice) {

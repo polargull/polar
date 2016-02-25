@@ -29,6 +29,7 @@ public class Order {
     Integer updateTime;
 
     public Order() {}
+
     public Order(Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Integer state, Integer createTime, Integer updateTime) {
         this.productTotalNums = productTotalNums;
         this.productTotalPrice = productTotalPrice;
@@ -37,6 +38,16 @@ public class Order {
         this.state = state;
         this.createTime = createTime;
         this.updateTime = updateTime;
+    }
+
+    public Order(Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Logistic logistic, Integer state) {
+        super();
+        this.productTotalNums = productTotalNums;
+        this.productTotalPrice = productTotalPrice;
+        this.contact = contact;
+        this.logisticPrice = logisticPrice;
+        this.logistic = logistic;
+        this.state = state;
     }
 
     public Long getId() {
