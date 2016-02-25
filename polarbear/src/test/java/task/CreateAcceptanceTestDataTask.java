@@ -19,23 +19,36 @@ import polarbear.testdata.acceptance.testdata.ProductStyleAcceptanceTestDataFact
 import polarbear.testdata.acceptance.testdata.UserAcceptanceTestDataFactory;
 
 public class CreateAcceptanceTestDataTask {
-    static StringBuilder sqlSb;
-    public static void main(String[] args) throws IOException, SQLException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        sqlSb = new StringBuilder();        
-        createDomainSql(AdminAcceptanceTestDataFactory.class);
-        createDomainSql(UserAcceptanceTestDataFactory.class);
-        createDomainSql(CategoryAcceptanceTestDataFactory.class);
-        createDomainSql(ProductStyleAcceptanceTestDataFactory.class);
-        createDomainSql(ProductAcceptanceTestDataFactory.class);
-        //"C:/Users/haohao/git/polar/polarbear/schemes_insert_testdata.sql"
-        wirteSqlFile(args[0]);
+    public static void main(String[] args) throws IOException, SQLException, Exception{
+//        String testPath = "C:/Users/haohao/git/polar/polarbear/schemes_insert_testdata.sql";
+//        wirteSqlFile(testPath, createAllTestDataScript());
+        
+        wirteSqlFile(args[0], createAllTestDataScript());
     }
 
-    private static void wirteSqlFile(String sqlFilePath) throws IOException, SQLException {
+    public static String createAllTestDataScript() throws Exception {
+        StringBuilder domainsSql = new StringBuilder();
+        try {
+            domainsSql.append(createDomainSql(AdminAcceptanceTestDataFactory.class));
+            domainsSql.append(createDomainSql(UserAcceptanceTestDataFactory.class));
+            domainsSql.append(createDomainSql(CategoryAcceptanceTestDataFactory.class));
+            domainsSql.append(createDomainSql(ProductStyleAcceptanceTestDataFactory.class));
+            domainsSql.append(createDomainSql(ProductAcceptanceTestDataFactory.class));
+        } catch (Exception e) {
+            throw new Exception("实体对象转换sql脚本错误!");
+        }
+        return domainsSql.toString();
+    }
+
+    public static String[] createAllTestDataScriptArray() throws Exception {
+        return createAllTestDataScript().split(";\n");
+    }
+
+    private static void wirteSqlFile(String sqlFilePath, String sqlScript) throws IOException, SQLException {
         File sqlFile = new File(sqlFilePath);
         OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(sqlFile), "UTF-8");
         Writer writer = new BufferedWriter(out);
-        writer.write(sqlSb.toString());
+        writer.write(sqlScript);
         writer.flush();
         writer.close();
     }
@@ -50,7 +63,6 @@ public class CreateAcceptanceTestDataTask {
             Object domain = method.invoke(null);
             domainSql.append(createInsertSql(domain)).append(";").append("\n");
         }
-        
-        return sqlSb.append(domainSql);
+        return domainSql;
     }
 }

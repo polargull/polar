@@ -79,4 +79,18 @@ public class ProductAcceptanceTestDataFactory {
         return p;
     }
     
+    public static Product createPullOffProduct6() {
+        Product p = anProduct()
+                .withID(6)
+                .withName(PRODUCT_NAME + 6)
+                .withNum(PRODUCT_NUM)
+                .withDesc(PRODUCT_DESC)
+                .withImg(PRODUCT_IMG)
+                .withPrice(PRODUCT_1_PRICE)
+                .pullOff()
+                .withCategory(createCategory3())
+                .build();        
+        return p;
+    }
+    
 }

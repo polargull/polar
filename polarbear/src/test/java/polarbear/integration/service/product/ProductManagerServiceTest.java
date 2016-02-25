@@ -2,16 +2,8 @@ package polarbear.integration.service.product;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static polarbear.test.util.Constants.CATEGORY_NAME;
 import static polarbear.test.util.Constants.PRODUCT_NAME;
-import static polarbear.test.util.Constants.PRODUCT_STYLE;
-import static polarbear.test.util.Constants.PRODUCT_STYLE_ID;
-import static polarbear.test.util.Constants.SHOPCARD_ID;
-import static polarbear.testdata.DomainEntityConvertSqlUtil.createInsertSql;
-import static polarbear.testdata.builder.product.ProductBuilder.anProduct;
-import static polarbear.testdata.builder.product.StyleBuilder.anStyle;
-
-import java.sql.SQLException;
+import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createProduct1;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -23,10 +15,9 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import polarbear.testdata.builder.product.StyleBuilder;
+import task.CreateAcceptanceTestDataTask;
 
 import com.polarbear.dao.DaoException;
-import com.polarbear.domain.Category;
 import com.polarbear.domain.product.Product;
 import com.polarbear.service.PageList;
 import com.polarbear.service.product.ProductManagerService;
@@ -39,35 +30,37 @@ public class ProductManagerServiceTest extends AbstractTransactionalJUnit4Spring
     private ProductManagerService productManagerSvc;
 
     @Before
-    public void init() throws DaoException, SQLException {
-        Category category = new Category(SHOPCARD_ID, CATEGORY_NAME);
-        StyleBuilder style = anStyle().withId(PRODUCT_STYLE_ID).withProperty(PRODUCT_STYLE);
-        jdbcTemplate.update(createInsertSql(category));
-        jdbcTemplate.update(createInsertSql(style.build()));
-        jdbcTemplate.update(createInsertSql(anProduct().withID(1l).withName(PRODUCT_NAME + 1).putOn().withPrice(60d).saleDay(1).salePrice(50d).withCategory(category).build()));
-        jdbcTemplate.update(createInsertSql(anProduct().withID(2l).withName(PRODUCT_NAME + 2).putOn().withCategory(category).build()));
-        jdbcTemplate.update(createInsertSql(anProduct().withID(3l).withName(PRODUCT_NAME + 3).pullOff().withPrice(66d).saleDay(1).salePrice(55d).withCategory(category).build()));
-        jdbcTemplate.update(createInsertSql(anProduct().withID(4l).withName(PRODUCT_NAME + 4).pullOff().withStyle(style).build()));
+    public void init() throws Exception {
+        jdbcTemplate.batchUpdate(CreateAcceptanceTestDataTask.createAllTestDataScriptArray());
     }
 
     @Test
     public void testProductManagerQueryByName() throws DaoException {
-        PageList<Product> pageLst1 = productManagerSvc.productList("name:羽绒服", 1, 10);
-        assertThat(pageLst1.getTotal(), equalTo(0l));
-        PageList<Product> pageLst2 = productManagerSvc.productList("name:" + PRODUCT_NAME, 1, 10);
-        assertThat(pageLst2.getTotal(), equalTo(4l));
-        PageList<Product> pageLst3 = productManagerSvc.productList("name:" + PRODUCT_NAME + 1, 1, 10);
-        assertThat(pageLst3.getTotal(), equalTo(1l));
+        final String NOT_EXIST_PRODUCT_NAME = "name:羽绒服";
+        PageList<Product> pageLst1 = productManagerSvc.productList(NOT_EXIST_PRODUCT_NAME, 1, 10);
+        assertThat(pageLst1.getTotal(), equalTo(0));
+        
+        final String EXIST_PRODUCT_NAME = "name:" + createProduct1().getName();        
+        PageList<Product> pageLst2 = productManagerSvc.productList(EXIST_PRODUCT_NAME, 1, 10);
+        assertThat(pageLst2.getTotal(), equalTo(1));
+
+        final String VAGUE_PRODUCT_NAME = "name:" + PRODUCT_NAME;
+        final int VAGUE_QUERY_TOTAL_PRODUCT_NUMS = 6;        
+        PageList<Product> pageLst3 = productManagerSvc.productList(VAGUE_PRODUCT_NAME, 1, 10);
+        assertThat(pageLst3.getTotal(), equalTo(VAGUE_QUERY_TOTAL_PRODUCT_NUMS));
     }
 
     @Test
     public void testProductManagerQueryByStyle() throws DaoException {
+        final int TOTAL_PRODUCT_NUMS = 6;
         PageList<Product> pageLst1 = productManagerSvc.productList("style:全部", 1, 10);
-        assertThat(pageLst1.getTotal(), equalTo(4l));
+        assertThat(pageLst1.getTotal(), equalTo(TOTAL_PRODUCT_NUMS));
+        final int MULTIPLY_STYLE_NUMS = 2;
         PageList<Product> pageLst2 = productManagerSvc.productList("style:多款", 1, 10);
-        assertThat(pageLst2.getTotal(), equalTo(1l));
+        assertThat(pageLst2.getTotal(), equalTo(MULTIPLY_STYLE_NUMS));
+        final int SINGAL_STYLE_NUMS = 4;
         PageList<Product> pageLst3 = productManagerSvc.productList("style:单款", 1, 10);
-        assertThat(pageLst3.getTotal(), equalTo(3l));
+        assertThat(pageLst3.getTotal(), equalTo(SINGAL_STYLE_NUMS));
     }
 
     @Test
@@ -75,11 +68,14 @@ public class ProductManagerServiceTest extends AbstractTransactionalJUnit4Spring
         int yesterday = (int) (new DateTime().plusDays(-1).getMillis() / 1000l);
         int futureThreeday = (int) (new DateTime().plusDays(3).getMillis() / 1000l);
         int yesterday_1 = (int) (new DateTime().plusDays(-2).getMillis() / 1000l);
-        String includeSaleTime = "saleTimeRrang:" + yesterday + "-" + futureThreeday + "";
-        String notIncludeSaleTime = "saleTimeRrang:" + yesterday_1 + "-" + yesterday + "";
-        PageList<Product> pageLst1 = productManagerSvc.productList(includeSaleTime, 1, 10);
-        assertThat(pageLst1.getTotal(), equalTo(2l));
-        PageList<Product> pageLst2 = productManagerSvc.productList(notIncludeSaleTime, 1, 10);
-        assertThat(pageLst2.getTotal(), equalTo(0l));
+        
+        final String INCLUDE_SALE_TIME = "saleTimeRrang:" + yesterday + "-" + futureThreeday + "";
+        final String NOT_INCLUDE_SALE_TIME = "saleTimeRrang:" + yesterday_1 + "-" + yesterday + "";
+        final int VALIDATE_SALE_PRODUCT_NUM = 1;
+        final int NOT_VALIDATE_SALE_PRODUCT_NUM = 0;
+        PageList<Product> pageLst1 = productManagerSvc.productList(INCLUDE_SALE_TIME, 1, 10);
+        assertThat(pageLst1.getTotal(), equalTo(VALIDATE_SALE_PRODUCT_NUM));
+        PageList<Product> pageLst2 = productManagerSvc.productList(NOT_INCLUDE_SALE_TIME, 1, 10);
+        assertThat(pageLst2.getTotal(), equalTo(NOT_VALIDATE_SALE_PRODUCT_NUM));
     }
 }

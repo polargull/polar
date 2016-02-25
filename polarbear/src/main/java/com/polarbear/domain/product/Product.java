@@ -15,7 +15,7 @@ import com.polarbear.domain.ProductStyle;
 import com.polarbear.util.DateUtil;
 
 @NamedQueries( {
-        @NamedQuery(name = "decreaseProductNum", query = "update Product p set p.num = p.num - 1 where p.id = ?"),
+        @NamedQuery(name = "decreaseProductNum", query = "update Product p set p.num = p.num - ? where p.id = ?"),
         @NamedQuery(name = "querySameStyleProductByStyleId", query = "from Product p where p.productStyle.id = ?"),
         @NamedQuery(name = "queryProductByIdAndState", query = "from Product p where p.id = ? and p.state = ?"),
         @NamedQuery(name = "queryPutOnProductByIds", query = "from Product p where p.id in (:ids) and p.state = 1"),

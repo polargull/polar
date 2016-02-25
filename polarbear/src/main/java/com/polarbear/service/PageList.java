@@ -3,7 +3,7 @@ package com.polarbear.service;
 import java.util.List;
 
 public class PageList<T> {
-    long total;
+    int total;
     int pageNo;
     int pageTotal;
     List<T> list;
@@ -13,13 +13,13 @@ public class PageList<T> {
 
     public PageList(long total, int pageNo, int pageSize, List<T> list) {
         super();
-        this.total = total;
+        this.total = (int)total;
         this.pageNo = pageNo;
         this.pageTotal = (int)Math.ceil((double)total/pageSize);
         this.list = list;
     }
 
-    public long getTotal() {
+    public int getTotal() {
         return total;
     }
 

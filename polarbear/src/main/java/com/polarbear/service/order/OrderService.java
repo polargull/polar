@@ -23,7 +23,9 @@ import com.polarbear.domain.product.Product;
 import com.polarbear.service.balance.to.BuyProduct;
 import com.polarbear.service.order.bean.OrderParam;
 import com.polarbear.service.product.query.ProductPicker;
+import com.polarbear.service.shopcart.ModifyShopcartService;
 import com.polarbear.util.DateUtil;
+import com.polarbear.util.Constants.BUY_MODE;
 import com.polarbear.util.Constants.ORDER_STATE;
 
 @Service
@@ -40,34 +42,51 @@ public class OrderService {
     ProductPicker productPicker;
     @Autowired(required = false)
     BaseDao<Address> addressDao;
+    @Autowired(required = false)
+    BaseDao<Product> productDao;
+    @Autowired(required = false)
+    ModifyShopcartService modifyShopcartService;
 
     @Transactional
     public Order createOrder(OrderParam orderParam) throws DaoException, ValidateException {
         List<BuyProduct> buyProductLst = validateBuyProducts(orderParam);
-        Order order = createOrderData(buyProductLst,orderParam);
+        Order order = createOrderData(buyProductLst, orderParam);
+        decreaseProductNum(buyProductLst);
+        clearShopcartProduct(buyProductLst, orderParam);
         return order;
     }
 
-    private void decreaseProductNum(List<BuyProduct> buyProducts) {
-//        for (Buy) {
-//            productDao.executeUpdate("decreaseProductNum", p1.getId());
-//        }
+    private void clearShopcartProduct(List<BuyProduct> buyProducts, OrderParam orderParam) throws DaoException, ValidateException {
+        if (orderParam.getBuyMode().equals(BUY_MODE.IMMEDIDATE.value())) {
+            return;
+        }
+        for (BuyProduct buyProduct : buyProducts) {
+            modifyShopcartService.removeProductFromShopCart(buyProduct.getPid());
+        }
+    }
+
+    private void decreaseProductNum(List<BuyProduct> buyProducts) throws DaoException {
+        for (BuyProduct buyProduct : buyProducts) {
+            productDao.executeUpdate("decreaseProductNum", buyProduct.getBuyNum(), buyProduct.getPid());
+        }
     }
 
     private Order createOrderData(List<BuyProduct> buyProducts, OrderParam orderParam) throws DaoException {
         Address address = addressDao.findById(Address.class, orderParam.getAddressId());
-        StringBuilder contact = new StringBuilder(address.getReceiverName()).append("|").append(address.getCellphone()).append("|").append(address.getDistrict()).append(
-                address.getAddress());
+        StringBuilder contact = new StringBuilder(address.getReceiverName()).append("|").append(address.getCellphone()).append("|").append(address.getDistrict()).append("|")
+                .append(address.getAddress());
         int curTime = DateUtil.getCurrentSeconds();
         int state = ORDER_STATE.UNPAY.value();
         String op = ORDER_STATE.UNPAY.op();
 
-        Order order = new Order(calcProductTotalBuyNum(buyProducts), calcProductTotalPrice(buyProducts), contact.toString(), calcLogisticPrice(buyProducts), state, curTime, curTime);
+        Order order = new Order(calcProductTotalBuyNum(buyProducts), calcProductTotalPrice(buyProducts), contact.toString(), calcLogisticPrice(buyProducts), state, curTime,
+                curTime);
         orderDao.store(order);
         OrderLog orderLog = new OrderLog(order, op, state, curTime);
         orderLogDao.store(orderLog);
         for (BuyProduct buyProduct : buyProducts) {
-            OrderList orderList = new OrderList(order, buyProduct.getPid(), buyProduct.getProductName(), buyProduct.getProductImg(), buyProduct.getBuyNum(), buyProduct.getProductRealPrice(), curTime, curTime, state);
+            OrderList orderList = new OrderList(order, buyProduct.getPid(), buyProduct.getProductName(), buyProduct.getProductImg(), buyProduct.getBuyNum(), buyProduct
+                    .getProductRealPrice(), curTime, curTime, state);
             orderListDao.store(orderList);
             OrderListLog orderListLog = new OrderListLog(orderList, op, state, curTime);
             orderListLogDao.store(orderListLog);
