@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.polarbear.ValidateException;
-import com.polarbear.service.login.AdminLoginService;
+import com.polarbear.dao.DaoException;
+import com.polarbear.service.order.OrderService;
 import com.polarbear.service.order.bean.OrderParam;
 import com.polarbear.util.JsonResult;
 
@@ -22,14 +23,14 @@ import com.polarbear.util.JsonResult;
 public class OrderController {
     private Log log = LogFactory.getLog(OrderController.class);
     @Autowired(required = false)
-    private AdminLoginService adminLoginService;
+    private OrderService orderService;
 
     @RequestMapping(value = { "createOrder.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object createOrder(@ModelAttribute OrderParam orderParam) throws ValidateException {
+    public Object createOrder(@ModelAttribute OrderParam orderParam) throws ValidateException, DaoException {
         log.debug(orderParam.toString());
         validate(orderParam);
-        return new JsonResult(SUCCESS);
+        return new JsonResult(SUCCESS).put(orderService.createOrder(orderParam));
     }
 
     private void validate(OrderParam orderParam) throws ValidateException {

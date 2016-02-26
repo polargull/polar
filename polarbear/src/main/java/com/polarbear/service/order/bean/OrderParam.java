@@ -1,6 +1,6 @@
 package com.polarbear.service.order.bean;
 
-import java.util.Arrays;
+import com.polarbear.util.convert.Arrays;
 
 public class OrderParam {
     long[] pids;
@@ -65,7 +65,4 @@ public class OrderParam {
         return "OrderParam [addressId=" + addressId + ", buyMode=" + buyMode + ", nums=" + Arrays.toString(nums) + ", payCode=" + payCode + ", pids=" + Arrays.toString(pids) + "]";
     }
 
-    public static void main(String[] args) {
-        System.out.println(Arrays.toString(new int[]{1,2}));
-    }
 }

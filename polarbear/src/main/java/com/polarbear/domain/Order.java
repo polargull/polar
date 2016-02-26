@@ -8,6 +8,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
+import net.minidev.json.annotate.JsonIgnore;
+
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -141,6 +145,7 @@ public class Order {
         this.logistic = logistic;
     }
 
+    @JSONField(serialize = false)
     public User getBuyer() {
         return buyer;
     }
