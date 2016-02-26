@@ -33,6 +33,8 @@ public class OrderList {
     @OneToOne
     Logistic logistic;
 
+    public OrderList() {
+    }
     public OrderList(Order order, Long productId, String productName, String productImg, Integer productNums, Double productPrice, Integer createTime, Integer updateTime,
             Integer state) {
         this.order = order;
@@ -124,6 +126,14 @@ public class OrderList {
 
     public void setLogistic(Logistic logistic) {
         this.logistic = logistic;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
 }

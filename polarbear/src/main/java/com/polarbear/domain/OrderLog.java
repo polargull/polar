@@ -19,6 +19,8 @@ public class OrderLog {
     @Column
     Integer createTime;
 
+    public OrderLog() {
+    }
     public OrderLog(Order order, String op, Integer state, Integer createTime) {
         this.order = order;
         this.op = op;

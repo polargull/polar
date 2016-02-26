@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
 @Entity
 public class OrderListLog {
     @Id
@@ -18,6 +19,9 @@ public class OrderListLog {
     Integer state;
     @Column
     Integer createTime;
+
+    public OrderListLog() {
+    }
 
     public OrderListLog(OrderList orderList, String op, Integer state, Integer createTime) {
         this.orderList = orderList;

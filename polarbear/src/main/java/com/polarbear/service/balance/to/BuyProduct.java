@@ -4,7 +4,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.polarbear.domain.product.Product;
 
 public class BuyProduct {
-    @JSONField(serialize = false)
     Product product;
     int buyNum;
     long pid;
@@ -15,6 +14,12 @@ public class BuyProduct {
         this.buyNum = buyNum;
         this.pid = product.getId();
     }
+
+    @JSONField(serialize = false)
+    public Product getProduct() {
+        return product;
+    }
+
 
     public long getPid() {
         return pid;
