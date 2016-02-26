@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
 import com.polarbear.service.order.OrderService;
+import com.polarbear.service.order.OrderStateException;
 import com.polarbear.service.order.bean.OrderParam;
 import com.polarbear.util.JsonResult;
 
@@ -27,7 +28,7 @@ public class OrderController {
 
     @RequestMapping(value = { "createOrder.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object createOrder(@ModelAttribute OrderParam orderParam) throws ValidateException, DaoException {
+    public Object createOrder(@ModelAttribute OrderParam orderParam) throws ValidateException, DaoException, OrderStateException {
         log.debug(orderParam.toString());
         validate(orderParam);
         return new JsonResult(SUCCESS).put(orderService.createOrder(orderParam));

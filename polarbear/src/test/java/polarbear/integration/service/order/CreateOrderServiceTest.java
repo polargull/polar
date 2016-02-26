@@ -32,6 +32,7 @@ import com.polarbear.domain.OrderLog;
 import com.polarbear.domain.product.Product;
 import com.polarbear.service.balance.to.BuyProduct;
 import com.polarbear.service.order.OrderService;
+import com.polarbear.service.order.OrderStateException;
 import com.polarbear.util.factory.CurrentThreadUserFactory;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,7 +49,7 @@ public class CreateOrderServiceTest extends AbstractTransactionalJUnit4SpringCon
     }
 
     @Test
-    public void shouldCreateOrderSuccessWhenImmedidateBuyProduct1() throws DaoException, ValidateException {
+    public void shouldCreateOrderSuccessWhenImmedidateBuyProduct1() throws DaoException, ValidateException, OrderStateException {
         Order testOrder = orderSvc.createOrder(createUser1ImmedidateBuyProduct1OrderParam().build());
         Order actOrder = jdbcTemplate.queryForObject("select * from Orders where id = ? ", new Object[] { testOrder.getId() }, BeanPropertyRowMapper.newInstance(Order.class));
         List<OrderList> actOrderList = jdbcTemplate.query("select * from Orderlist where order_id = ? ", new Object[] { testOrder.getId() }, BeanPropertyRowMapper

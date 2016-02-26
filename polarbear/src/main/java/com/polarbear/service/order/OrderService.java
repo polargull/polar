@@ -35,11 +35,9 @@ public class OrderService {
     @Autowired(required = false)
     BaseDao<Order> orderDao;
     @Autowired(required = false)
-    BaseDao<OrderLog> orderLogDao;
+    OrderCommonComponent orderCommonComponent;
     @Autowired(required = false)
     BaseDao<OrderList> orderListDao;
-    @Autowired(required = false)
-    BaseDao<OrderListLog> orderListLogDao;
     @Autowired(required = false)
     ProductPicker productPicker;
     @Autowired(required = false)
@@ -50,9 +48,9 @@ public class OrderService {
     ModifyShopcartService modifyShopcartService;
 
     @Transactional
-    public Order createOrder(OrderParam orderParam) throws DaoException, ValidateException {
+    public Order createOrder(OrderParam orderParam) throws DaoException, ValidateException, OrderStateException {
         List<BuyProduct> buyProductLst = validateBuyProducts(orderParam);
-        Order order = createOrderData(buyProductLst, orderParam);
+        Order order = createOrderAllData(buyProductLst, orderParam);
         decreaseProductNum(buyProductLst);
         clearShopcartProduct(buyProductLst, orderParam);
         return order;
@@ -73,29 +71,32 @@ public class OrderService {
         }
     }
 
-    private Order createOrderData(List<BuyProduct> buyProducts, OrderParam orderParam) throws DaoException {
-        Address address = addressDao.findById(Address.class, orderParam.getAddressId());
-        StringBuilder contact = new StringBuilder(address.getReceiverName()).append("|").append(address.getCellphone()).append("|").append(address.getPhone()).append("|").append(address.getDistrict()).append("|")
-                .append(address.getAddress());
-        int curTime = DateUtil.getCurrentSeconds();
-        int state = ORDER_STATE.UNPAY.value();
-        String op = ORDER_STATE.UNPAY.op();
-        User buyer = CurrentThreadUserFactory.getUser();
-        Order order = new Order(buyer, calcProductTotalBuyNum(buyProducts), calcProductTotalPrice(buyProducts), contact.toString(), calcLogisticPrice(buyProducts), null, state, curTime,
-                curTime);
-        orderDao.store(order);
-        OrderLog orderLog = new OrderLog(order, op, state, curTime);
-        orderLogDao.store(orderLog);
+    private Order createOrderAllData(List<BuyProduct> buyProducts, OrderParam orderParam) throws DaoException, OrderStateException {
+        Order order = createOrder(buyProducts, orderParam);
+        orderCommonComponent.createOrderLog(order);
         for (BuyProduct buyProduct : buyProducts) {
+            int orderCreateTime = order.getCreateTime();
             OrderList orderList = new OrderList(order, buyProduct.getPid(), buyProduct.getProductName(), buyProduct.getProductImg(), buyProduct.getBuyNum(), buyProduct
-                    .getProductRealPrice(), curTime, curTime, state);
+                    .getProductRealPrice(), orderCreateTime, orderCreateTime, order.getState());
             orderListDao.store(orderList);
-            OrderListLog orderListLog = new OrderListLog(orderList, op, state, curTime);
-            orderListLogDao.store(orderListLog);
+            orderCommonComponent.createOrderListLog(orderList);
         }
         return order;
     }
 
+    private Order createOrder(List<BuyProduct> buyProducts, OrderParam orderParam) throws DaoException {
+        Address address = addressDao.findById(Address.class, orderParam.getAddressId());
+        StringBuilder contact = new StringBuilder(address.getReceiverName()).append("|").append(address.getCellphone()).append("|").append(address.getPhone()).append("|").append(address.getDistrict()).append("|")
+                .append(address.getAddress());        
+        int state = ORDER_STATE.UNPAY.value();
+        int curTime = DateUtil.getCurrentSeconds();        
+        User buyer = CurrentThreadUserFactory.getUser();
+        Order order = new Order(buyer, calcProductTotalBuyNum(buyProducts), calcProductTotalPrice(buyProducts), contact.toString(), calcLogisticPrice(buyProducts), null, state, curTime,
+                curTime);
+        orderDao.store(order);
+        return order;
+    }
+    
     private List<BuyProduct> validateBuyProducts(OrderParam orderParam) throws DaoException, ValidateException {
         List<BuyProduct> buyProducts = new ArrayList<BuyProduct>();
         for (int i = 0; i < orderParam.getPids().length; i++) {
