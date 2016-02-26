@@ -1,7 +1,7 @@
 package polarbear.testdata.acceptance.testdata;
 
 import com.polarbear.domain.Admin;
-import com.polarbear.util.DateUtil;
+import com.polarbear.util.date.DateUtil;
 
 public class AdminAcceptanceTestDataFactory {
     public static Admin createAdmin() {

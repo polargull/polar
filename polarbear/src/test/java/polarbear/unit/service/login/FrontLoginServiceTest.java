@@ -20,7 +20,7 @@ import com.polarbear.domain.User;
 import com.polarbear.service.login.UserLoginService;
 import com.polarbear.service.login.bean.LoginData;
 import com.polarbear.service.login.util.LoginEncoder;
-import com.polarbear.util.MD5Util;
+import com.polarbear.util.security.MD5Util;
 public class FrontLoginServiceTest extends AbstractMock {
     private UserLoginService loginService = new UserLoginService();   
     public LoginEncoder loginEncoder;

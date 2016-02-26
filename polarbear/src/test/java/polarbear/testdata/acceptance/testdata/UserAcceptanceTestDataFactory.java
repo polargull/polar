@@ -1,8 +1,8 @@
 package polarbear.testdata.acceptance.testdata;
 
 import com.polarbear.domain.User;
-import com.polarbear.util.DateUtil;
-import com.polarbear.util.MD5Util;
+import com.polarbear.util.date.DateUtil;
+import com.polarbear.util.security.MD5Util;
 
 import static polarbear.testdata.builder.user.UserBuilder.anUser;
 

@@ -17,7 +17,7 @@ import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Logistic;
 import com.polarbear.domain.Order;
-import com.polarbear.util.DateUtil;
+import com.polarbear.util.date.DateUtil;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/test-beans.xml", "/spring/spring-dao.xml" })
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)

@@ -12,7 +12,7 @@ import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
 import com.polarbear.service.login.bean.LoginData;
 import com.polarbear.service.login.util.LoginEncoder;
-import com.polarbear.util.MD5Util;
+import com.polarbear.util.security.MD5Util;
 
 @Service
 public class UserLoginService {

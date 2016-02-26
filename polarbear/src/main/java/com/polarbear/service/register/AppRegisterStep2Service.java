@@ -17,10 +17,10 @@ import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
 import com.polarbear.service.login.bean.LoginData;
-import com.polarbear.util.DateUtil;
-import com.polarbear.util.MD5Util;
+import com.polarbear.util.date.DateUtil;
 import com.polarbear.util.date.IClock;
 import com.polarbear.util.date.SystemClock;
+import com.polarbear.util.security.MD5Util;
 
 @Service
 public class AppRegisterStep2Service {

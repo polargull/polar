@@ -65,4 +65,7 @@ public class OrderParam {
         return "OrderParam [addressId=" + addressId + ", buyMode=" + buyMode + ", nums=" + Arrays.toString(nums) + ", payCode=" + payCode + ", pids=" + Arrays.toString(pids) + "]";
     }
 
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(new int[]{1,2}));
+    }
 }

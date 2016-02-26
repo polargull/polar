@@ -12,7 +12,7 @@ import org.hibernate.annotations.NamedQuery;
 
 import com.polarbear.domain.Category;
 import com.polarbear.domain.ProductStyle;
-import com.polarbear.util.DateUtil;
+import com.polarbear.util.date.DateUtil;
 
 @NamedQueries( {
         @NamedQuery(name = "decreaseProductNum", query = "update Product p set p.num = p.num - ? where p.id = ?"),

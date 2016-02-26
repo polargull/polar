@@ -1,9 +1,9 @@
 package polarbear.test.util;
 
-import com.polarbear.util.DateUtil;
-import com.polarbear.util.MD5Util;
 import com.polarbear.util.RandomUtil;
+import com.polarbear.util.date.DateUtil;
 import com.polarbear.util.date.SystemClock;
+import com.polarbear.util.security.MD5Util;
 
 /**
  * 应用的全局常量

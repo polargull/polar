@@ -9,7 +9,7 @@ import com.polarbear.domain.Category;
 import com.polarbear.domain.ProductStyle;
 import com.polarbear.domain.product.Product;
 import com.polarbear.domain.product.Sale;
-import com.polarbear.util.DateUtil;
+import com.polarbear.util.date.DateUtil;
 
 public class ProductBuilder {
     private StyleBuilder styleBuilder;

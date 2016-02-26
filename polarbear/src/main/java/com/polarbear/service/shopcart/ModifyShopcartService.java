@@ -17,7 +17,7 @@ import com.polarbear.domain.ShopcartDetail;
 import com.polarbear.domain.User;
 import com.polarbear.domain.product.Product;
 import com.polarbear.service.product.query.ProductPicker;
-import com.polarbear.util.DateUtil;
+import com.polarbear.util.date.DateUtil;
 import com.polarbear.util.factory.CurrentThreadUserFactory;
 
 @Service

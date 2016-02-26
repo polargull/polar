@@ -3,7 +3,7 @@ package polarbear.testdata.builder.shopcart;
 import polarbear.testdata.builder.user.UserBuilder;
 
 import com.polarbear.domain.Shopcart;
-import com.polarbear.util.DateUtil;
+import com.polarbear.util.date.DateUtil;
 
 public class ShopcartBuilder {
     private Long id;

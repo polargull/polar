@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.polarbear.ValidateException;
 import com.polarbear.util.Constants;
-import com.polarbear.util.MD5Util;
+import com.polarbear.util.security.MD5Util;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import static com.polarbear.util.Constants.ResultState.*;
 

@@ -13,7 +13,7 @@ import sun.security.provider.MD5;
 
 import com.polarbear.domain.User;
 import com.polarbear.util.Constants;
-import com.polarbear.util.MD5Util;
+import com.polarbear.util.security.MD5Util;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class UserCookieUtil {

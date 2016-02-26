@@ -66,4 +66,14 @@ public class BalanceTest {
                     }
                 });
     }
+    
+    @Test
+    public void shouldReturnNeedLoginFailJsonTipWhenNoLoginBalance() {
+        anRequest(BALANCE_URL)
+                .post(new ResultCallback() {
+                    public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
+                        assertThat(resultState(jsonResult), is(NEED_LOGIN));
+                    }
+                });
+    }
 }

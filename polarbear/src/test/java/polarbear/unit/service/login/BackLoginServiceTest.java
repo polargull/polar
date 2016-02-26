@@ -23,7 +23,7 @@ import com.polarbear.domain.Admin;
 import com.polarbear.service.login.AdminLoginService;
 import com.polarbear.service.login.bean.LoginData;
 import com.polarbear.service.login.util.LoginEncoder;
-import com.polarbear.util.MD5Util;
+import com.polarbear.util.security.MD5Util;
 public class BackLoginServiceTest extends AbstractMock {
     private AdminLoginService adminLoginService = new AdminLoginService();   
     public LoginEncoder loginEncoder;

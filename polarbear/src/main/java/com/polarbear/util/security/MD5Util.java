@@ -1,4 +1,4 @@
-package com.polarbear.util;
+package com.polarbear.util.security;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

@@ -20,7 +20,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.User;
-import com.polarbear.util.DateUtil;
+import com.polarbear.util.date.DateUtil;
 
 import static polarbear.test.util.Constants.*;
 

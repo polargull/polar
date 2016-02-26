@@ -1,4 +1,4 @@
-package com.polarbear.util;
+package com.polarbear.util.date;
 
 import org.joda.time.DateTime;
 
