@@ -12,12 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 
-import polarbear.testdata.acceptance.testdata.AddressAcceptanceTestDataFactory;
-import polarbear.testdata.acceptance.testdata.AdminAcceptanceTestDataFactory;
-import polarbear.testdata.acceptance.testdata.CategoryAcceptanceTestDataFactory;
-import polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory;
-import polarbear.testdata.acceptance.testdata.ProductStyleAcceptanceTestDataFactory;
-import polarbear.testdata.acceptance.testdata.UserAcceptanceTestDataFactory;
+import polarbear.testdata.acceptance.testdata.*;
 
 public class CreateAcceptanceTestDataTask {
     public static void main(String[] args) throws IOException, SQLException, Exception{
@@ -36,6 +31,8 @@ public class CreateAcceptanceTestDataTask {
             domainsSql.append(createDomainSql(CategoryAcceptanceTestDataFactory.class));
             domainsSql.append(createDomainSql(ProductStyleAcceptanceTestDataFactory.class));
             domainsSql.append(createDomainSql(ProductAcceptanceTestDataFactory.class));
+            domainsSql.append(createDomainSql(OrderAcceptanceTestDataFactory.class));
+            domainsSql.append(createDomainSql(OrderListAcceptanceTestDataFactory.class));
         } catch (Exception e) {
             throw new Exception("实体对象转换sql脚本错误!");
         }

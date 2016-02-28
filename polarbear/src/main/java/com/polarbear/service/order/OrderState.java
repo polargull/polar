@@ -1,7 +1,10 @@
 package com.polarbear.service.order;
 
-public abstract class OrderState {
+import com.polarbear.dao.DaoException;
+import com.polarbear.domain.Order;
 
+public abstract class OrderState {
+    
     public void agreeRefundGoods(Long orderId) throws OrderStateException {
         throw new OrderStateException(OrderStateException.OPREATE_ERR);
     }
@@ -10,15 +13,11 @@ public abstract class OrderState {
         throw new OrderStateException(OrderStateException.OPREATE_ERR);
     }
 
-    public void buyerCancelOrder(Long orderId, String reason) throws OrderStateException {
+    public void cancle(Order order) throws OrderStateException, DaoException {
         throw new OrderStateException(OrderStateException.OPREATE_ERR);
     }
 
     public void cancelRefundGoods(Long orderId) throws OrderStateException {
-        throw new OrderStateException(OrderStateException.OPREATE_ERR);
-    }
-
-    public void sellerCancelOrder(Long orderId) throws OrderStateException {
         throw new OrderStateException(OrderStateException.OPREATE_ERR);
     }
 
@@ -38,7 +37,7 @@ public abstract class OrderState {
         throw new OrderStateException(OrderStateException.OPREATE_ERR);
     }
 
-    public void pay(Long orderId, String thirdOrderId) throws OrderStateException {
+    public void pay(Order order, String thirdOrderId) throws OrderStateException {
         throw new OrderStateException(OrderStateException.OPREATE_ERR);
     }
 

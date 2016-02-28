@@ -7,6 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+@NamedQueries({
+    @NamedQuery(name = "batchUpdateStateByOrderId", query = "update OrderList ol set ol.state = ? where ol.order = ?"),
+    @NamedQuery(name = "queryListByOrderId", query = "from OrderList where order = ?")
+})
 @Entity
 public class OrderList {
     @Id
@@ -35,6 +41,21 @@ public class OrderList {
 
     public OrderList() {
     }
+    
+    public OrderList(Long id, Order order, Long productId, String productName, String productImg, Integer productNums, Double productPrice, Integer createTime, Integer updateTime,
+            Integer state) {
+        this.id = id;
+        this.order = order;
+        this.productId = productId;
+        this.productName = productName;
+        this.productImg = productImg;
+        this.productNums = productNums;
+        this.productPrice = productPrice;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.state = state;
+    }
+    
     public OrderList(Order order, Long productId, String productName, String productImg, Integer productNums, Double productPrice, Integer createTime, Integer updateTime,
             Integer state) {
         this.order = order;

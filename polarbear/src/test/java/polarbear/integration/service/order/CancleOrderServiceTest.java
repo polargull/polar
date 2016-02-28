@@ -5,9 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static polarbear.integration.service.order.assertutil.AssertUtil.assertThatNewOrder;
-import static polarbear.integration.service.order.factory.ExpectOrderFactory.expectCreateOrder;
-import static polarbear.integration.service.order.factory.OrderParamFactory.createUser1ImmedidateBuyProduct1OrderParam;
+import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.createUser12ProductUnpayOrder1;
 import static polarbear.testdata.acceptance.testdata.UserAcceptanceTestDataFactory.createUser1;
 
 import java.util.List;
@@ -15,18 +13,16 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import polarbear.testdata.builder.order.OrderParamBuilder;
 import task.CreateAcceptanceTestDataTask;
 
-import com.polarbear.ValidateException;
-import com.polarbear.dao.DaoException;
+import com.polarbear.dao.BaseDao;
 import com.polarbear.domain.Order;
 import com.polarbear.domain.OrderList;
 import com.polarbear.domain.OrderListLog;
@@ -34,14 +30,14 @@ import com.polarbear.domain.OrderLog;
 import com.polarbear.domain.product.Product;
 import com.polarbear.service.balance.to.BuyProduct;
 import com.polarbear.service.order.OrderService;
-import com.polarbear.service.order.OrderStateException;
 import com.polarbear.util.factory.CurrentThreadUserFactory;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/spring-service.xml", "/spring/spring-dao.xml" })
-public class CreateOrderServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class CancleOrderServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Autowired
     private OrderService orderSvc;
+    @Autowired
+    BaseDao<Order> orderDao;
 
     @Before
     public void init() throws Exception {
@@ -50,25 +46,56 @@ public class CreateOrderServiceTest extends AbstractTransactionalJUnit4SpringCon
     }
 
     @Test
-    public void shouldCreateOrderSuccessWhenImmedidateBuyProduct1() throws DaoException, ValidateException, OrderStateException {
-        Order testOrder = orderSvc.createOrder(createUser1ImmedidateBuyProduct1OrderParam().build());
-        Order actOrder = jdbcTemplate.queryForObject("select * from Orders where id = ? ", new Object[] { testOrder.getId() }, BeanPropertyRowMapper.newInstance(Order.class));
-        List<OrderList> actOrderList = jdbcTemplate.query("select * from Orderlist where order_id = ? ", new Object[] { testOrder.getId() }, BeanPropertyRowMapper
-                .newInstance(OrderList.class));
-        assertThatNewOrder(actOrder, expectCreateOrder(createUser1ImmedidateBuyProduct1OrderParam()));
-        assertThatNewOrderLog(actOrder);
-        assertThatNewOrderList(actOrderList, createUser1ImmedidateBuyProduct1OrderParam());
-        assertThatNewOrderListLog(actOrderList);
-        assertThatDecreaseProduct(createUser1ImmedidateBuyProduct1OrderParam());
+    public void shouldSuccessWhenCancleOrder() throws DataAccessException, Exception {
+        final String CANCLE_REASON = null;
+        // Order testOrder =
+        // orderSvc.createOrder(createUser1ImmedidateBuyProduct1OrderParam().build());
+        // Order order =
+         orderSvc.cancle(createUser12ProductUnpayOrder1().getId(), CANCLE_REASON);
+//         Order order = orderDao.findById(Order.class, 1l);
+//         order.setState(5);
+//         orderDao.update(order);
+//         jdbcTemplate.update("update orders o set o.state=5 where o.id=1");
+        Order actOrder2 = jdbcTemplate.queryForObject("select * from Orders where id = ?", new Object[] { createUser12ProductUnpayOrder1().getId() }, BeanPropertyRowMapper.newInstance(Order.class));
+        // for (Order o : actOrder) {
+        // System.out.println(">>>>>>>>>>>>size: " + actOrder.size() +
+        // ", state:" + o.getState());
+        // }
+        // System.out.println(">>>>>>>>>>>>state: " + actOrder.getState());
+        // assertThat("totalnum:",actOrder2.getProductTotalNums(),
+        // equalTo(order.getProductTotalNums()));
+        assertThat("state:", actOrder2.getState(), equalTo(5));
+        // List<OrderList> actOrderList =
+        // jdbcTemplate.query("select * from Orderlist where order_id = ? ", new
+        // Object[] { createUser12ProductUnpayOrder1().getId() },
+        // BeanPropertyRowMapper.newInstance(OrderList.class));
+        // assertThatNewOrder(actOrder, expectCancleOrder());
+        // assertThatNewOrderLog(actOrder);
+        // assertThatNewOrderList(actOrderList,
+        // createUser1ImmedidateBuyProduct1OrderParam());
+        // assertThatNewOrderListLog(actOrderList);
+        // assertThatIncreaseProduct(createUser1ImmedidateBuyProduct1OrderParam());
     }
 
-    private void assertThatDecreaseProduct(OrderParamBuilder orderParamBuilder) {
+    @Test
+    public void testOrderState() {
+        List<Order> actOrder2 = jdbcTemplate.query("select * from Orders", BeanPropertyRowMapper.newInstance(Order.class));
+        // for (Order o : actOrder) {
+        // System.out.println(">>>>>>>>>>>>size: " + actOrder.size() +
+        // ", state:" + o.getState());
+        // }
+        // System.out.println(">>>>>>>>>>>>state: " + actOrder.getState());
+        assertThat("order size:", actOrder2.size(), equalTo(1));
+        assertThat("order 1 state:", actOrder2.get(0).getState(), equalTo(1));
+    }
+
+    private void assertThatIncreaseProduct(OrderParamBuilder orderParamBuilder) {
         BuyProduct[] buyProducts = orderParamBuilder.getBuyProducts();
         for (BuyProduct buyProduct : buyProducts) {
             Product actProduct = jdbcTemplate.queryForObject("select * from Product where id = ? ", new Object[] { buyProduct.getPid() }, BeanPropertyRowMapper
                     .newInstance(Product.class));
             Product orignProduct = buyProduct.getProduct();
-            assertThat("商品减少后的总数", actProduct.getNum(), equalTo(orignProduct.getNum() - buyProduct.getBuyNum()));
+            assertThat("商品减少后的总数", actProduct.getNum(), equalTo(orignProduct.getNum() + buyProduct.getBuyNum()));
         }
     }
 
@@ -108,10 +135,9 @@ public class CreateOrderServiceTest extends AbstractTransactionalJUnit4SpringCon
     private List<OrderListLog> getOrderListLogBylistId(long id) {
         return jdbcTemplate.query("select * from Orderlistlog where orderlist_id = ? ", new Object[] { id }, BeanPropertyRowMapper.newInstance(OrderListLog.class));
     }
-    
+
     @After
-    public void teardown() {
+    public void cleanup() {
         CurrentThreadUserFactory.remove();
     }
-
 }
