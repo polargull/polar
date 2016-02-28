@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -50,7 +49,7 @@ public class BaseDao<T> {
             throw new DaoException(DB_ERR);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public T findById(Class clazz, long id) throws DaoException {
         try {
@@ -73,7 +72,7 @@ public class BaseDao<T> {
     public PageList<T> findPageListByDynamicCondition(final Class clazz, final String pageNo, final String pageSize, final String hqlCondition) throws DaoException {
         return findPageListByDynamicCondition(clazz, Integer.parseInt(pageNo), Integer.parseInt(pageSize), hqlCondition);
     }
-    
+
     @SuppressWarnings("unchecked")
     public PageList<T> findPageListByDynamicCondition(final Class clazz, final int pageNo, final int pageSize, final String hqlCondition) throws DaoException {
         try {

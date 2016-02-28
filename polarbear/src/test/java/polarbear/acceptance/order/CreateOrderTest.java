@@ -11,7 +11,7 @@ import static polarbear.test.util.JsonResultConvertUtil.resultBody;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
 import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createProduct1;
 import static polarbear.integration.service.order.assertutil.AssertUtil.*;
-import static polarbear.integration.service.order.factory.OrderFactory.*;
+import static polarbear.integration.service.order.factory.ExpectOrderFactory.*;
 import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class CreateOrderTest {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                     assertThat(resultState(jsonResult), is(SUCCESS));
                     Order actOrder = resultBody(jsonResult, Order.class);
-                    assertThatNewOrder(actOrder, expectOrder(createUser1ImmedidateBuyProduct1OrderParam()));
+                    assertThatNewOrder(actOrder, expectCreateOrder(createUser1ImmedidateBuyProduct1OrderParam()));
                 }
         });
     }

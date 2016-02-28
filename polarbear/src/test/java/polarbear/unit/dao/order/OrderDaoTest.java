@@ -1,28 +1,31 @@
 package polarbear.unit.dao.order;
 
 import static com.polarbear.util.Constants.ORDER_STATE.UNPAY;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 import static polarbear.testdata.acceptance.testdata.UserAcceptanceTestDataFactory.createUser1;
-import static task.CreateAcceptanceTestDataTask.*;
+import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.createUser1_2ProductUnpayOrder1;
+import static task.CreateAcceptanceTestDataTask.createAllTestDataScriptArray;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.transaction.AfterTransaction;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Logistic;
 import com.polarbear.domain.Order;
+import com.polarbear.domain.User;
 import com.polarbear.util.date.DateUtil;
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/test-beans.xml", "/spring/spring-dao.xml" })
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+
+@ContextConfiguration(locations = {"/spring/spring-dao.xml" })
 public class OrderDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
-    
+
     @Autowired
     private BaseDao<Order> orderDao;
 
@@ -40,7 +43,21 @@ public class OrderDaoTest extends AbstractTransactionalJUnit4SpringContextTests 
         final Logistic LOGISTIC = null;
         final int STATE = UNPAY.value();
         final int CURTIME = DateUtil.getCurrentSeconds();
-        orderDao.store(new Order(createUser1(), PRODUCT_TOTAL_NUMS, PRODUCT_TOTAL_PRICE, CONTACT, LOGISTIC_PRICE, LOGISTIC, STATE, CURTIME, CURTIME));
+        Order newOrder = new Order(createUser1(), PRODUCT_TOTAL_NUMS, PRODUCT_TOTAL_PRICE, CONTACT, LOGISTIC_PRICE, LOGISTIC, STATE, CURTIME, CURTIME);
+        orderDao.store(newOrder);
+//        Order actOrder = jdbcTemplate.queryForObject("select * from Orders where id = ?", new Object[] { newOrder.getId() }, BeanPropertyRowMapper.newInstance(Order.class));
+        Order actOrder = orderDao.findById(Order.class, newOrder.getId());
+        assertThat(actOrder, not(nullValue()));
+        assertThat(actOrder.getContact(), is(CONTACT));
     }
 
+    @Test
+    public void testUpdateOrder() throws DaoException {
+        Order order = createUser1_2ProductUnpayOrder1();
+        order.setState(99);
+        orderDao.store(order);
+        Order actOrder = orderDao.findById(Order.class, order.getId());
+        assertThat(actOrder.getState(), equalTo(99));
+    }
+    
 }
