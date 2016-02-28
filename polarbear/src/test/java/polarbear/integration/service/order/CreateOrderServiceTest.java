@@ -6,7 +6,9 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static polarbear.integration.service.order.assertutil.AssertUtil.assertThatNewOrder;
+
 import static polarbear.integration.service.order.factory.ExpectOrderFactory.*;
+
 import static polarbear.integration.service.order.factory.OrderParamFactory.createUser1ImmedidateBuyProduct1OrderParam;
 import static polarbear.testdata.acceptance.testdata.UserAcceptanceTestDataFactory.createUser1;
 
