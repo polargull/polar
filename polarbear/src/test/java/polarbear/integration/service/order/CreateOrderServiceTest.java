@@ -1,10 +1,9 @@
 package polarbear.integration.service.order;
 
-import static com.polarbear.util.Constants.ORDER_STATE.*;
+import static com.polarbear.util.Constants.ORDER_STATE.UNPAY;
 import static polarbear.integration.service.order.assertutil.AssertUtil.assertThatOrder;
 import static polarbear.integration.service.order.factory.ExpectOrderFactory.expectCreateOrder;
 import static polarbear.integration.service.order.factory.OrderParamFactory.createUser1ImmedidateBuyProduct1OrderParam;
-import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.createUser1_2ProductUnpayOrder1;
 
 import org.junit.After;
 import org.junit.Before;

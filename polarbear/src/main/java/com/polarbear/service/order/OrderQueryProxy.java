@@ -1,5 +1,7 @@
 package com.polarbear.service.order;
 
+import static com.polarbear.service.order.OrderStateException.USER_ORDER_ERR;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +10,6 @@ import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Order;
 import com.polarbear.domain.User;
 import com.polarbear.util.factory.CurrentThreadUserFactory;
-import static com.polarbear.service.order.OrderStateException.*;
 
 @Component
 public class OrderQueryProxy {
