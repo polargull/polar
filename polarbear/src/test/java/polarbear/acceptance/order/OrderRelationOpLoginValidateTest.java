@@ -15,11 +15,12 @@ public class OrderRelationOpLoginValidateTest {
 
     @Test
     public void shouldReturnNeedLoginFailJsonTipWhenNoLoginInOrderOp() {
-        orderOpWhenUserNoLogin(ORDER_CREATE_URL);
-        orderOpWhenUserNoLogin(ORDER_CANCLE_URL);
+        assertOrderOpWhenUserNoLogin(ORDER_CREATE_URL);
+        assertOrderOpWhenUserNoLogin(ORDER_CANCLE_URL);
+        assertOrderOpWhenUserNoLogin(ORDER_DETAIL_URL);
     }
 
-    private void orderOpWhenUserNoLogin(String orderOpReqUrl) {
+    private void assertOrderOpWhenUserNoLogin(String orderOpReqUrl) {
         anRequest(orderOpReqUrl).post(new ResultCallback() {
             public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                 assertThat("订单操作未登录校验：",resultState(jsonResult), is(NEED_LOGIN));

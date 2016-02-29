@@ -44,6 +44,14 @@ public class OrderController {
         return new JsonResult(SUCCESS);
     }
 
+    @RequestMapping(value = { "getMyOrderDetail.json" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public Object cancle(@RequestParam("orderId") long orderId) throws ValidateException, DaoException,
+            OrderStateException {
+        log.debug("orderId:" + orderId);
+        return new JsonResult(SUCCESS).put(orderService.getMyOrderDetail(orderId));
+    }
+
     private void validate(OrderParam orderParam) throws ValidateException {
         if (orderParam.getPids() == null || orderParam.getNums() == null || orderParam.getBuyMode() == null || orderParam.getPayCode() == null || orderParam.getAddressId() == null) {
             throw new ValidateException(PARAM_ERR.emsg());
