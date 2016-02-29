@@ -29,6 +29,7 @@ public class OrderService {
          orderStateComponent.cancle(orderId, reason);
     }
 
+    @Transactional(readOnly = true)
     public Order getMyOrderDetail(long orderId) throws DaoException, OrderStateException {
         return orderQueryProxy.queryOrderById(orderId);
     }

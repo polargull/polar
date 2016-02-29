@@ -57,6 +57,7 @@ public class Constants {
     public static final String PUT_ON_PRODUCT_CATEGORY_QUERY_URL = Loader.getInstance().getProps("product.category.query.url");
     public static final String BALANCE_URL = Loader.getInstance().getProps("balance.url");
     public static final String ORDER_CREATE_URL = Loader.getInstance().getProps("order.create.url");
+    public static final String ORDER_CANCLE_URL = Loader.getInstance().getProps("order.cancle.url");
     
     public static final String ADMIN_LOGIN_URL = Loader.getInstance().getProps("back.login.url");
     

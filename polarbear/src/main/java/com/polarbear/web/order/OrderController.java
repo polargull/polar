@@ -35,7 +35,7 @@ public class OrderController {
         return new JsonResult(SUCCESS).put(orderService.createOrder(orderParam));
     }
 
-    @RequestMapping(value = { "cancle.json" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @RequestMapping(value = { "cancleOrder.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public Object cancle(@RequestParam("orderId") long orderId, @RequestParam(value = "reason", required = false) String reason) throws ValidateException, DaoException,
             OrderStateException {
