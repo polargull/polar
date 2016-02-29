@@ -42,7 +42,7 @@ public class CreateOrderTest {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                     assertThat(resultState(jsonResult), is(SUCCESS));
                     Order actOrder = resultBody(jsonResult, Order.class);
-                    assertThatNewOrder(actOrder, expectCreateOrder(createUser1ImmedidateBuyProduct1OrderParam()));
+                    assertThatOrder(actOrder, expectCreateOrder(createUser1ImmedidateBuyProduct1OrderParam()));
                 }
         });
     }

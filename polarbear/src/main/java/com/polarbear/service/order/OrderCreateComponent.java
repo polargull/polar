@@ -3,7 +3,7 @@ package com.polarbear.service.order;
 import static com.polarbear.util.ProductBuyNumCalc.calcProductTotalBuyNum;
 import static com.polarbear.util.money.PriceCalc.calcLogisticPrice;
 import static com.polarbear.util.money.PriceCalc.calcProductTotalPrice;
-
+import static com.polarbear.service.product.ModifyProductComponent.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +20,7 @@ import com.polarbear.domain.User;
 import com.polarbear.domain.product.Product;
 import com.polarbear.service.balance.to.BuyProduct;
 import com.polarbear.service.order.bean.OrderParam;
+import com.polarbear.service.product.ModifyProductComponent;
 import com.polarbear.service.product.query.ProductPicker;
 import com.polarbear.service.shopcart.ModifyShopcartService;
 import com.polarbear.util.Constants.BUY_MODE;
@@ -40,14 +41,14 @@ public class OrderCreateComponent {
     @Autowired(required = false)
     BaseDao<Address> addressDao;
     @Autowired(required = false)
-    BaseDao<Product> productDao;
+    ModifyProductComponent modifyProductComponent;
     @Autowired(required = false)
     ModifyShopcartService modifyShopcartService;
 
     public Order createOrder(OrderParam orderParam) throws DaoException, ValidateException, OrderStateException {
         List<BuyProduct> buyProductLst = validateBuyProducts(orderParam);
         Order order = createOrderAllData(buyProductLst, orderParam);
-        decreaseProductNum(buyProductLst);
+        modifyProductComponent.modifyProductNum(buyProductLst, INCREASE);
         clearShopcartProduct(buyProductLst, orderParam);
         return order;
     }
@@ -58,12 +59,6 @@ public class OrderCreateComponent {
         }
         for (BuyProduct buyProduct : buyProducts) {
             modifyShopcartService.removeProductFromShopCart(buyProduct.getPid());
-        }
-    }
-
-    private void decreaseProductNum(List<BuyProduct> buyProducts) throws DaoException {
-        for (BuyProduct buyProduct : buyProducts) {
-            productDao.executeUpdate("decreaseProductNum", buyProduct.getBuyNum(), buyProduct.getPid());
         }
     }
 

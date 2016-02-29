@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.polarbear.ValidateException;
-import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Order;
 import com.polarbear.service.order.bean.OrderParam;
@@ -26,8 +25,8 @@ public class OrderService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Order cancle(long orderId, String reason) throws DaoException, ValidateException, OrderStateException {
-         return orderStateComponent.cancle(orderId, reason);
+    public void cancle(long orderId, String reason) throws DaoException, ValidateException, OrderStateException {
+         orderStateComponent.cancle(orderId, reason);
     }
 
     public Order getMyOrderDetail(long orderId) throws DaoException, OrderStateException {

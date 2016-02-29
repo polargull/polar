@@ -1,12 +1,13 @@
 package polarbear.integration.service.order.factory;
 
-import static com.polarbear.util.Constants.ORDER_STATE.*;
-import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.*;
-import static polarbear.testdata.acceptance.testdata.AddressAcceptanceTestDataFactory.createUser1Address1;
+import static com.polarbear.util.Constants.ORDER_STATE.CANCLE;
+import static com.polarbear.util.Constants.ORDER_STATE.UNPAY;
+import static polarbear.test.util.Constants.ORDER_ID_1;
+import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.createUser1_2ProductUnpayOrder1;
 import static polarbear.testdata.acceptance.testdata.UserAcceptanceTestDataFactory.createUser1;
 import static polarbear.testdata.builder.order.OrderBuilder.anOrder;
 import polarbear.testdata.builder.order.OrderParamBuilder;
-import static polarbear.test.util.Constants.*;
+
 import com.polarbear.domain.Order;
 
 public class ExpectOrderFactory {

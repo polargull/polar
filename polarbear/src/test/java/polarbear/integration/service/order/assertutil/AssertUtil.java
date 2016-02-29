@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 import com.polarbear.domain.Order;
 
 public class AssertUtil {
-    public static void assertThatNewOrder(Order act, Order expect) {
+    public static void assertThatOrder(Order act, Order expect) {
         assertThat("订单商品总数", act.getProductTotalNums(), equalTo(expect.getProductTotalNums()));
         assertThat("订单总价格", act.getProductTotalPrice(), equalTo(expect.getProductTotalPrice()));
         assertThat("订单联系方式", act.getContact(), equalTo(expect.getContact()));

@@ -14,10 +14,9 @@ public class OrderStateComponent {
     @Autowired(required = false)
     OrderQueryProxy orderQueryProxy;
 
-    public Order cancle(long orderId, String reason) throws DaoException, OrderStateException {
+    public void cancle(long orderId, String reason) throws DaoException, OrderStateException {
         Order order = orderQueryProxy.queryOrderById(orderId);
         unpayState.cancle(order);
-        return order;
     }
 
     public void pay(long orderId, String threePartId) {

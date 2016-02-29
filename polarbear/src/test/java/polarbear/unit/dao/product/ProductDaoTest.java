@@ -1,14 +1,25 @@
 package polarbear.unit.dao.product;
 
-import static com.polarbear.util.Constants.PRODUCT_STATE.*;
-import static org.hamcrest.Matchers.*;
+import static com.polarbear.util.Constants.PRODUCT_STATE.PUT_ON;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static polarbear.test.util.Constants.*;
-import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.*;
-import static polarbear.testdata.acceptance.testdata.CategoryAcceptanceTestDataFactory.*;
+import static polarbear.test.util.Constants.PRODUCT_1_ID;
+import static polarbear.test.util.Constants.PRODUCT_NAME;
+import static polarbear.testdata.acceptance.testdata.CategoryAcceptanceTestDataFactory.createCategory3;
+import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createMutiplyStyle1Product4;
+import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createMutiplyStyle1Product5;
+import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createProduct1;
+import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createProduct2;
+import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createPullOffProduct6;
+import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createSalePrice6Product3;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -99,15 +110,26 @@ public class ProductDaoTest extends AbstractTransactionalJUnit4SpringContextTest
         pageList = productDao.findPageListByDynamicCondition(Product.class, 1, 10, hqlCondition);
         assertThat(pageList.getList().size(), equalTo(NOT_HAVE_STYLE_PRODUCT_NUM));
     }
-    
+
     @Test
     public void decreaseProductNum() throws DaoException {
-        final int DECREASE_PRODUCT_NUM = 2;
+        final int DECREASE_PRODUCT_NUM = -2;
+        modifyProductNum(DECREASE_PRODUCT_NUM);        
+    }
+
+    @Test
+    public void increaseProductNum() throws DaoException {
+        final int INCREASE_PRODUCT_NUM = 2;
+        modifyProductNum(INCREASE_PRODUCT_NUM);       
+    }
+
+    private void modifyProductNum(int modifyNum) throws DaoException {
         Product queryRes1P1 = jdbcTemplate.queryForObject("select * from product where id = ? ", new Object[] { p1.getId() }, BeanPropertyRowMapper.newInstance(Product.class));
         assertThat(queryRes1P1.getNum(), equalTo(p1.getNum()));
 
-        productDao.executeUpdate("decreaseProductNum", DECREASE_PRODUCT_NUM, p1.getId());
+        productDao.executeUpdate("modifyProductNum", modifyNum, p1.getId());
         Product queryRes2P1 = jdbcTemplate.queryForObject("select * from product where id = ? ", new Object[] { p1.getId() }, BeanPropertyRowMapper.newInstance(Product.class));
-        assertThat(queryRes2P1.getNum(), equalTo(p1.getNum() - DECREASE_PRODUCT_NUM));
+        assertThat(queryRes2P1.getNum(), equalTo(p1.getNum() + modifyNum));
     }
+    
 }
