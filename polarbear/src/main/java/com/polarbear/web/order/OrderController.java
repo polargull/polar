@@ -6,7 +6,6 @@ import static com.polarbear.util.Constants.ResultState.SUCCESS;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +19,6 @@ import com.polarbear.service.order.OrderStateException;
 import com.polarbear.service.order.bean.OrderParam;
 import com.polarbear.util.JsonResult;
 
-@Controller
 @RequestMapping("/order")
 public class OrderController {
     private Log log = LogFactory.getLog(OrderController.class);
@@ -42,6 +40,14 @@ public class OrderController {
         log.debug("orderId:" + orderId + "reason:" + reason);
         orderService.cancle(orderId, reason);
         return new JsonResult(SUCCESS);
+    }
+
+    @RequestMapping(value = { "getMyOrderDetail.json" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public Object cancle(@RequestParam("orderId") long orderId) throws ValidateException, DaoException,
+            OrderStateException {
+        log.debug("orderId:" + orderId);
+        return new JsonResult(SUCCESS).put(orderService.getMyOrderDetail(orderId));
     }
 
     private void validate(OrderParam orderParam) throws ValidateException {
