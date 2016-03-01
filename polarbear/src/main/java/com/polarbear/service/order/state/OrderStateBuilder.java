@@ -20,6 +20,9 @@ public class OrderStateBuilder {
 
     public OrderStateBroker buildOrderState(long orderId) throws DaoException, OrderStateException {
         Order order = orderQueryProxy.queryOrderById(orderId);
+        if (order == null)
+            throw new OrderStateException(ORDER_NOT_EXIST);
+        
         switch (order.getState()) {
         case 1:
             return new OrderStateBroker(order, unpayState);
