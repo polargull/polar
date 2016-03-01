@@ -22,6 +22,9 @@ public class RemoveShopcartProductComponent {
         User u = CurrentThreadUserFactory.getUser();
         Shopcart shopcart = shopcartDao.findByNamedQueryObject("queryUserId", u);
         ShopcartDetail shopcartDetail = shopcartDetailDao.findByNamedQueryObject("queryByShopcartAndProduct", shopcart, p);
+        if (shopcartDetail == null) {
+            return 0;
+        }
         shopcartDetailDao.delete(shopcartDetail);
         return shopcartDetail.getNum();
     }

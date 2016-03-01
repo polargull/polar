@@ -7,7 +7,6 @@ import com.polarbear.util.security.MD5Util;
 import static polarbear.testdata.builder.user.UserBuilder.anUser;
 
 public class UserAcceptanceTestDataFactory {
-    public static final Long UID = 1l;
     public static final String UNAME = "极地鸥";
     public static final long CELLPHONE = 13717686218l;
     public static final String PWD = MD5Util.encode2hex("123456");
@@ -16,7 +15,7 @@ public class UserAcceptanceTestDataFactory {
     
     public static User createUser1() {
         return anUser()
-                .withID(UID)
+                .withID(1)
                 .withUname(UNAME)
                 .withPassword(PWD)
                 .withCreateTime(DateUtil.getCurrentSeconds())
@@ -26,7 +25,7 @@ public class UserAcceptanceTestDataFactory {
     
     public static User createUser2() {
         return anUser()
-                .withID(UID + 1)
+                .withID(2)
                 .withUname(UNAME2)
                 .withPassword(PWD)
                 .withCreateTime(DateUtil.getCurrentSeconds())

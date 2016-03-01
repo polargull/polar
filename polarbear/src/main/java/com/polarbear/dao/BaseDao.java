@@ -36,6 +36,8 @@ public class BaseDao<T> {
     public void delete(T obj) throws DaoException {
         try {
             hibernateTemplate.delete(obj);
+        } catch (IllegalArgumentException e) {
+            throw new DaoException(DB_ERR);
         } catch (DataAccessException e) {
             throw new DaoException(DB_ERR);
         }
