@@ -23,6 +23,7 @@ import com.polarbear.NullObjectException;
 import com.polarbear.ParseException;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
+import com.polarbear.service.order.OrderStateException;
 import com.polarbear.util.JsonResult;
 
 @ControllerAdvice
@@ -98,4 +99,12 @@ public class MVCExceptionHandler {
         log.debug(">>>>>>>>>>>" + PARAM_ERR.emsg());
         return new JsonResult(PARAM_ERR);
     }
+    
+    @ExceptionHandler(OrderStateException.class)
+    public @ResponseBody
+    Object handleException(OrderStateException e, HttpServletRequest request) {
+        log.debug(">>>>>>>>>>>" + e.getMessage());
+        return new JsonResult(e.getMessage());
+    }
+
 }

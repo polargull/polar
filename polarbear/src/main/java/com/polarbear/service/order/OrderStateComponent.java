@@ -17,8 +17,9 @@ public class OrderStateComponent {
         stateBroker.getOrderState().cancle(stateBroker.getOrder());
     }
 
-    public void pay(long orderId, String threePartId) {
-        
+    public void pay(long orderId, String threePartId) throws DaoException, OrderStateException {
+        OrderStateBroker stateBroker = orderStateBuilder.buildOrderState(orderId);
+        stateBroker.getOrderState().pay(stateBroker.getOrder(), threePartId);
     }
 
     public void sellerSendGoods(long orderId, String companyName, String logisticsOrderIds) {

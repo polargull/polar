@@ -103,7 +103,6 @@ public class Constants {
         , SHOPCART_PARSE_ERR("E00001009", "购物车数据解析错误")
         , PRODUCT_NOT_EXIST("E0000100B", "商品不存在")
         , R_20("E0000100C", "时间选择超出设置范围")
-        , R_22("E0000100E", " 查询订单与支付订单不匹配")
         , PRODUCT_NUM_IS_0("E0000100A", "抱歉,您挑选该商品已被别人抢购完,不能购买了")
         , PRODUCT_PULL_OFF("E0000100F", "抱歉,您挑选该商品刚下架,不能购买了")
         , SERVER_ERR("E0000100D", "服务器错误")
