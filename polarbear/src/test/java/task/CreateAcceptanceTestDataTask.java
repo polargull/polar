@@ -16,10 +16,10 @@ import polarbear.testdata.acceptance.testdata.*;
 
 public class CreateAcceptanceTestDataTask {
     public static void main(String[] args) throws IOException, SQLException, Exception{
-        String testPath = "C:/Users/haohao/git/polar/polarbear/schemes_insert_testdata.sql";
-        wirteSqlFile(testPath, createAllTestDataScript());
+//        String testPath = "C:/Users/haohao/git/polar/polarbear/schemes_insert_testdata.sql";
+//        wirteSqlFile(testPath, createAllTestDataScript());
         
-//        wirteSqlFile(args[0], createAllTestDataScript());
+        wirteSqlFile(args[0], createAllTestDataScript());
     }
 
     public static String createAllTestDataScript() throws Exception {

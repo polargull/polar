@@ -32,7 +32,7 @@ public class CreateOrderServiceTest extends AbstractOrderServiceTest {
     BaseDao<Shopcart> shopcartDao;
     @Autowired
     BaseDao<ShopcartDetail> shopcartDetailDao;
-    
+
     @Before
     public void init() throws Exception {
         super.setUp();
@@ -42,7 +42,7 @@ public class CreateOrderServiceTest extends AbstractOrderServiceTest {
     public void shouldCreateOrderSuccessWhenImmedidateBuyProduct1() throws DaoException, ValidateException, OrderStateException {
         Order newOrder = orderSvc.createOrder(createUser1ImmedidateBuyProduct1OrderParam().build());
         Order actOrder = orderSvc.getMyOrderDetail(newOrder.getId());
-        assertThatOrder(actOrder, expectCreateOrder(createUser1ImmedidateBuyProduct1OrderParam()));
+        assertThatOrder(actOrder, expectCreateOrder(createUser1ImmedidateBuyProduct1OrderParam(), UNPAY));
         assertRelateOrder(actOrder.getId(), createUser1ImmedidateBuyProduct1OrderParam().getBuyProducts(), UNPAY);
         assertThatProductNum(createUser1ImmedidateBuyProduct1OrderParam().getBuyProducts(), INCREASE);
     }
@@ -52,14 +52,14 @@ public class CreateOrderServiceTest extends AbstractOrderServiceTest {
         CurrentThreadUserFactory.setUser(createUser2());
         Order newOrder = orderSvc.createOrder(createUser2ShopcartProduct1And3OrderParam().build());
         Order actOrder = orderSvc.getMyOrderDetail(newOrder.getId());
-        assertThatOrder(actOrder, expectCreateOrder(createUser2ShopcartProduct1And3OrderParam()));
+        assertThatOrder(actOrder, expectCreateOrder(createUser2ShopcartProduct1And3OrderParam(), UNPAY));
         assertRelateOrder(actOrder.getId(), createUser2ShopcartProduct1And3OrderParam().getBuyProducts(), UNPAY);
         assertThatProductNum(createUser2ShopcartProduct1And3OrderParam().getBuyProducts(), INCREASE);
         assertThatShopcartAndDetail();
     }
 
     private void assertThatShopcartAndDetail() throws DaoException {
-        Shopcart shopcart = shopcartDao.findById(Shopcart.class, createShopcart2().getId());        
+        Shopcart shopcart = shopcartDao.findById(Shopcart.class, createShopcart2().getId());
         assertThat("购物车商品总数", shopcart.getProductNum(), equalTo(0));
         List<ShopcartDetail> shopcartDetails = shopcartDetailDao.findByNamedQuery("queryByShopcart", createShopcart2());
         assertThat("购物车详情商品详情列表", shopcartDetails.size(), equalTo(0));

@@ -24,7 +24,7 @@ import com.polarbear.service.order.bean.OrderParam;
 import com.polarbear.util.JsonResult;
 import com.polarbear.util.convert.Arrays;
 import com.polarbear.web.login.front.LoginController;
-
+import static com.polarbear.util.Constants.ORDER_STATE.UNPAY;
 public class CreateOrderTest {
 
     @Test
@@ -41,7 +41,7 @@ public class CreateOrderTest {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                     assertThat(resultState(jsonResult), is(SUCCESS));
                     Order actOrder = resultBody(jsonResult, Order.class);
-                    assertThatOrder(actOrder, expectCreateOrder(createUser1ImmedidateBuyProduct1OrderParam()));
+                    assertThatOrder(actOrder, expectCreateOrder(createUser1ImmedidateBuyProduct1OrderParam(),UNPAY));
                 }
         });
     }
@@ -60,7 +60,7 @@ public class CreateOrderTest {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                     assertThat(resultState(jsonResult), is(SUCCESS));
                     Order actOrder = resultBody(jsonResult, Order.class);
-                    assertThatOrder(actOrder, expectCreateOrder(createUser2ShopcartProduct1And3OrderParam()));
+                    assertThatOrder(actOrder, expectCreateOrder(createUser2ShopcartProduct1And3OrderParam(),UNPAY));
                 }
         });
     }
