@@ -1,53 +1,35 @@
 package com.polarbear.service.order;
 
 public class OrderStateException extends Exception {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -4539961002569308450L;
     /**
      * 用户与订单不匹配
      */
-    public static final int USER_ORDER_ERR = 1;
+    public static final String USER_ORDER_ERR = "用户与订单不匹配";
     /**
      * 角色与操作不匹配
      */
-    public static final int ROLE_OPREATE_ERR = 2;
+    public static final String ROLE_OPREATE_ERR = "角色与操作不匹配";
     /**
      * 非法操作
      */
-    public static final int OPREATE_ERR = 3;
+    public static final String OPREATE_ERR = "非法操作";
     /**
      * 订单获取锁错误
      */
-    public static final int OPREATE_LOCK_ERR = 4;
-    
+    public static final String OPREATE_LOCK_ERR = "订单获取锁错误";
     /**
      * 订单状态值错误
      */
-    public static final int ORDER_STATE_VAL_ERR = 5;
-
+    public static final String ORDER_STATE_VAL_ERR = "订单状态值错误";
     /**
-     * 异常类型 1:用户与订单不匹配 2:角色与操作不匹配 3:非法操作
+     * 订单不存在
      */
-    private int type = 0;
+    public static final String ORDER_NOT_EXIST = "订单不存在";
 
-    /**
-     * @param type
-     */
-    public OrderStateException(int type) {
-        this.type = type;
-    }
-
-    public OrderStateException(int type, String msg) {
+    public OrderStateException(String msg) {
         super(msg);
-        this.type = type;
     }
 
-    /**
-     * @return
-     */
-    public int getType() {
-        return type;
-    }
 }

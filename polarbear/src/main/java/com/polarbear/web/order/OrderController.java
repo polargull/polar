@@ -44,10 +44,26 @@ public class OrderController {
         return new JsonResult(SUCCESS);
     }
 
+    @RequestMapping(value = { "toPayOrder.json" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public Object toPayOrder(@RequestParam("orderId") long orderId, @RequestParam(value = "payPlatform") int payPlatform) throws ValidateException, DaoException,
+            OrderStateException {
+        log.debug("orderId:" + orderId + "payPlatform:" + payPlatform);
+        orderService.toPay(orderId, payPlatform);
+        return new JsonResult(SUCCESS);
+    }
+
+    @RequestMapping(value = { "payOrder.json" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public Object pay(@RequestParam("orderId") long orderId, @RequestParam(value = "threePartId") String threePartId) throws ValidateException, DaoException, OrderStateException {
+        log.debug("orderId:" + orderId + "threePartId:" + threePartId);
+        orderService.pay(orderId, threePartId);
+        return new JsonResult(SUCCESS);
+    }
+
     @RequestMapping(value = { "getMyOrderDetail.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object cancle(@RequestParam("orderId") long orderId) throws ValidateException, DaoException,
-            OrderStateException {
+    public Object cancle(@RequestParam("orderId") long orderId) throws ValidateException, DaoException, OrderStateException {
         log.debug("orderId:" + orderId);
         return new JsonResult(SUCCESS).put(orderService.getMyOrderDetail(orderId));
     }

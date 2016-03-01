@@ -1,6 +1,7 @@
 package polarbear.acceptance.order;
 
 import static com.polarbear.util.Constants.ResultState.SUCCESS;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
@@ -20,6 +21,7 @@ import polarbear.acceptance.Request.ResultCallback;
 import com.polarbear.domain.Order;
 import com.polarbear.util.JsonResult;
 import com.polarbear.web.login.front.LoginController;
+import static com.polarbear.util.Constants.ORDER_STATE.*;
 
 public class CancleOrderTest {
     @Test
@@ -44,7 +46,7 @@ public class CancleOrderTest {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                     assertThat(resultState(jsonResult), is(SUCCESS));
                     Order actOrder = resultBody(jsonResult, Order.class);
-                    assertThatOrder(actOrder, expectCancleOrder());
+                    assertThatOrder(actOrder, expectOrder(CANCLE));
                 }
             });
     }

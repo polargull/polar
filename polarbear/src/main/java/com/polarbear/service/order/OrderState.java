@@ -37,7 +37,7 @@ public abstract class OrderState {
         throw new OrderStateException(OrderStateException.OPREATE_ERR);
     }
 
-    public void pay(Order order, String thirdOrderId) throws OrderStateException {
+    public void pay(Order order, String threePartId) throws OrderStateException, DaoException {
         throw new OrderStateException(OrderStateException.OPREATE_ERR);
     }
 

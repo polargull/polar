@@ -4,9 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
-public class PayLog {
+public class Pay {
     @Id
     @GeneratedValue
     Long id;
@@ -16,11 +17,18 @@ public class PayLog {
     String threePartNo;
     @Column
     Integer createTime;
+    @OneToOne
+    Order order;
 
-    public PayLog(Integer payPlatform, String threePartNo, Integer createTime) {
+    public Pay() {
+    }
+
+    public Pay(Integer payPlatform, String threePartNo, Integer createTime, Order order) {
+        super();
         this.payPlatform = payPlatform;
         this.threePartNo = threePartNo;
         this.createTime = createTime;
+        this.order = order;
     }
 
     public Long getId() {
@@ -53,6 +61,14 @@ public class PayLog {
 
     public void setCreateTime(Integer createTime) {
         this.createTime = createTime;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
 }

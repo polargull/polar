@@ -1,5 +1,6 @@
 package com.polarbear.service.order;
 
+import static com.polarbear.service.order.OrderStateException.ORDER_NOT_EXIST;
 import static com.polarbear.service.order.OrderStateException.USER_ORDER_ERR;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class OrderQueryProxy {
 
     public Order queryOrderById(long orderId) throws DaoException, OrderStateException {
         Order order = orderDao.findByIdLock(Order.class, orderId);
+        if (order == null)
+            throw new OrderStateException(ORDER_NOT_EXIST);
         checkOrderUser(order);
         return order;
     }
