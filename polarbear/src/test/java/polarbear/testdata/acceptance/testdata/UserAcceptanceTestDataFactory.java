@@ -11,6 +11,8 @@ public class UserAcceptanceTestDataFactory {
     public static final String UNAME = "极地鸥";
     public static final long CELLPHONE = 13717686218l;
     public static final String PWD = MD5Util.encode2hex("123456");
+    public static final String UNAME2 = "极地鸥2";
+    public static final long CELLPHONE2 = 13717686219l;
     
     public static User createUser1() {
         return anUser()
@@ -19,6 +21,16 @@ public class UserAcceptanceTestDataFactory {
                 .withPassword(PWD)
                 .withCreateTime(DateUtil.getCurrentSeconds())
                 .withCellphone(CELLPHONE)
+                .build();
+    }
+    
+    public static User createUser2() {
+        return anUser()
+                .withID(UID + 1)
+                .withUname(UNAME2)
+                .withPassword(PWD)
+                .withCreateTime(DateUtil.getCurrentSeconds())
+                .withCellphone(CELLPHONE2)
                 .build();
     }
 }

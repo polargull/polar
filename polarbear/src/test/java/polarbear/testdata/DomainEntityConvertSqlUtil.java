@@ -5,27 +5,26 @@ import static polarbear.test.util.Constants.PRODUCT_NAME;
 import static polarbear.test.util.Constants.PRODUCT_STYLE;
 import static polarbear.test.util.Constants.PRODUCT_STYLE_ID;
 import static polarbear.test.util.Constants.SHOPCARD_ID;
-import static polarbear.testdata.DomainEntityConvertSqlUtil.createInsertSql;
 import static polarbear.testdata.builder.product.ProductBuilder.anProduct;
 import static polarbear.testdata.builder.product.StyleBuilder.anStyle;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.polarbear.domain.Category;
-
 import polarbear.testdata.builder.product.StyleBuilder;
+
+import com.polarbear.domain.Category;
 
 public class DomainEntityConvertSqlUtil {
     static Pattern pattern = Pattern.compile("^(com.polarbear.domain).*");
@@ -89,7 +88,7 @@ public class DomainEntityConvertSqlUtil {
             }
             return columValSb.toString();
         }
-        if (field.isAnnotationPresent(ManyToOne.class)) {
+        if (field.isAnnotationPresent(ManyToOne.class) || field.isAnnotationPresent(OneToOne.class)) {
             columValSb.append("'").append(field.getType().getMethod("getId").invoke(field.get(obj))).append("'");
             return columValSb.toString();
         }
@@ -115,7 +114,7 @@ public class DomainEntityConvertSqlUtil {
             }
             return columNameSb.toString();
         }
-        if (field.isAnnotationPresent(ManyToOne.class)) {
+        if (field.isAnnotationPresent(ManyToOne.class) || field.isAnnotationPresent(OneToOne.class)) {
             return columNameSb.append("`").append(field.getName() + "_id").append("`").toString();
         }
         if (field.isAnnotationPresent(Id.class)) {

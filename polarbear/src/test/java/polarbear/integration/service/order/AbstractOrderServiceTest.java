@@ -4,11 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static polarbear.integration.service.order.assertutil.AssertUtil.assertThatOrder;
-import static polarbear.integration.service.order.factory.ExpectOrderFactory.expectCancleOrder;
-import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.BUY_PRODUCTS;
 import static polarbear.testdata.acceptance.testdata.UserAcceptanceTestDataFactory.createUser1;
-import static com.polarbear.util.Constants.ORDER_STATE.*;
 
 import java.util.List;
 

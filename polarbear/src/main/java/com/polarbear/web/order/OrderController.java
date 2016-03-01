@@ -6,6 +6,7 @@ import static com.polarbear.util.Constants.ResultState.SUCCESS;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ import com.polarbear.service.order.OrderStateException;
 import com.polarbear.service.order.bean.OrderParam;
 import com.polarbear.util.JsonResult;
 
+@Controller
 @RequestMapping("/order")
 public class OrderController {
     private Log log = LogFactory.getLog(OrderController.class);
