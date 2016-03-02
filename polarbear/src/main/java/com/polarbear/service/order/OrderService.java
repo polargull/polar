@@ -28,7 +28,7 @@ public class OrderService {
 
     @Transactional
     public void cancle(long orderId, String reason) throws DaoException, ValidateException, OrderStateException {
-         orderStateComponent.cancle(orderId, reason);
+        orderStateComponent.cancle(orderId, reason);
     }
 
     @Transactional
@@ -38,12 +38,12 @@ public class OrderService {
 
     @Transactional
     public void pay(long orderId, String threePartId) throws DaoException, ValidateException, OrderStateException {
-         orderStateComponent.pay(orderId, threePartId);
+        orderStateComponent.pay(orderId, threePartId);
     }
-    
+
     @Transactional
     public void sign(long orderId) throws DaoException, ValidateException, OrderStateException {
-         orderStateComponent.sign(orderId);
+        orderStateComponent.sign(orderId);
     }
 
     @Transactional(readOnly = true)
@@ -51,4 +51,8 @@ public class OrderService {
         return orderQueryProxy.queryOrderById(orderId);
     }
 
+    @Transactional
+    public void delivery(long orderId, String companyName, String logisticsOrderIds) throws DaoException, OrderStateException {
+        orderStateComponent.delivery(orderId, companyName, logisticsOrderIds);
+    }
 }

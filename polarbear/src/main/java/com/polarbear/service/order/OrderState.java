@@ -50,7 +50,7 @@ public abstract class OrderState {
         throw new OrderStateException(ORDER_OPREATE_ERR);
     }
 
-    public void sellerSendGoods(Long orderId, String companyName, String logisticsOrderIds) throws OrderStateException {
+    public void delivery(Long orderId, String companyName, String logisticsOrderIds) throws OrderStateException {
         throw new OrderStateException(ORDER_OPREATE_ERR);
     }
 
