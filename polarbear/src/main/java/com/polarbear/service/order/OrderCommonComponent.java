@@ -1,6 +1,6 @@
 package com.polarbear.service.order;
 
-import static com.polarbear.service.order.OrderStateException.ORDER_STATE_VAL_ERR;
+import static com.polarbear.util.Constants.ResultState.ORDER_STATE_VAL_ERR;
 
 import java.util.List;
 

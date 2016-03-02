@@ -1,6 +1,7 @@
 package com.polarbear.service.order.state;
 
-import static com.polarbear.service.order.OrderStateException.*;
+import static com.polarbear.util.Constants.ResultState.ORDER_NOT_EXIST;
+import static com.polarbear.util.Constants.ResultState.ORDER_STATE_VAL_ERR;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

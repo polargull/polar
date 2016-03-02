@@ -1,7 +1,7 @@
 package polarbear.integration.service.order;
 
-import static com.polarbear.service.order.OrderStateException.OPREATE_ERR;
-import static com.polarbear.util.Constants.ORDER_STATE.*;
+import static com.polarbear.util.Constants.ORDER_STATE.SUCCESS;
+import static com.polarbear.util.Constants.ResultState.*;
 import static polarbear.integration.service.order.assertutil.AssertUtil.assertThatOrder;
 import static polarbear.integration.service.order.factory.ExpectOrderFactory.expectOrder1;
 import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.BUY_PRODUCTS;
@@ -29,7 +29,7 @@ public class SignOrderServiceTest extends AbstractOrderServiceTest {
     @Test
     public void shouldFailWhenSignOrderInUnpayState() throws DataAccessException, Exception {
         expectedEx.expect(OrderStateException.class);
-        expectedEx.expectMessage(OPREATE_ERR);
+        expectedEx.expectMessage(ORDER_OPREATE_ERR.emsg());
         final Order cancleOrder = createUser1_2ProductUnpayOrder1();
         orderSvc.sign(cancleOrder.getId());
 //        Order actOrder = orderSvc.getMyOrderDetail(createUser1_2ProductUnpayOrder1().getId());
