@@ -7,8 +7,9 @@ import polarbear.acceptance.order.CancleOrderTest;
 import polarbear.acceptance.order.CreateOrderTest;
 import polarbear.acceptance.order.OrderRelationOpLoginValidateTest;
 import polarbear.acceptance.order.PayOrderTest;
+import polarbear.acceptance.order.SignOrderTest;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses( { CreateOrderTest.class, CancleOrderTest.class, PayOrderTest.class, OrderRelationOpLoginValidateTest.class })
+@Suite.SuiteClasses( { CreateOrderTest.class, CancleOrderTest.class, PayOrderTest.class, SignOrderTest.class, OrderRelationOpLoginValidateTest.class })
 public class OrderAcceptanceTestSuite {
 }

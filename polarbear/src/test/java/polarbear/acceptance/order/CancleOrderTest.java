@@ -46,7 +46,7 @@ public class CancleOrderTest {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                     assertThat(resultState(jsonResult), is(SUCCESS));
                     Order actOrder = resultBody(jsonResult, Order.class);
-                    assertThatOrder(actOrder, expectOrder(CANCLE));
+                    assertThatOrder(actOrder, expectOrder1(CANCLE));
                 }
             });
     }

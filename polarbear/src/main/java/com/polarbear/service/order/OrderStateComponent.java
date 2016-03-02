@@ -26,7 +26,8 @@ public class OrderStateComponent {
 
     }
 
-    public void signin(long orderId) {
-
+    public void sign(long orderId) throws OrderStateException, DaoException {
+        OrderStateBroker stateBroker = orderStateBuilder.buildOrderState(orderId);
+        stateBroker.getOrderState().sign(stateBroker.getOrder());
     }
 }

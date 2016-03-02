@@ -1,7 +1,7 @@
 package polarbear.integration.service.order.factory;
 
 import static polarbear.test.util.Constants.ORDER_ID_1;
-import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.createUser1_2ProductUnpayOrder1;
+import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.*;
 import static polarbear.testdata.acceptance.testdata.UserAcceptanceTestDataFactory.createUser1;
 import static polarbear.testdata.builder.order.OrderBuilder.anOrder;
 import polarbear.testdata.builder.order.OrderParamBuilder;
@@ -20,8 +20,14 @@ public class ExpectOrderFactory {
             .build();
     }
     
-    public static Order expectOrder(ORDER_STATE state) {
+    public static Order expectOrder1(ORDER_STATE state) {
         Order order = createUser1_2ProductUnpayOrder1();
+        order.setState(state.value());
+        return order;
+    }
+    
+    public static Order expectOrder2(ORDER_STATE state) {
+        Order order = createUser1_2ProductDeliveryOrder2();
         order.setState(state.value());
         return order;
     }

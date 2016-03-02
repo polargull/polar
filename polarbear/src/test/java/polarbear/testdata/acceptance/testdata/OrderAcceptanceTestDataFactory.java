@@ -1,7 +1,6 @@
 package polarbear.testdata.acceptance.testdata;
 
 import static com.polarbear.util.Constants.ORDER_STATE.*;
-import static polarbear.test.util.Constants.ORDER_ID_1;
 import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createProduct1;
 import static polarbear.testdata.acceptance.testdata.ProductAcceptanceTestDataFactory.createProduct2;
 import static polarbear.testdata.acceptance.testdata.UserAcceptanceTestDataFactory.createUser1;
@@ -17,7 +16,7 @@ public class OrderAcceptanceTestDataFactory {
 
     public static Order createUser1_2ProductUnpayOrder1() {
         return anOrder()
-        .withId(ORDER_ID_1)
+        .withId(OID)
         .withBuyer(createUser1())
         .withBuyProducts(BUY_PRODUCTS)
         .withContact(createUser1Address1())
@@ -25,4 +24,13 @@ public class OrderAcceptanceTestDataFactory {
         .build();
     }
     
+    public static Order createUser1_2ProductDeliveryOrder2() {
+        return anOrder()
+        .withId(OID + 1)
+        .withBuyer(createUser1())
+        .withBuyProducts(BUY_PRODUCTS)
+        .withContact(createUser1Address1())
+        .withState(DELIVERY)
+        .build();
+    }
 }

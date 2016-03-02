@@ -15,8 +15,6 @@ public class OrderListBuilder {
     String productImg;
     Integer productNums;
     Double productPrice;
-    Integer createTime;
-    Integer updateTime;
     Integer state;
     Logistic logistic;
 

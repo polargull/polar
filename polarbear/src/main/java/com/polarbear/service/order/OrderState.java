@@ -53,7 +53,7 @@ public abstract class OrderState {
         throw new OrderStateException(OrderStateException.OPREATE_ERR);
     }
 
-    public void signin(Long orderId) throws OrderStateException {
+    public void sign(Order order) throws OrderStateException, DaoException {
         throw new OrderStateException(OrderStateException.OPREATE_ERR);
     }
 

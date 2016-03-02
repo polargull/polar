@@ -21,6 +21,7 @@
 			<mvc:mapping path="/order/cancleOrder.json" />
 			<mvc:mapping path="/order/toPayOrder.json" />
 			<mvc:mapping path="/order/payOrder.json" />
+			<mvc:mapping path="/order/signOrder.json" />
 			<mvc:mapping path="/order/getMyOrderDetail.json" />
 			<bean class="com.polarbear.web.interceptor.login.LoginUserInterceptor" />
 		</mvc:interceptor>

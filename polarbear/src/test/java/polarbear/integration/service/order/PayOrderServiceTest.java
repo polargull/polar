@@ -7,7 +7,7 @@ import com.polarbear.util.Constants.PAY_CODE;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static polarbear.integration.service.order.assertutil.AssertUtil.assertThatOrder;
-import static polarbear.integration.service.order.factory.ExpectOrderFactory.expectOrder;
+import static polarbear.integration.service.order.factory.ExpectOrderFactory.expectOrder1;
 import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.BUY_PRODUCTS;
 import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.createUser1_2ProductUnpayOrder1;
 
@@ -57,7 +57,7 @@ public class PayOrderServiceTest extends AbstractOrderServiceTest {
         final String THREE_PART_ID = "1000000000001";        
         orderSvc.pay(payOrder.getId(), THREE_PART_ID);
         Order actOrder = orderSvc.getMyOrderDetail(payOrder.getId());
-        assertThatOrder(actOrder, expectOrder(PAYED));
+        assertThatOrder(actOrder, expectOrder1(PAYED));
         assertRelateOrder(actOrder.getId(), BUY_PRODUCTS, PAYED);
         assertPay(payOrder.getId(), WEI_XIN);
     }

@@ -2,7 +2,7 @@ package polarbear.integration.service.order;
 
 import static com.polarbear.util.Constants.ORDER_STATE.CANCLE;
 import static polarbear.integration.service.order.assertutil.AssertUtil.assertThatOrder;
-import static polarbear.integration.service.order.factory.ExpectOrderFactory.expectOrder;
+import static polarbear.integration.service.order.factory.ExpectOrderFactory.expectOrder1;
 import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.BUY_PRODUCTS;
 import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.createUser1_2ProductUnpayOrder1;
 
@@ -25,7 +25,7 @@ public class CancleOrderServiceTest extends AbstractOrderServiceTest {
         final Order cancleOrder = createUser1_2ProductUnpayOrder1();
         orderSvc.cancle(cancleOrder.getId(), CANCLE_REASON);
         Order actOrder = orderSvc.getMyOrderDetail(createUser1_2ProductUnpayOrder1().getId());
-        assertThatOrder(actOrder, expectOrder(CANCLE));
+        assertThatOrder(actOrder, expectOrder1(CANCLE));
         assertRelateOrder(cancleOrder.getId(), BUY_PRODUCTS, CANCLE);
         assertThatProductNum(BUY_PRODUCTS, DECREASE);
     }

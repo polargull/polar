@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import polarbear.testdata.acceptance.testdata.*;
 
@@ -18,7 +19,7 @@ public class CreateAcceptanceTestDataTask {
     public static void main(String[] args) throws IOException, SQLException, Exception{
 //        String testPath = "C:/Users/haohao/git/polar/polarbear/schemes_insert_testdata.sql";
 //        wirteSqlFile(testPath, createAllTestDataScript());
-        
+
         wirteSqlFile(args[0], createAllTestDataScript());
     }
 
@@ -42,6 +43,7 @@ public class CreateAcceptanceTestDataTask {
     }
 
     public static String[] createAllTestDataScriptArray() throws Exception {
+//        wirteSqlFile("C:/Users/haohao/git/polar/polarbear/schemes_insert_testdata.sql", createAllTestDataScript());
         return createAllTestDataScript().split(";\n");
     }
 

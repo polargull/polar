@@ -61,6 +61,7 @@ public class Constants {
     public static final String ORDER_DETAIL_URL = Loader.getInstance().getProps("order.detail.url");
     public static final String ORDER_TOPAY_URL = Loader.getInstance().getProps("order.topay.url");
     public static final String ORDER_PAY_URL = Loader.getInstance().getProps("order.pay.url");
+    public static final String ORDER_SIGN_URL = Loader.getInstance().getProps("order.sign.url");
     public static final String ADMIN_LOGIN_URL = Loader.getInstance().getProps("back.login.url");
     
     public enum ALLOWTYPE {
