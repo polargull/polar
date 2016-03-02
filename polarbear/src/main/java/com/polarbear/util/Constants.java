@@ -60,7 +60,7 @@ public class Constants {
     }
 
     public enum ORDER_STATE {
-        UNPAY(1, "创建"), PAYED(2, "支付"), DELIVERY(3, "发货"), SUCCESS(4, "成交"), CANCLE(5, "取消");
+        UNPAY(1, "创建"), PAYED(2, "支付"), DELIVERY(3, "发货"), SUCCESS(5, "成交"), CANCLE(9, "取消");
         private int value;
         private String op;
 
