@@ -17,7 +17,9 @@ public class OrderStateBuilder {
     OrderQueryProxy orderQueryProxy;
     @Autowired
     UnpayState unpayState;
-
+    @Autowired
+    DeliveryState deliveryState;
+    
     public OrderStateBroker buildOrderState(long orderId) throws DaoException, OrderStateException {
         Order order = orderQueryProxy.queryOrderById(orderId);
         if (order == null)
@@ -27,7 +29,8 @@ public class OrderStateBuilder {
         case 1:
             return new OrderStateBroker(order, unpayState);
             // case 2: return new PayState();
-            // case 3:;
+        case 3:
+            return new OrderStateBroker(order, deliveryState);
             // case 4:;
             // case 5:;
         }

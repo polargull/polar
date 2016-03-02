@@ -40,6 +40,11 @@ public class OrderService {
     public void pay(long orderId, String threePartId) throws DaoException, ValidateException, OrderStateException {
          orderStateComponent.pay(orderId, threePartId);
     }
+    
+    @Transactional
+    public void sign(long orderId) throws DaoException, ValidateException, OrderStateException {
+         orderStateComponent.sign(orderId);
+    }
 
     @Transactional(readOnly = true)
     public Order getMyOrderDetail(long orderId) throws DaoException, OrderStateException {
