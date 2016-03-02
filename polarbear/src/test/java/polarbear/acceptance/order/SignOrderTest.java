@@ -1,6 +1,6 @@
 package polarbear.acceptance.order;
 
-import static com.polarbear.util.Constants.ResultState.SUCCESS;
+import static com.polarbear.util.Constants.ResultState.*;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static polarbear.acceptance.Request.anRequest;
@@ -25,7 +25,7 @@ import com.polarbear.util.JsonResult;
 import com.polarbear.util.Constants.ORDER_STATE;
 import com.polarbear.web.login.front.LoginController;
 public class SignOrderTest {
-    
+
     @Test
     public void shouldSuccessWhenSignOrder() {
         final String signOrderId = createUser1_2ProductDeliveryOrder2().getId().toString(); 
@@ -40,7 +40,7 @@ public class SignOrderTest {
         });
     }
     
-//    @Test
+    @Test
     public void shouldFailWhenSignOrderInCancleState() {
         final String signOrderId = createUser1_2ProductUnpayOrder1().getId().toString(); 
         anRequest(ORDER_SIGN_URL)
@@ -48,7 +48,7 @@ public class SignOrderTest {
         .addParams("orderId", signOrderId)
         .post(new ResultCallback() {
             public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
-                assertThat(resultState(jsonResult), is(SUCCESS));
+                assertThat(resultState(jsonResult), is(ORDER_OPREATE_ERR));
             }
         });
     }

@@ -20,7 +20,7 @@ public class JsonResultConvertUtil {
                 return state;
             }
         }
-        throw new UnsupportedEncodingException();
+        throw new UnsupportedEncodingException("编码结果错误");
     }
 
     public static ResultState resultState(MvcResult result) throws UnsupportedEncodingException {

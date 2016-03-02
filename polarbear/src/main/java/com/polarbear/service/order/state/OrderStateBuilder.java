@@ -1,6 +1,7 @@
 package com.polarbear.service.order.state;
 
-import static com.polarbear.service.order.OrderStateException.*;
+import static com.polarbear.util.Constants.ResultState.ORDER_NOT_EXIST;
+import static com.polarbear.util.Constants.ResultState.ORDER_STATE_VAL_ERR;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,10 @@ public class OrderStateBuilder {
     UnpayState unpayState;
     @Autowired
     DeliveryState deliveryState;
+    @Autowired
+    SuccessState successState;
+    @Autowired
+    CancleState cancleState;
     
     public OrderStateBroker buildOrderState(long orderId) throws DaoException, OrderStateException {
         Order order = orderQueryProxy.queryOrderById(orderId);
@@ -28,11 +33,12 @@ public class OrderStateBuilder {
         switch (order.getState()) {
         case 1:
             return new OrderStateBroker(order, unpayState);
-            // case 2: return new PayState();
         case 3:
             return new OrderStateBroker(order, deliveryState);
-            // case 4:;
-            // case 5:;
+        case 5:
+            return new OrderStateBroker(order, successState);
+        case 9:
+            return new OrderStateBroker(order, cancleState);
         }
         
         throw new OrderStateException(ORDER_STATE_VAL_ERR);

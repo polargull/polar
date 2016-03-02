@@ -107,8 +107,14 @@ public class Constants {
         , PRODUCT_PULL_OFF("E22", "抱歉,您挑选该商品刚下架,不能购买了")
         , SERVER_ERR("E23", "服务器错误")
         , NULLPOINTER("E24", "空指针")
-        , RESOURCE_NOT_EXIST("E25", "未发现资源")
-        , NON_IMPLEMENT("E99", "还未实现");
+        , ORDER_USER_ERR("E25","用户与订单不匹配")
+        , ROLE_OPREATE_ERR("E26","角色与操作不匹配")
+        , ORDER_OPREATE_ERR("E27","订单非法操作")
+        , ORDER_STATE_VAL_ERR("E28","订单状态值错误")
+        , ORDER_NOT_EXIST("E29","订单不存在")
+        , NON_IMPLEMENT("E98", "还未实现")
+        , RESOURCE_NOT_EXIST("E99", "未发现资源");
+
         private String ecode;
         private String emsg;
 

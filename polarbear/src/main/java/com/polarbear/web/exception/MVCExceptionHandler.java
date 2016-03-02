@@ -43,7 +43,7 @@ public class MVCExceptionHandler {
         log.debug(">>>>>>>>>>>" + PARAM_ERR.emsg());
         return new JsonResult(PARAM_ERR);
     }
-    
+
     @ExceptionHandler(NullPointerException.class)
     public @ResponseBody
     Object handleRequestException(NullPointerException e, HttpServletRequest request) {
@@ -99,12 +99,12 @@ public class MVCExceptionHandler {
         log.debug(">>>>>>>>>>>" + PARAM_ERR.emsg());
         return new JsonResult(PARAM_ERR);
     }
-    
+
     @ExceptionHandler(OrderStateException.class)
     public @ResponseBody
     Object handleException(OrderStateException e, HttpServletRequest request) {
-        log.debug(">>>>>>>>>>>" + e.getMessage());
-        return new JsonResult(e.getMessage());
+        log.debug(">>>>>>>>>>>" + e.state.emsg());
+        return new JsonResult(e.state);
     }
 
 }

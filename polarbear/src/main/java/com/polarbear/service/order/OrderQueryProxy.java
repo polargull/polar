@@ -1,8 +1,7 @@
 package com.polarbear.service.order;
 
-import static com.polarbear.service.order.OrderStateException.ORDER_NOT_EXIST;
-import static com.polarbear.service.order.OrderStateException.USER_ORDER_ERR;
-
+import static com.polarbear.util.Constants.ResultState.ORDER_NOT_EXIST;
+import static com.polarbear.util.Constants.ResultState.ORDER_USER_ERR;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +27,7 @@ public class OrderQueryProxy {
     private void checkOrderUser(Order order) throws OrderStateException {
         User user = CurrentThreadUserFactory.getUser();
         if (!user.getId().equals(order.getBuyer().getId())) {
-            throw new OrderStateException(USER_ORDER_ERR);
+            throw new OrderStateException(ORDER_USER_ERR);
         }
     }
 }
