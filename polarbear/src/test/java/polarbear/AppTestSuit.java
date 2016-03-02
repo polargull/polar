@@ -3,19 +3,17 @@ package polarbear;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import polarbear.integration.IntegrationTestSuite;
-import polarbear.integration.OrderIntegrationTestSuite;
+import polarbear.integration.AllIntegrationTest;
 import polarbear.unit.controller.ControllerTestSuite;
-import polarbear.unit.dao.DaoTestSuite;
+import polarbear.unit.dao.DaoAllTest;
 import polarbear.unit.service.ServiceTestSuite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses( { 
     ControllerTestSuite.class, 
     ServiceTestSuite.class, 
-    DaoTestSuite.class,
-    OrderIntegrationTestSuite.class,
-    IntegrationTestSuite.class,
+    DaoAllTest.class,
+    AllIntegrationTest.class
 })
 public class AppTestSuit {
     // the class remains empty,

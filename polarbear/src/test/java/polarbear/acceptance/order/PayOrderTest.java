@@ -43,12 +43,12 @@ public class PayOrderTest {
         .post(new ResultCallback() {
             public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                 Order newOrder = resultBody(jsonResult, Order.class);
-                testToPayAndPayOrder(newOrder.getId());
+                test2TimeToPayAndPayOrder(newOrder.getId());
             }
         });
     }
     
-    public void testToPayAndPayOrder(final long orderId) {
+    public void test2TimeToPayAndPayOrder(final long orderId) {
         anRequest(ORDER_TOPAY_URL)
             .withCookie(LoginController.USER_LOGIN_COOKIE, encodeLoginUser(createUser1()))
             .addParams("orderId", String.valueOf(orderId))
@@ -56,9 +56,19 @@ public class PayOrderTest {
             .post(new ResultCallback() {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
                     assertThat(resultState(jsonResult), is(SUCCESS));
-                    shouldSuccessWhenPayOrder(orderId);
+                    anRequest(ORDER_TOPAY_URL)
+                    .withCookie(LoginController.USER_LOGIN_COOKIE, encodeLoginUser(createUser1()))
+                    .addParams("orderId", String.valueOf(orderId))
+                    .addParams("payPlatform", "2")
+                    .post(new ResultCallback() {
+                        public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
+                            assertThat(resultState(jsonResult), is(SUCCESS));
+                            shouldSuccessWhenPayOrder(orderId);
+                        }
+                });
                 }
         });
+        
     }
     
     private void shouldSuccessWhenPayOrder(final long orderId) {

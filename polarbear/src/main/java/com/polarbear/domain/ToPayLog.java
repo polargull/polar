@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NamedQuery;
 
-@NamedQuery(name = "queryLastOneLogByOrder", query = "from ToPayLog log where log.order = ? order by log.createTime desc")
+@NamedQuery(name = "queryLastOneLogByOrder", query = "from ToPayLog log where log.order = ? order by log.id desc")
 @Entity
 @Table(name = "to_pay_log")
 public class ToPayLog {
@@ -25,6 +25,13 @@ public class ToPayLog {
     Order order;
 
     public ToPayLog() {
+    }
+    
+    public ToPayLog(long id, Integer payPlatform, Integer createTime, Order order) {
+        this.id = id;
+        this.payPlatform = payPlatform;
+        this.createTime = createTime;
+        this.order = order;
     }
     
     public ToPayLog(Integer payPlatform, Integer createTime, Order order) {
@@ -55,6 +62,11 @@ public class ToPayLog {
 
     public void setCreateTime(Integer createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ToPayLog [createTime=" + createTime + ", id=" + id + ", order=" + order + ", payPlatform=" + payPlatform + "]";
     }
 
 }

@@ -9,6 +9,6 @@ import polarbear.unit.dao.shopcart.ShopcartDaoTest;
 import polarbear.unit.dao.user.UserDaoTest;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses( { UserDaoTest.class, AdminDaoTest.class, ProductDaoTest.class, ShopcartDaoTest.class })
-public class DaoTestSuite {
+@Suite.SuiteClasses( { UserDaoTest.class, AdminDaoTest.class, ProductDaoTest.class, ShopcartDaoTest.class, OrderDaoTestSuite.class })
+public class DaoAllTest {
 }
