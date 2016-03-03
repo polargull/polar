@@ -27,11 +27,12 @@ public class OrderCommonComponent {
     @Autowired
     BaseDao<Order> orderDao;
 
-    public void updateState(Order order, ORDER_STATE state) throws DaoException, OrderStateException {
+    public Order updateState(Order order, ORDER_STATE state) throws DaoException, OrderStateException {
         updateOrderState(order, state);
         createOrderLog(order);
         orderListDao.executeUpdate("batchUpdateStateByOrderId", state.value(), order);
         createOrderListLog(order);
+        return order;
     }
 
     private void updateOrderState(Order order, ORDER_STATE state) throws DaoException {

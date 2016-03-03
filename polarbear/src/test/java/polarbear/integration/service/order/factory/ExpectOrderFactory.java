@@ -31,4 +31,10 @@ public class ExpectOrderFactory {
         order.setState(state.value());
         return order;
     }
+    
+    public static Order expectOrder3(ORDER_STATE state) {
+        Order order = createUser1_2ProductPayOrder3();
+        order.setState(state.value());
+        return order;
+    }
 }

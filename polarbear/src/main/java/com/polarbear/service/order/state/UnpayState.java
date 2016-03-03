@@ -1,6 +1,6 @@
 package com.polarbear.service.order.state;
 
-import static com.polarbear.service.product.ModifyProductComponent.DECREASE;
+import static com.polarbear.service.product.ModifyProductComponent.*;
 import static com.polarbear.util.Constants.ORDER_STATE.CANCLE;
 import static com.polarbear.util.Constants.ORDER_STATE.PAYED;
 
@@ -33,7 +33,7 @@ public class UnpayState extends OrderState {
     @Override
     public void cancle(Order order) throws OrderStateException, DaoException {
         orderCommonComponent.updateState(order, CANCLE);
-        modifyProductComponent.modifyProductNum(order, DECREASE);
+        modifyProductComponent.modifyProductNum(order, INCREASE);
     }
 
     @Override

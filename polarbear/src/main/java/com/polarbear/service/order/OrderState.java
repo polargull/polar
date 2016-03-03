@@ -50,7 +50,7 @@ public abstract class OrderState {
         throw new OrderStateException(ORDER_OPREATE_ERR);
     }
 
-    public void delivery(Long orderId, String companyName, String logisticsOrderIds) throws OrderStateException {
+    public void delivery(Order order, String companyName, String logisticsOrderIds) throws OrderStateException, DaoException {
         throw new OrderStateException(ORDER_OPREATE_ERR);
     }
 
@@ -65,4 +65,5 @@ public abstract class OrderState {
     public void sellerComplain(Long orderId) throws OrderStateException {
         throw new OrderStateException(ORDER_OPREATE_ERR);
     }
+
 }

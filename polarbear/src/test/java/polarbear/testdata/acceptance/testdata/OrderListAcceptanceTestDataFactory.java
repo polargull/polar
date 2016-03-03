@@ -39,4 +39,20 @@ public class OrderListAcceptanceTestDataFactory {
                 .withBuyProducts(BUY_PRODUCTS[1])
                 .build();
     }
+    public static OrderList createOrder3List1() {
+        return anOrderList()
+                .withId(OID + 5)
+                .withState(PAYED)
+                .withOrder(createUser1_2ProductPayOrder3())
+                .withBuyProducts(BUY_PRODUCTS[0])
+                .build();
+    }
+    public static OrderList createOrder3List2() {
+        return anOrderList()
+                .withId(OID + 6)
+                .withState(PAYED)
+                .withOrder(createUser1_2ProductPayOrder3())
+                .withBuyProducts(BUY_PRODUCTS[1])
+                .build();
+    }
 }

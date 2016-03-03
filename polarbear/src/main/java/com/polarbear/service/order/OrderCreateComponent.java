@@ -48,7 +48,7 @@ public class OrderCreateComponent {
     public Order createOrder(OrderParam orderParam) throws DaoException, ValidateException, OrderStateException {
         List<BuyProduct> buyProductLst = validateBuyProducts(orderParam);
         Order order = createOrderAllData(buyProductLst, orderParam);
-        modifyProductComponent.modifyProductNum(buyProductLst, INCREASE);
+        modifyProductComponent.modifyProductNum(buyProductLst, DECREASE);
         clearShopcartProduct(buyProductLst, orderParam);
         return order;
     }
@@ -82,7 +82,7 @@ public class OrderCreateComponent {
         int state = ORDER_STATE.UNPAY.value();
         int curTime = DateUtil.getCurrentSeconds();
         User buyer = CurrentThreadUserFactory.getUser();
-        Order order = new Order(buyer, calcProductTotalBuyNum(buyProducts), calcProductTotalPrice(buyProducts), contact.toString(), calcLogisticPrice(buyProducts), null, state,
+        Order order = new Order(buyer, calcProductTotalBuyNum(buyProducts), calcProductTotalPrice(buyProducts), contact.toString(), calcLogisticPrice(buyProducts), state,
                 curTime, curTime);
         orderDao.store(order);
         return order;
