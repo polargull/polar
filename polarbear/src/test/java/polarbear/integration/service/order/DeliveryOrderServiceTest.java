@@ -15,12 +15,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+
+import task.CreateAcceptanceTestDataTask;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
+import com.polarbear.domain.Admin;
 import com.polarbear.domain.Logistic;
 import com.polarbear.domain.Order;
+import com.polarbear.util.factory.CurrentThreadAdminFactory;
 
 public class DeliveryOrderServiceTest extends AbstractOrderServiceTest {
     final String COMPANY = "申通";
@@ -30,14 +33,15 @@ public class DeliveryOrderServiceTest extends AbstractOrderServiceTest {
     
     @Before
     public void init() throws Exception {
-        super.setUp();
+        CurrentThreadAdminFactory.setAdmin(new Admin(1l,"admin","123456"));
+        jdbcTemplate.batchUpdate(CreateAcceptanceTestDataTask.createAllTestDataScriptArray());
     }
 
     @Test
     public void shouldSuccessWhenDeliveryOrder() throws DataAccessException, Exception {
         final Order payedOrder = createUser1_2ProductPayOrder3();
         orderSvc.delivery(payedOrder.getId(), COMPANY, LOGISTIC_ORDER_ID);
-        Order actOrder = orderSvc.getMyOrderDetail(payedOrder.getId());
+        Order actOrder = orderDao.findById(Order.class, payedOrder.getId());
         assertThatOrder(actOrder, expectOrder1(DELIVERY));
         assertRelateOrder(payedOrder.getId(), BUY_PRODUCTS, DELIVERY);
         assertThatLogistic(payedOrder);
@@ -56,6 +60,6 @@ public class DeliveryOrderServiceTest extends AbstractOrderServiceTest {
 
     @After
     public void cleanUp() throws DataAccessException, Exception {
-        super.cleanUp();
+        CurrentThreadAdminFactory.remove();
     }
 }

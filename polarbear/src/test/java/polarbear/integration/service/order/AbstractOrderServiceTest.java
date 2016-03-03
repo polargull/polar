@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 
 import task.CreateAcceptanceTestDataTask;
 
+import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Order;
 import com.polarbear.domain.OrderList;
@@ -35,7 +36,9 @@ public class AbstractOrderServiceTest extends AbstractTransactionalJUnit4SpringC
 
     @Autowired
     protected OrderService orderSvc;
-
+    @Autowired
+    BaseDao<Order> orderDao;
+    
     protected void setUp() throws DataAccessException, Exception {
         CurrentThreadUserFactory.setUser(createUser1());
         jdbcTemplate.batchUpdate(CreateAcceptanceTestDataTask.createAllTestDataScriptArray());
@@ -89,7 +92,7 @@ public class AbstractOrderServiceTest extends AbstractTransactionalJUnit4SpringC
     }
 
     protected void assertRelateOrder(long distOrderId, BuyProduct[] buyProducts ,ORDER_STATE distOrderState) throws DaoException, OrderStateException {
-        Order actOrder = orderSvc.getMyOrderDetail(distOrderId);
+        Order actOrder = orderDao.findById(Order.class, distOrderId);
         assertThatOrderLog(actOrder, distOrderState);
         List<OrderList> actOrderList = jdbcTemplate.query("select * from Orderlist where order_id = ? ", new Object[] { distOrderId }, BeanPropertyRowMapper
                 .newInstance(OrderList.class));

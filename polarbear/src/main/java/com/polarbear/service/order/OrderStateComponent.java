@@ -26,7 +26,7 @@ public class OrderStateComponent {
         stateBroker.getOrderState().pay(stateBroker.getOrder(), threePartId);
     }
 
-    @OrderRole(role = Role.SELLER_ADMIN)
+    @OrderRole(role = Role.ADMIN)
     public void delivery(long orderId, String companyName, String logisticsOrderIds) throws DaoException, OrderStateException {
         OrderStateBroker stateBroker = orderStateBuilder.buildOrderState(orderId);
         stateBroker.getOrderState().delivery(stateBroker.getOrder(), companyName, logisticsOrderIds);
