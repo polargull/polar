@@ -44,7 +44,7 @@ public class CreateOrderServiceTest extends AbstractOrderServiceTest {
         Order actOrder = orderSvc.getMyOrderDetail(newOrder.getId());
         assertThatOrder(actOrder, expectCreateOrder(createUser1ImmedidateBuyProduct1OrderParam(), UNPAY));
         assertRelateOrder(actOrder.getId(), createUser1ImmedidateBuyProduct1OrderParam().getBuyProducts(), UNPAY);
-        assertThatProductNum(createUser1ImmedidateBuyProduct1OrderParam().getBuyProducts(), INCREASE);
+        assertThatProductNum(createUser1ImmedidateBuyProduct1OrderParam().getBuyProducts(), DECREASE);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class CreateOrderServiceTest extends AbstractOrderServiceTest {
         Order actOrder = orderSvc.getMyOrderDetail(newOrder.getId());
         assertThatOrder(actOrder, expectCreateOrder(createUser2ShopcartProduct1And3OrderParam(), UNPAY));
         assertRelateOrder(actOrder.getId(), createUser2ShopcartProduct1And3OrderParam().getBuyProducts(), UNPAY);
-        assertThatProductNum(createUser2ShopcartProduct1And3OrderParam().getBuyProducts(), INCREASE);
+        assertThatProductNum(createUser2ShopcartProduct1And3OrderParam().getBuyProducts(), DECREASE);
         assertThatShopcartAndDetail();
     }
 

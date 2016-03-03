@@ -11,16 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.transaction.AfterTransaction;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
-import com.polarbear.domain.Logistic;
 import com.polarbear.domain.Order;
-import com.polarbear.domain.User;
 import com.polarbear.util.date.DateUtil;
 
 @ContextConfiguration(locations = {"/spring/spring-dao.xml" })
@@ -40,10 +36,9 @@ public class OrderDaoTest extends AbstractTransactionalJUnit4SpringContextTests 
         final double PRODUCT_TOTAL_PRICE = 100;
         final String CONTACT = "xxxx|xxxxx|xxxxx";
         final double LOGISTIC_PRICE = 10;
-        final Logistic LOGISTIC = null;
         final int STATE = UNPAY.value();
         final int CURTIME = DateUtil.getCurrentSeconds();
-        Order newOrder = new Order(createUser1(), PRODUCT_TOTAL_NUMS, PRODUCT_TOTAL_PRICE, CONTACT, LOGISTIC_PRICE, LOGISTIC, STATE, CURTIME, CURTIME);
+        Order newOrder = new Order(createUser1(), PRODUCT_TOTAL_NUMS, PRODUCT_TOTAL_PRICE, CONTACT, LOGISTIC_PRICE, STATE, CURTIME, CURTIME);
         orderDao.store(newOrder);
 //        Order actOrder = jdbcTemplate.queryForObject("select * from Orders where id = ?", new Object[] { newOrder.getId() }, BeanPropertyRowMapper.newInstance(Order.class));
         Order actOrder = orderDao.findById(Order.class, newOrder.getId());

@@ -23,8 +23,6 @@ public class Order {
     String contact;
     @Column
     Double logisticPrice;
-    @OneToOne
-    Logistic logistic;
     @Column
     Integer state;
     @Column
@@ -36,14 +34,13 @@ public class Order {
     
     public Order() {}
 
-    public Order(User buyer, Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Logistic logistic, Integer state, Integer createTime,
+    public Order(User buyer, Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Integer state, Integer createTime,
             Integer updateTime) {
         this.buyer = buyer;
         this.productTotalNums = productTotalNums;
         this.productTotalPrice = productTotalPrice;
         this.contact = contact;
         this.logisticPrice = logisticPrice;
-        this.logistic = logistic;
         this.state = state;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -59,7 +56,7 @@ public class Order {
      * @param logistic
      * @param state
      */
-    public Order(long id, User buyer, Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Logistic logistic, Integer state, Integer createTime, Integer updateTime) {
+    public Order(long id, User buyer, Integer productTotalNums, Double productTotalPrice, String contact, Double logisticPrice, Integer state, Integer createTime, Integer updateTime) {
         super();
         this.id = id;
         this.buyer = buyer;
@@ -67,7 +64,6 @@ public class Order {
         this.productTotalPrice = productTotalPrice;
         this.contact = contact;
         this.logisticPrice = logisticPrice;
-        this.logistic = logistic;
         this.state = state;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -135,14 +131,6 @@ public class Order {
 
     public void setUpdateTime(Integer updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public Logistic getLogistic() {
-        return logistic;
-    }
-
-    public void setLogistic(Logistic logistic) {
-        this.logistic = logistic;
     }
 
     @JSONField(serialize = false)

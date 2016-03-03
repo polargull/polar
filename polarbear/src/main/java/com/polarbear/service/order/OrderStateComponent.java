@@ -24,7 +24,7 @@ public class OrderStateComponent {
 
     public void delivery(long orderId, String companyName, String logisticsOrderIds) throws DaoException, OrderStateException {
         OrderStateBroker stateBroker = orderStateBuilder.buildOrderState(orderId);
-        stateBroker.getOrderState().delivery(orderId, companyName, logisticsOrderIds);
+        stateBroker.getOrderState().delivery(stateBroker.getOrder(), companyName, logisticsOrderIds);
     }
 
     public void sign(long orderId) throws OrderStateException, DaoException {

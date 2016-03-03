@@ -33,4 +33,14 @@ public class OrderAcceptanceTestDataFactory {
         .withState(DELIVERY)
         .build();
     }
+    
+    public static Order createUser1_2ProductPayOrder3() {
+        return anOrder()
+        .withId(OID + 2)
+        .withBuyer(createUser1())
+        .withBuyProducts(BUY_PRODUCTS)
+        .withContact(createUser1Address1())
+        .withState(PAYED)
+        .build();
+    }
 }

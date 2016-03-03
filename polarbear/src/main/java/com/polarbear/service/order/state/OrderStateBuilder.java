@@ -24,6 +24,8 @@ public class OrderStateBuilder {
     SuccessState successState;
     @Autowired
     CancleState cancleState;
+    @Autowired
+    PayState payState;
     
     public OrderStateBroker buildOrderState(long orderId) throws DaoException, OrderStateException {
         Order order = orderQueryProxy.queryOrderById(orderId);
@@ -33,6 +35,8 @@ public class OrderStateBuilder {
         switch (order.getState()) {
         case 1:
             return new OrderStateBroker(order, unpayState);
+        case 2:
+            return new OrderStateBroker(order, payState);
         case 3:
             return new OrderStateBroker(order, deliveryState);
         case 5:

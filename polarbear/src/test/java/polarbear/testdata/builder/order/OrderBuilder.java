@@ -19,7 +19,6 @@ public class OrderBuilder {
     double productTotalPrice;
     String contact;
     int state;
-    Logistic logistic;
     double logistic_price;
 
     public static OrderBuilder anOrder() {
@@ -41,11 +40,6 @@ public class OrderBuilder {
         return this;
     }
 
-    public OrderBuilder withLogistic(Logistic logistic) {
-        this.logistic = logistic;
-        return this;
-    }
-
     public OrderBuilder withContact(Address address) {
         this.contact = address.getReceiverName() + "|" + address.getCellphone() + "|" + address.getPhone() + "|" + address.getDistrict() + "|" + address.getAddress();
         return this;
@@ -64,6 +58,6 @@ public class OrderBuilder {
     public Order build() {
         this.logistic_price = productTotalPrice >= 49 ? 0 : 10;
         int curTime = DateUtil.getCurrentSeconds();
-        return new Order(id, buyer, productTotalNums, productTotalPrice, contact, logistic_price, logistic, state, curTime, curTime);
+        return new Order(id, buyer, productTotalNums, productTotalPrice, contact, logistic_price, state, curTime, curTime);
     }
 }

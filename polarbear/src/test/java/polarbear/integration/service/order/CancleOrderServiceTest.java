@@ -27,7 +27,7 @@ public class CancleOrderServiceTest extends AbstractOrderServiceTest {
         Order actOrder = orderSvc.getMyOrderDetail(createUser1_2ProductUnpayOrder1().getId());
         assertThatOrder(actOrder, expectOrder1(CANCLE));
         assertRelateOrder(cancleOrder.getId(), BUY_PRODUCTS, CANCLE);
-        assertThatProductNum(BUY_PRODUCTS, DECREASE);
+        assertThatProductNum(BUY_PRODUCTS, INCREASE);
     }
 
     @After

@@ -4,7 +4,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
+
+@NamedQueries( {
+        @NamedQuery(name = "queryLogisticByOrder", query = "from Logistic l where l.order = ?"),        
+        @NamedQuery(name = "queryLogisticByOrderList", query = "from Logistic l where l.orderList = ?")
+} )
 @Entity
 public class Logistic {
     @Id
@@ -13,13 +21,28 @@ public class Logistic {
     @Column
     String company;
     @Column
-    Long logisticOrderId;
+    String logisticOrderId;
+    @OneToOne
+    Order order;
+    @OneToOne
+    OrderList orderList;
     @Column
     Integer createTime;
 
-    public Logistic(String company, Long logisticOrderId, Integer createTime) {
+    public Logistic() {
+    }
+
+    public Logistic(String company, String logisticOrderId, Order order, Integer createTime) {
         this.company = company;
         this.logisticOrderId = logisticOrderId;
+        this.order = order;
+        this.createTime = createTime;
+    }
+
+    public Logistic(String company, String logisticOrderId, OrderList orderList, Integer createTime) {
+        this.company = company;
+        this.logisticOrderId = logisticOrderId;
+        this.orderList = orderList;
         this.createTime = createTime;
     }
 
@@ -39,12 +62,28 @@ public class Logistic {
         this.company = company;
     }
 
-    public Long getLogisticOrderId() {
+    public String getLogisticOrderId() {
         return logisticOrderId;
     }
 
-    public void setLogisticOrderId(Long logisticOrderId) {
+    public void setLogisticOrderId(String logisticOrderId) {
         this.logisticOrderId = logisticOrderId;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public OrderList getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(OrderList orderList) {
+        this.orderList = orderList;
     }
 
     public Integer getCreateTime() {
