@@ -44,11 +44,12 @@
   		<dependency org="rhino" name="js" rev="1.6R5" conf="test->default" />
   		<dependency org="org.springframework" name="spring-test" rev="3.2.4.RELEASE" conf="test->default" />
   		<dependency org="javax.servlet" name="javax.servlet-api" rev="3.1.0" conf="test->default;provided->default" />
-  		<dependency org="org.springframework" name="spring-orm" rev="3.2.4.RELEASE" conf="test->default;default" />
   		<dependency org="joda-time" name="joda-time" rev="2.9.1" conf="test->default;default" />
   		<dependency org="com.alibaba" name="fastjson" rev="1.2.7" conf="test->default;default" />
+  		<dependency org="org.springframework" name="spring-orm" rev="3.2.4.RELEASE" conf="test->default;default" />
   		<dependency org="org.springframework" name="spring-context" rev="3.2.4.RELEASE" conf="test->default;default" />
   		<dependency org="org.springframework" name="spring-webmvc" rev="3.2.4.RELEASE" conf="test->default;default" />
+  		<dependency org="org.springframework" name="spring-aspects" rev="3.2.4.RELEASE" conf="test->default;default" />
         <dependency org="mysql" name="mysql-connector-java" rev="5.1.37" conf="sql->default;test->default;default" />
 		<dependency org="org.hibernate" name="hibernate-core" rev="3.6.10.Final" conf="test->default;default" />
 		<dependency org="javassist" name="javassist" rev="3.12.1.GA" conf="test->default;default"/> 

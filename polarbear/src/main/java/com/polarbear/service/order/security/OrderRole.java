@@ -1,0 +1,15 @@
+package com.polarbear.service.order.security;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface OrderRole {
+    public enum Role {
+        BUYER, SELLER, ADMIN, SELLER_ADMIN, SYS
+    };
+    Role role() default Role.BUYER;
+}
