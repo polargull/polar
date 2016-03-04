@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Order;
+import com.polarbear.service.PageList;
+import com.polarbear.service.order.bean.OrderListParam;
 import com.polarbear.service.order.bean.OrderParam;
 import com.polarbear.service.topaylog.ToPayLogComponent;
 
@@ -17,7 +19,7 @@ public class OrderService {
     @Autowired(required = false)
     OrderStateComponent orderStateComponent;
     @Autowired(required = false)
-    OrderQueryProxy orderQueryProxy;
+    OrderQueryComponent orderQueryProxy;
     @Autowired(required = false)
     ToPayLogComponent toPayLogComponent;
 
@@ -46,13 +48,18 @@ public class OrderService {
         orderStateComponent.sign(orderId);
     }
 
+    @Transactional
+    public void delivery(long orderId, String companyName, String logisticsOrderIds) throws DaoException, OrderStateException {
+        orderStateComponent.delivery(orderId, companyName, logisticsOrderIds);
+    }
+
     @Transactional(readOnly = true)
     public Order getMyOrderDetail(long orderId) throws DaoException, OrderStateException {
         return orderQueryProxy.queryOrderById(orderId);
     }
-
-    @Transactional
-    public void delivery(long orderId, String companyName, String logisticsOrderIds) throws DaoException, OrderStateException {
-        orderStateComponent.delivery(orderId, companyName, logisticsOrderIds);
+    
+    @Transactional(readOnly = true)
+    public PageList<Order> list(OrderListParam param) throws DaoException, OrderStateException {
+        return orderQueryProxy.queryList(param);
     }
 }

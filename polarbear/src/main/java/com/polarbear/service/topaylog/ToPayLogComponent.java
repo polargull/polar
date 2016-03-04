@@ -9,14 +9,14 @@ import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Order;
 import com.polarbear.domain.ToPayLog;
-import com.polarbear.service.order.OrderQueryProxy;
+import com.polarbear.service.order.OrderQueryComponent;
 import com.polarbear.service.order.OrderStateException;
 import com.polarbear.util.date.DateUtil;
 
 @Component
 public class ToPayLogComponent {
     @Autowired(required = false)
-    OrderQueryProxy orderQueryProxy;
+    OrderQueryComponent orderQueryProxy;
     @Autowired(required = false)
     BaseDao<ToPayLog> toPayLogDao;
 

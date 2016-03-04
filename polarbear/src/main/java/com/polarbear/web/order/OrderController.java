@@ -17,6 +17,7 @@ import com.polarbear.ValidateException;
 import com.polarbear.dao.DaoException;
 import com.polarbear.service.order.OrderService;
 import com.polarbear.service.order.OrderStateException;
+import com.polarbear.service.order.bean.OrderListParam;
 import com.polarbear.service.order.bean.OrderParam;
 import com.polarbear.util.JsonResult;
 
@@ -71,9 +72,16 @@ public class OrderController {
 
     @RequestMapping(value = { "getMyOrderDetail.json" }, method = { RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
-    public Object cancle(@RequestParam("orderId") long orderId) throws ValidateException, DaoException, OrderStateException {
+    public Object detail(@RequestParam("orderId") long orderId) throws ValidateException, DaoException, OrderStateException {
         log.debug("orderId:" + orderId);
         return new JsonResult(SUCCESS).put(orderService.getMyOrderDetail(orderId));
+    }
+    
+    @RequestMapping(value = { "getOrderList.json" }, method = { RequestMethod.POST, RequestMethod.GET })
+    @ResponseBody
+    public Object list(@ModelAttribute OrderListParam orderListParam) throws ValidateException, DaoException, OrderStateException {
+        log.debug("listStateParam:" + orderListParam.toString());
+        return new JsonResult(SUCCESS).put(orderService.list(orderListParam));
     }
 
     private void validate(OrderParam orderParam) throws ValidateException {

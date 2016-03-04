@@ -71,10 +71,6 @@ public class BaseDao<T> {
         }
     }
 
-    public PageList<T> findPageListByDynamicCondition(final Class clazz, final String pageNo, final String pageSize, final String hqlCondition) throws DaoException {
-        return findPageListByDynamicCondition(clazz, Integer.parseInt(pageNo), Integer.parseInt(pageSize), hqlCondition);
-    }
-
     @SuppressWarnings("unchecked")
     public PageList<T> findPageListByDynamicCondition(final Class clazz, final int pageNo, final int pageSize, final String hqlCondition) throws DaoException {
         try {

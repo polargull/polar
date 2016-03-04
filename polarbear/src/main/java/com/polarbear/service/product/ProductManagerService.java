@@ -15,7 +15,8 @@ public class ProductManagerService {
     @Autowired(required = false)
     BaseDao<Product> productDao;
     private static final String HQL_AND_CONTACT = " and ";
-    @Transactional
+
+    @Transactional(readOnly = true)
     public PageList<Product> productList(String params, int pageNo, int pageSize) throws DaoException {
         StringBuilder hqlConditionSb = new StringBuilder();
         String[] paramStrs = params.split(";");

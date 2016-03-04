@@ -78,6 +78,19 @@ public class Constants {
         }
     }
 
+    public enum ORDER_LIST_STATE {
+        ALL(1), NEED_PAY(2), NEED_RECEIVE(3), NEED_COMMENT(4);
+        private int value;
+
+        ORDER_LIST_STATE(int value) {
+            this.value = value;
+        }
+
+        public int value() {
+            return this.value;
+        }
+    }
+
     /**
      * 操作结果,不够了
      */
