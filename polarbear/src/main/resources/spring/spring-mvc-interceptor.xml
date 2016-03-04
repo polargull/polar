@@ -25,5 +25,9 @@
 			<mvc:mapping path="/order/getMyOrderDetail.json" />
 			<bean class="com.polarbear.web.interceptor.login.LoginUserInterceptor" />
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/back/*" />			
+			<bean class="com.polarbear.web.interceptor.login.LoginAdminInterceptor" />
+		</mvc:interceptor>
 	</mvc:interceptors>
 </beans>
