@@ -11,5 +11,5 @@ public @interface OrderRole {
     public enum Role {
         BUYER, SELLER, ADMIN, SELLER_ADMIN, SYS
     };
-    Role role() default Role.BUYER;
+    Role role();
 }

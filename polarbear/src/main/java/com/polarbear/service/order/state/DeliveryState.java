@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Order;
 import com.polarbear.service.order.OrderCommonComponent;
-import com.polarbear.service.order.OrderState;
 import com.polarbear.service.order.OrderStateException;
 
 @Component

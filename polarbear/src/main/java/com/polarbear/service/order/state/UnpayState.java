@@ -14,7 +14,6 @@ import com.polarbear.domain.Pay;
 import com.polarbear.domain.ToPayLog;
 import com.polarbear.service.PageList;
 import com.polarbear.service.order.OrderCommonComponent;
-import com.polarbear.service.order.OrderState;
 import com.polarbear.service.order.OrderStateException;
 import com.polarbear.service.product.ModifyProductComponent;
 import com.polarbear.util.date.DateUtil;

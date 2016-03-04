@@ -1,9 +1,10 @@
-package com.polarbear.service.order;
+package com.polarbear.service.order.state;
 
 import static com.polarbear.util.Constants.ResultState.ORDER_OPREATE_ERR;
 
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Order;
+import com.polarbear.service.order.OrderStateException;
 public abstract class OrderState {
     
     public void agreeRefundGoods(Long orderId) throws OrderStateException {

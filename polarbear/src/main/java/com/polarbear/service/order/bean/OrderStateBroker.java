@@ -1,7 +1,7 @@
 package com.polarbear.service.order.bean;
 
 import com.polarbear.domain.Order;
-import com.polarbear.service.order.OrderState;
+import com.polarbear.service.order.state.OrderState;
 
 public class OrderStateBroker {
     Order order;

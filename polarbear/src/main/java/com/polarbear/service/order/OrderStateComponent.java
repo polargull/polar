@@ -14,13 +14,13 @@ public class OrderStateComponent {
     @Autowired(required = false)
     OrderStateBuilder orderStateBuilder;
 
-    @OrderRole
+    @OrderRole(role = Role.BUYER)
     public void cancle(long orderId, String reason) throws DaoException, OrderStateException {
         OrderStateBroker stateBroker = orderStateBuilder.buildOrderState(orderId);
         stateBroker.getOrderState().cancle(stateBroker.getOrder());
     }
 
-    @OrderRole
+    @OrderRole(role = Role.BUYER)
     public void pay(long orderId, String threePartId) throws DaoException, OrderStateException {
         OrderStateBroker stateBroker = orderStateBuilder.buildOrderState(orderId);
         stateBroker.getOrderState().pay(stateBroker.getOrder(), threePartId);
@@ -32,7 +32,7 @@ public class OrderStateComponent {
         stateBroker.getOrderState().delivery(stateBroker.getOrder(), companyName, logisticsOrderIds);
     }
 
-    @OrderRole
+    @OrderRole(role = Role.BUYER)
     public void sign(long orderId) throws OrderStateException, DaoException {
         OrderStateBroker stateBroker = orderStateBuilder.buildOrderState(orderId);
         stateBroker.getOrderState().sign(stateBroker.getOrder());

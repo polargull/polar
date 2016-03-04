@@ -10,7 +10,6 @@ import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Logistic;
 import com.polarbear.domain.Order;
 import com.polarbear.service.order.OrderCommonComponent;
-import com.polarbear.service.order.OrderState;
 import com.polarbear.service.order.OrderStateException;
 import com.polarbear.util.date.DateUtil;
 
