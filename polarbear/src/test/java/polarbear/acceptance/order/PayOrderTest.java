@@ -86,7 +86,7 @@ public class PayOrderTest {
 
     private void assertOrder(String orderId) {
         anRequest(ORDER_DETAIL_URL)
-            .withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
+            .withCookie(LoginController.USER_LOGIN_COOKIE, encodeLoginUser(createUser1()))
             .addParams("orderId", orderId)
             .post(new ResultCallback() {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {

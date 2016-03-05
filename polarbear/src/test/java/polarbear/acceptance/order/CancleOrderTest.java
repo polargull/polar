@@ -10,7 +10,9 @@ import static polarbear.integration.service.order.factory.ExpectOrderFactory.*;
 import static polarbear.test.util.Constants.*;
 import static polarbear.test.util.JsonResultConvertUtil.resultBody;
 import static polarbear.test.util.JsonResultConvertUtil.resultState;
+import static polarbear.test.util.LoginEncoder.encodeLoginUser;
 import static polarbear.testdata.acceptance.testdata.OrderAcceptanceTestDataFactory.createUser1_2ProductUnpayOrder1;
+import static polarbear.testdata.acceptance.testdata.UserAcceptanceTestDataFactory.createUser1;
 
 import java.io.UnsupportedEncodingException;
 
@@ -28,7 +30,7 @@ public class CancleOrderTest {
     public void shouldSuccessWhenCancleOrder() {
         final Order cancleOrder = createUser1_2ProductUnpayOrder1();
         anRequest(ORDER_CANCLE_URL)
-            .withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
+            .withCookie(LoginController.USER_LOGIN_COOKIE, encodeLoginUser(createUser1()))
             .addParams("orderId", cancleOrder.getId().toString())
             .post(new ResultCallback() {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
@@ -40,7 +42,7 @@ public class CancleOrderTest {
 
     private void assertOrder(String orderId) {
         anRequest(ORDER_DETAIL_URL)
-            .withCookie(LoginController.USER_LOGIN_COOKIE, "MToxNDUxOTgyNjQzNTQ0OjM1ZWJhMDVjMjY5NTMxNjc5OWM1YmYwM2Q0YTE5N2M3")
+            .withCookie(LoginController.USER_LOGIN_COOKIE, encodeLoginUser(createUser1()))
             .addParams("orderId", orderId)
             .post(new ResultCallback() {
                 public void onSuccess(JsonResult jsonResult) throws UnsupportedEncodingException {
