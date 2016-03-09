@@ -10,6 +10,7 @@ import com.polarbear.domain.Order;
 import com.polarbear.service.PageList;
 import com.polarbear.service.order.bean.OrderListParam;
 import com.polarbear.service.order.bean.OrderParam;
+import com.polarbear.service.order.bean.OrderTO;
 import com.polarbear.service.topaylog.ToPayLogComponent;
 
 @Service
@@ -59,7 +60,7 @@ public class OrderService {
     }
     
     @Transactional(readOnly = true)
-    public PageList<Order> list(OrderListParam param) throws DaoException, OrderStateException {
+    public PageList<OrderTO> list(OrderListParam param) throws DaoException, OrderStateException {
         return orderQueryProxy.queryList(param);
     }
 }

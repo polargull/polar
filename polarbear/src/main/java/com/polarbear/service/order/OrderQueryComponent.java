@@ -10,15 +10,20 @@ import static com.polarbear.util.Constants.ORDER_STATE.UNPAY;
 import static com.polarbear.util.Constants.ResultState.ORDER_NOT_EXIST;
 import static com.polarbear.util.Constants.ResultState.ORDER_USER_ERR;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.polarbear.dao.BaseDao;
 import com.polarbear.dao.DaoException;
 import com.polarbear.domain.Order;
+import com.polarbear.domain.OrderList;
 import com.polarbear.domain.User;
 import com.polarbear.service.PageList;
 import com.polarbear.service.order.bean.OrderListParam;
+import com.polarbear.service.order.bean.OrderTO;
 import com.polarbear.util.Constants.ORDER_LIST_STATE;
 import com.polarbear.util.factory.CurrentThreadUserFactory;
 
@@ -26,7 +31,9 @@ import com.polarbear.util.factory.CurrentThreadUserFactory;
 public class OrderQueryComponent {
     @Autowired
     BaseDao<Order> orderDao;
-
+    @Autowired
+    BaseDao<OrderList> orderListDao;
+    
     public Order queryOrderById(long orderId) throws DaoException, OrderStateException {
         Order order = orderDao.findByIdLock(Order.class, orderId);
         if (order == null)
@@ -42,12 +49,18 @@ public class OrderQueryComponent {
         }
     }
     
-    public PageList<Order> queryList(OrderListParam param) throws DaoException {
+    public PageList<OrderTO> queryList(OrderListParam param) throws DaoException {
+        List<OrderTO> orderTOList = new ArrayList<OrderTO>();
         User user = CurrentThreadUserFactory.getUser();
         StringBuilder hql = new StringBuilder();
         hql = convertBuyerHql(user, hql);
         hql = convertStateHql(param.getOrderListState(), hql);
-        return orderDao.findPageListByDynamicCondition(Order.class, param.getPageNo(), param.getPageSize(), hql.toString());
+        PageList<Order> orderList = orderDao.findPageListByDynamicCondition(Order.class, param.getPageNo(), param.getPageSize(), hql.toString());
+        for (Order order : orderList.getList()) {
+            List<OrderList> subOrderList = orderListDao.findByNamedQuery("queryListByOrderId", order);
+            orderTOList.add(new OrderTO(order, subOrderList));
+        }
+        return new PageList<OrderTO>(orderList.getTotal(), param.getPageNo(), param.getPageSize(), orderTOList);
     }
 
     private StringBuilder convertBuyerHql(User user, StringBuilder hql) {
