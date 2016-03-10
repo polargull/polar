@@ -9,7 +9,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OrderRole {
     public enum Role {
-        BUYER, SELLER, ADMIN, SELLER_ADMIN, SYS
+        BUYER(2), SELLER(4), ADMIN(8), SYS(16), BUYER_OR_SELLER(6), BUYER_OR_SYS(18);
+        public int val;
+        Role(int val) {
+            this.val = val;
+        }
     };
     Role role();
 }

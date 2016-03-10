@@ -14,7 +14,7 @@ public class OrderStateComponent {
     @Autowired(required = false)
     OrderStateBuilder orderStateBuilder;
 
-    @OrderRole(role = Role.BUYER)
+    @OrderRole(role = Role.BUYER_OR_SYS)
     public void cancle(long orderId, String reason) throws DaoException, OrderStateException {
         OrderStateBroker stateBroker = orderStateBuilder.buildOrderState(orderId);
         stateBroker.getOrderState().cancle(stateBroker.getOrder());
@@ -32,7 +32,7 @@ public class OrderStateComponent {
         stateBroker.getOrderState().delivery(stateBroker.getOrder(), companyName, logisticsOrderIds);
     }
 
-    @OrderRole(role = Role.BUYER)
+    @OrderRole(role = Role.BUYER_OR_SYS)
     public void sign(long orderId) throws OrderStateException, DaoException {
         OrderStateBroker stateBroker = orderStateBuilder.buildOrderState(orderId);
         stateBroker.getOrderState().sign(stateBroker.getOrder());

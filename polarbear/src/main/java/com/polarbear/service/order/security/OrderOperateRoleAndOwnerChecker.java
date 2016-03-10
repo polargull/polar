@@ -3,6 +3,7 @@ package com.polarbear.service.order.security;
 import static com.polarbear.util.Constants.ResultState.*;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,24 @@ public class OrderOperateRoleAndOwnerChecker {
     @Before("execution(* com.polarbear.service.order.OrderStateComponent.*(..))&&@annotation(orderRole)")
     public void before(JoinPoint pjp, OrderRole orderRole) throws OrderStateException, DaoException {
         Order order = orderDao.findById(Order.class, (Long) pjp.getArgs()[0]);
-        checkOrder(order);
-        checkOrderOwner(order, orderRole);
-        checkRoleAuthorization(orderRole);
+        if (CurrentThreadUserFactory.getUser() != null) {
+            checkOrderAndOwner(order);
+        }
+        checkRoleAuthorization(order, orderRole);
     }
 
-    private void checkRoleAuthorization(OrderRole orderRole) throws OrderStateException {
-        if (orderRole.role() == Role.ADMIN && CurrentThreadAdminFactory.getAdmin() != null) {
-            return;
-        }
-        if (orderRole.role() == Role.BUYER && CurrentThreadUserFactory.getUser() != null) {
+    @AfterReturning(value="execution(* com.polarbear.service.order.OrderQueryComponent.queryOrderById(..))", argNames="order", returning="order")
+    public void checkOrderAndOwner(JoinPoint jp, Object order) throws OrderStateException {
+        checkOrderAndOwner((Order)order);
+    }
+
+    private void checkOrderAndOwner(Order order) throws OrderStateException {
+        checkOrder(order);
+        checkOrderOwner(order);
+    }
+
+    private void checkRoleAuthorization(Order order, OrderRole orderRole) throws OrderStateException {
+        if((orderRole.role().val & getCurRole(order).val) == getCurRole(order).val) {
             return;
         }
         throw new OrderStateException(ROLE_OPREATE_ERR);
@@ -46,13 +55,33 @@ public class OrderOperateRoleAndOwnerChecker {
             throw new OrderStateException(ORDER_NOT_EXIST);
     }
 
-    private void checkOrderOwner(Order order, OrderRole orderRole) throws OrderStateException {
-        if (orderRole.role() != Role.BUYER) {
+    private void checkOrderOwner(Order order) throws OrderStateException {
+        if (isBuyer(order)) {
             return;
         }
-        User user = CurrentThreadUserFactory.getUser();
-        if (!user.getId().equals(order.getBuyer().getId())) {
-            throw new OrderStateException(ORDER_USER_ERR);
+        throw new OrderStateException(ORDER_USER_ERR);        
+    }
+
+    private Role getCurRole(Order order) {
+        if (isBuyer(order)) {
+            return Role.BUYER;
         }
+        if (isAdmin()) {
+            return Role.ADMIN;
+        }
+        return null;
+    }
+
+    private boolean isBuyer(Order order) {
+        User user = CurrentThreadUserFactory.getUser();
+        return user != null && order.getBuyer().getId().equals(user.getId());
+    }
+
+    private boolean isAdmin() {
+        return CurrentThreadAdminFactory.getAdmin() != null;
+    }
+
+    private boolean isSys() {
+        return false;
     }
 }
